@@ -1,15 +1,45 @@
+import 'dart:convert';
+
 import 'lotModel.dart';
 
 class UsedVolailles {
-  int num;
+  static final tableName = "USEDVOLAILLES";
+  static final colid = "id";
+  static final colLot = "lot";
+  static final colqte = "nbrVolailles";
+  static final colmotif = "motif";
+  static final colcreateAt = "createAt";
+
+  int? num;
   Lot lot;
   int qte;
   String motif;
   DateTime dateTime;
   UsedVolailles(this.num, this.lot, this.qte, this.motif, this.dateTime);
+
+  UsedVolailles usedVolaillesFromJson(String str) =>
+      UsedVolailles.fromJson(jsonDecode(str));
+  String usedVolaillesToJson(UsedVolailles usedVolailles) =>
+      jsonEncode(usedVolailles.toJson());
+
+  factory UsedVolailles.fromJson(Map<String, dynamic> json) => UsedVolailles(
+        json[colid],
+        Lot.fromJson(jsonDecode(json[colLot])),
+        json[colqte],
+        json[colmotif],
+        DateTime.parse(json[colcreateAt]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        colid: num,
+        colLot: jsonEncode(lot.toJson()),
+        colqte: qte,
+        colmotif: motif,
+        colcreateAt: dateTime.toIso8601String(),
+      };
 }
 
-List<UsedVolailles> myusagevolaille = [
+/*List<UsedVolailles> myusagevolaille = [
   UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
   UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
   UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
@@ -21,4 +51,4 @@ List<UsedVolailles> myusagevolaille = [
   UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
   UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
   UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-];
+];*/

@@ -4,7 +4,7 @@ import 'Widgets/venteOeufs.dart';
 import 'Widgets/venteVolailles.dart';
 
 class Ventes extends StatefulWidget {
-  const Ventes({Key? key}) : super(key: key);
+  const Ventes();
 
   @override
   _VentesState createState() => _VentesState();
@@ -31,6 +31,7 @@ class _VentesState extends State<Ventes> {
       child: DefaultTabController(
         length: _tab.length,
         child: Scaffold(
+          backgroundColor: Color(0xffeeeeee),
           body: Column(
             children: [
               Padding(
@@ -50,7 +51,11 @@ class _VentesState extends State<Ventes> {
                   ),
                 ),
               ),
-              Expanded(child: TabBarView(children: _tabPages)),
+              Expanded(
+                  child: TabBarView(
+                children: _tabPages,
+                physics: NeverScrollableScrollPhysics(),
+              )),
             ],
           ),
         ),

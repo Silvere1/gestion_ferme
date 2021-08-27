@@ -11,7 +11,6 @@ class StockProduitsFinis extends StatefulWidget {
 }
 
 class _StockProduitsFinisState extends State<StockProduitsFinis> {
-
   final _tab = <Tab>[
     Tab(
       text: "Oeufs",
@@ -50,7 +49,11 @@ class _StockProduitsFinisState extends State<StockProduitsFinis> {
                 ),
               ),
             ),
-            Expanded(child: TabBarView(children: _tabPages)),
+            Expanded(
+                child: TabBarView(
+              children: _tabPages,
+              physics: NeverScrollableScrollPhysics(),
+            )),
           ],
         ),
       ),

@@ -35,7 +35,10 @@ class _AddLotsState extends State<AddLots> {
             elevation: 0,
             bottom: TabBar(tabs: _tab),
           ),
-          body: TabBarView(children: _tabPages),
+          body: TabBarView(
+            children: _tabPages,
+            physics: NeverScrollableScrollPhysics(),
+          ),
         ),
       ),
     );

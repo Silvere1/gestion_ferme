@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Controllers/perteController.dart';
-import 'package:gestionferme/App/Models/lotModel.dart';
 import 'package:get/get.dart';
 
 class ListLotsDialog extends StatefulWidget {
@@ -16,27 +15,29 @@ class _ListLotsDialogState extends State<ListLotsDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: Get.height * 0.7,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: lots.length,
+        height: 54.0 * controller.listLot.length,
+        child: controller.listLot.length > 0
+            ? ListView.builder(
+                itemCount: controller.listLot.length,
                 itemBuilder: (context, i) => Container(
                   height: 45,
                   margin: EdgeInsets.all(4),
                   child: ElevatedButton(
                     onPressed: () async {
-                      await controller.getItem(lots[i]);
+                      await controller.getItem(controller.listLot[i]);
+
                       Get.back();
                     },
-                    child: Text("Lot N°: ${lots[i].num}"),
+                    child: Text("Lot N°: ${controller.listLot[i].num}"),
                   ),
                 ),
+              )
+            : Container(
+                height: 54,
+                child: Center(
+                  child: Text("Aucun lot n'est disponible"),
+                ),
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

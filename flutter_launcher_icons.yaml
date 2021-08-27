@@ -1,0 +1,5 @@
+flutter_icons:
+  android: true
+  ios: true
+  windows: true
+  image_path: "assets/icons/Logo GF (3).png"

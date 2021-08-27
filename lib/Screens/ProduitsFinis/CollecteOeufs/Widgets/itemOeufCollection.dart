@@ -20,10 +20,20 @@ class _ItemOeufCollectionState extends State<ItemOeufCollection> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        borderRadius: BorderRadius.circular(5),
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -38,7 +48,7 @@ class _ItemOeufCollectionState extends State<ItemOeufCollection> {
                     Text(
                       "Collecte N°: ${controller.listCollecteOuf[i].num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
                       "Collecté le ${controller.listCollecteOuf[i].dateTime.day}/${controller.listCollecteOuf[i].dateTime.month}/${controller.listCollecteOuf[i].dateTime.year}",
@@ -47,56 +57,60 @@ class _ItemOeufCollectionState extends State<ItemOeufCollection> {
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Text(
                     "Effectuée sur le lot n°: ${controller.listCollecteOuf[i].lot.num}"),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Petits : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listCollecteOuf[i].petits}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Petits : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${controller.listCollecteOuf[i].petits}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Moyens : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listCollecteOuf[i].moyens}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Moyens : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${controller.listCollecteOuf[i].moyens}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Grands : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listCollecteOuf[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Grands : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${controller.listCollecteOuf[i].grands}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Fêlés : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listCollecteOuf[i].feles}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Fêlés : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${controller.listCollecteOuf[i].feles}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

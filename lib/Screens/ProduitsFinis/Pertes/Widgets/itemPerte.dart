@@ -11,23 +11,32 @@ class ItemPerte extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).primaryColor),
-        borderRadius: BorderRadius.circular(6),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: Container(
           padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Lot N°: ${controller.itemPerte[i].num}"),
+              Text(
+                "Lot N°: ${controller.itemPerte[i].num}",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
               Container(
-                height: 55,
+                height: 65,
                 margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Theme.of(context).primaryColor),
                   borderRadius: BorderRadius.circular(6),
@@ -42,20 +51,31 @@ class ItemPerte extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 1,
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 16),
-                        onChanged: (value) {
-                          //controller.nmbrEditing(int.parse(value));
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          filled: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                      ),
+                      child: Obx(() => TextFormField(
+                            style: TextStyle(fontSize: 16),
+                            onChanged: (value) {
+                              if (value.trim().isNotEmpty)
+                                controller.qteEditing(int.parse(value));
+                              if (value.trim().isEmpty)
+                                controller.qteEditing(0);
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              isCollapsed: true,
+                              contentPadding: EdgeInsets.all(10),
+                              hintText:
+                                  "${controller.itemPerte[i].nmbrVolauillles}",
+                              filled: true,
+                              isDense: true,
+                              errorText: controller.qteError.value
+                                  ? "doit être > 0 et <= ${controller.itemPerte[i].nmbrVolauillles}"
+                                  : null,
+                              errorStyle: TextStyle(height: 0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          )),
                     ),
                   ],
                 ),
@@ -70,10 +90,15 @@ class ItemPerte extends StatelessWidget {
                 child: TextFormField(
                   style: TextStyle(fontSize: 16),
                   onChanged: (value) {
-                    //controller.nmbrEditing(int.parse(value));
+                    if (value.trim().isNotEmpty)
+                      controller.motifVolaillesEditing(value);
+                    if (value.trim().isEmpty)
+                      controller.motifVolaillesEditing("");
                   },
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
+                    isCollapsed: true,
+                    contentPadding: EdgeInsets.all(10),
                     filled: true,
                     isDense: true,
                     border: OutlineInputBorder(

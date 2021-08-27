@@ -2,17 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Models/editStockVolailleModel.dart';
 
 class ItemReajustementVolailles extends StatelessWidget {
-  const ItemReajustementVolailles(this.i);
-  final int i;
+  const ItemReajustementVolailles(this.editStockVolailles);
+  final EditStockVolailles editStockVolailles;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(6),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -25,19 +35,18 @@ class ItemReajustementVolailles extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Réajustement N°: ${editstockvolailles[i].num}",
+                      "Réajustement N°: ${editStockVolailles.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "${editstockvolailles[i].isadd ? "Ajouté" : "Extrait"}" +
-                          " le ${editstockvolailles[i].dateTime.day}/${editstockvolailles[i].dateTime.month}/${editstockvolailles[i].dateTime.year}",
+                      "réajusté le ${editStockVolailles.dateTime.day}/${editStockVolailles.dateTime.month}/${editStockVolailles.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Row(
                   children: [
@@ -45,7 +54,7 @@ class ItemReajustementVolailles extends StatelessWidget {
                       "Effectué sur le lot : ",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${editstockvolailles[i].lot.num}"),
+                    Text("${editStockVolailles.lot.num}"),
                   ],
                 ),
                 Row(
@@ -54,7 +63,8 @@ class ItemReajustementVolailles extends StatelessWidget {
                       "Quantité : ",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${editstockvolailles[i].qte}"),
+                    Text(
+                        "de ${editStockVolailles.lot.nmbrVolauillles} à ${editStockVolailles.qte}"),
                   ],
                 ),
               ],

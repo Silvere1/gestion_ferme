@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/usageController.dart';
-import 'package:get/get.dart';
 
 import 'Widgets/usageOeufs.dart';
 import 'Widgets/usageVolailles.dart';
 
-class Usages extends StatefulWidget {
-  const Usages({Key? key}) : super(key: key);
+class UsagesConsommation extends StatefulWidget {
+  const UsagesConsommation({Key? key}) : super(key: key);
 
   @override
-  _UsagesState createState() => _UsagesState();
+  _UsagesConsommationState createState() => _UsagesConsommationState();
 }
 
-class _UsagesState extends State<Usages> {
-  UsageController controller = Get.put(UsageController());
+class _UsagesConsommationState extends State<UsagesConsommation> {
   final _tab = <Tab>[
     Tab(
       text: "Oeufs",
@@ -52,7 +49,11 @@ class _UsagesState extends State<Usages> {
                 ),
               ),
             ),
-            Expanded(child: TabBarView(children: _tabPages)),
+            Expanded(
+                child: TabBarView(
+              children: _tabPages,
+              physics: NeverScrollableScrollPhysics(),
+            )),
           ],
         ),
       ),

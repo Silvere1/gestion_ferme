@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gestionferme/App/Models/produitTraiteModel.dart';
+import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/renameProduit.dart';
 
 class ItemProdTraite extends StatelessWidget {
-  const ItemProdTraite(this.i);
-  final int i;
+  const ItemProdTraite(this.produit);
+  final Produit produit;
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +13,19 @@ class ItemProdTraite extends StatelessWidget {
       height: 70,
       margin: EdgeInsets.only(top: 8, left: 8, right: 8),
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
         borderRadius: BorderRadius.circular(6),
       ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(6),
@@ -31,26 +40,35 @@ class ItemProdTraite extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("${produits[i].nom}"),
                       Text(
-                          "Quantité : ${produits[i].qte} ${produits[i].unite} "),
+                        "${produit.nom}",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text("Quantité : ${produit.qte} ${produit.unite} "),
                     ],
                   ),
                 ),
-                /*Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: ((BuildContext _) {
+                              return RenameProduit(produit);
+                            }));
+                      },
                       child: Container(
-                          height: 28,
-                          width: 28,
+                          height: 42,
+                          width: 42,
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: Colors.blueAccent,
+                              color: Colors.grey.withOpacity(0.4),
                               borderRadius: BorderRadius.circular(28)),
-                          child: Icon(Icons.add)),
+                          child: SvgPicture.asset("assets/icons/rename.svg")),
                     ),
-                    InkWell(
+                    /*InkWell(
                       onTap: () {},
                       child: Container(
                         height: 28,
@@ -60,9 +78,9 @@ class ItemProdTraite extends StatelessWidget {
                             borderRadius: BorderRadius.circular(28)),
                         child: Icon(Icons.remove),
                       ),
-                    ),
+                    ),*/
                   ],
-                ),*/
+                ),
               ],
             ),
           ),

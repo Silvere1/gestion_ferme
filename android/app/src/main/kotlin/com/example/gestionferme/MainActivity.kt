@@ -1,4 +1,4 @@
-package com.example.gestionferme
+package com.waouhmonde.gestionferme
 
 import io.flutter.embedding.android.FlutterActivity
 

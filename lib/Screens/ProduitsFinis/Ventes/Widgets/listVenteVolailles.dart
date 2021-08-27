@@ -21,16 +21,29 @@ class _ListVenteVolaillesState extends State<ListVenteVolailles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => controller.listVenteVolailles.length != 0
-            ? ListView.builder(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
-                physics: BouncingScrollPhysics(),
-                itemCount: controller.listVenteVolailles.length,
-                itemBuilder: (context, i) => ItemVenteVolailles(controller, i),
-              )
-            : Container(),
-      ),
+      backgroundColor: Color(0xffeeeeee),
+      body: FutureBuilder(
+          future: controller.getListVenteVolailles(),
+          builder: (_, snapshot) {
+            return snapshot.hasData
+                ? Obx(
+                    () => controller.listVenteVolailles.length != 0
+                        ? ListView.builder(
+                            padding: EdgeInsets.only(top: 10, bottom: 20),
+                            physics: BouncingScrollPhysics(),
+                            itemCount: controller.listVenteVolailles.length,
+                            itemBuilder: (context, i) => ItemVenteVolailles(
+                                controller.listVenteVolailles[i]),
+                          )
+                        : Center(
+                            child: Text(
+                              "Aucune vente de volaille n'est encore effectuée !",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                  )
+                : Center(child: CircularProgressIndicator());
+          }),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             pageController.nextPage(

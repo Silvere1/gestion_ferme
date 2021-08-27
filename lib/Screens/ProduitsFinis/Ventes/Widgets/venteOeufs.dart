@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/venteController.dart';
-import 'package:get/get.dart';
 
 import 'listVenteOeufs.dart';
 import 'newVenteOeufs.dart';
@@ -15,7 +13,6 @@ class VenteOeufs extends StatefulWidget {
 
 class _VenteOeufsState extends State<VenteOeufs> {
   PageController pageController = PageController(initialPage: 0);
-  VenteController controller = Get.put(VenteController());
 
   @override
   void dispose() {

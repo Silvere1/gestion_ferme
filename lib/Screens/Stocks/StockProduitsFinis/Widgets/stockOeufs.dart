@@ -3,9 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:gestionferme/App/Controllers/collecteOeufsController.dart';
 import 'package:gestionferme/Screens/ProduitsFinis/CollecteOeufs/collecteOeufs.dart';
-import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Components/reajustementOeufs.dart';
-import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Components/voirFicheOeufs.dart';
+import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Components/voirFicheStock.dart';
+import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Widgets/reajustementOeufs.dart';
 import 'package:get/get.dart';
 
 import 'itemStockOeufs.dart';
@@ -18,6 +19,7 @@ class StockOeufs extends StatefulWidget {
 }
 
 class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
+  CollecteOeufsController controller = Get.find();
   late ScrollController scrollController;
   bool dialVisible = true;
 
@@ -45,21 +47,24 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
       children: [
         SpeedDialChild(
           child: Icon(Icons.visibility),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.white,
           label: 'Voir fiche',
           labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => Get.to(() => VoirFicheOeufs()),
+          onTap: () => controller.lotsExist.length != 0
+              ? Get.to(() => VoirFicheStock())
+              : Get.snackbar("Attention !", "Vous ne disposez d'aucune donnée",
+                  duration: Duration(seconds: 5), colorText: Colors.white),
         ),
         SpeedDialChild(
           child: Icon(Icons.tune),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.white,
           label: 'Réajustement',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => Get.to(() => ReajustementOeufs()),
         ),
         SpeedDialChild(
           child: Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.white,
           label: 'Nouvelle collecte',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => Get.to(() => CollecteOeufs()),
@@ -68,13 +73,14 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
     );
   }
 
-  int touchedIndex = 0;
+  int touchedIndex = -1;
 
   int lastPanStartOnIndex = -1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffeeeeee),
       body: ListView(
         controller: scrollController,
         children: [
@@ -83,10 +89,20 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
             children: [
               Container(
                 margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 1,
+                      spreadRadius: 0.1,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(6),
-                  elevation: 2,
+                  elevation: 0.9,
                   child: Row(
                     children: [
                       Expanded(
@@ -100,7 +116,7 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
                                 height: 1,
                                 color: Colors.black,
                               ),
-                              Text("1240"),
+                              Text("${controller.stockOeuf.petits}"),
                             ],
                           ),
                         ),
@@ -121,7 +137,7 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
                                 height: 1,
                                 color: Colors.black,
                               ),
-                              Text("5040"),
+                              Text("${controller.stockOeuf.moyens}"),
                             ],
                           ),
                         ),
@@ -142,7 +158,7 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
                                 height: 1,
                                 color: Colors.black,
                               ),
-                              Text("4000"),
+                              Text("${controller.stockOeuf.grands}"),
                             ],
                           ),
                         ),
@@ -153,51 +169,78 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Text("Total : XXXX"),
+                child: Text("Total : ${controller.stockOeuf.total}"),
               ),
-              Container(
-                height: MediaQuery.of(context).size.width * 0.5,
-                child: PieChart(
-                  PieChartData(
-                    centerSpaceRadius: 35,
-                    sectionsSpace: 0.9,
-                    pieTouchData:
-                        PieTouchData(touchCallback: (pieTouchResponse) {
-                      setState(() {
-                        final desiredTouch =
-                            pieTouchResponse.touchInput is! PointerExitEvent &&
-                                pieTouchResponse.touchInput is! PointerUpEvent;
-                        if (desiredTouch &&
-                            pieTouchResponse.touchedSection != null) {
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        } else {
-                          touchedIndex = -1;
-                        }
-                      });
-                    }),
-                    borderData: FlBorderData(
-                      show: false,
+              controller.stockOeuf.total > 0
+                  ? Container(
+                      height: MediaQuery.of(context).size.width * 0.5,
+                      child: PieChart(
+                        PieChartData(
+                          centerSpaceRadius: 40,
+                          sectionsSpace: 2,
+                          pieTouchData:
+                              PieTouchData(touchCallback: (pieTouchResponse) {
+                            setState(() {
+                              final desiredTouch = pieTouchResponse.touchInput
+                                      is! PointerExitEvent &&
+                                  pieTouchResponse.touchInput
+                                      is! PointerUpEvent;
+                              if (desiredTouch &&
+                                  pieTouchResponse.touchedSection != null) {
+                                touchedIndex = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              } else {
+                                touchedIndex = -1;
+                              }
+                            });
+                          }),
+                          borderData: FlBorderData(
+                            show: false,
+                          ),
+                          sections: showMySections(),
+                        ),
+                        swapAnimationCurve: Curves.linear,
+                        swapAnimationDuration: Duration(milliseconds: 150),
+                      ),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.width * 0.5,
+                      child: Center(
+                        child: Text("Le stock d'oeufs est vide !"),
+                      ),
                     ),
-                    sections: showMySections(),
-                  ),
-                  swapAnimationCurve: Curves.linear,
-                  swapAnimationDuration: Duration(milliseconds: 150),
-                ),
-              ),
-              Container(
-                child: Center(
-                  child: Text("Historique des collections"),
-                ),
-              ),
+              controller.stockOeuf.total > 0
+                  ? Container(
+                      child: Center(
+                        child: Text("Historique des collections"),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, i) => ItemStockOeufs(),
-          ),
+          FutureBuilder(
+              future: controller.getListCollecte(),
+              builder: (_, snapshot) {
+                return snapshot.hasData
+                    ? Obx(
+                        () => controller.listCollecteOuf.length != 0
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.only(bottom: 50),
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: controller.listCollecteOuf.length,
+                                itemBuilder: (context, i) => ItemStockOeufs(
+                                    controller.listCollecteOuf[i]),
+                              )
+                            : Center(
+                                child: Text(
+                                    "Aucune collecte d'oeuf n'est encore effectuée !"),
+                              ),
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(),
+                      );
+              }),
         ],
       ),
       floatingActionButton: buildFloatingButton(),
@@ -212,36 +255,36 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: const Color(0xff0293ee),
-            value: 1240,
-            title: '1240\nPetits',
+            color: Color(0xff0293ee),
+            value: controller.stockOeuf.petits.toDouble(),
+            title: '${controller.stockOeuf.petits}',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                color: Colors.white),
           );
         case 1:
           return PieChartSectionData(
-            color: const Color(0xfff8b250),
-            value: 5040,
-            title: '5040\nMoyens',
+            color: Color(0xfff8b250),
+            value: controller.stockOeuf.moyens.toDouble(),
+            title: '${controller.stockOeuf.moyens}',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                color: Colors.white),
           );
         case 2:
           return PieChartSectionData(
-            color: const Color(0xff845bef),
-            value: 4000,
-            title: '4000\nGrands',
+            color: Color(0xff845bef),
+            value: controller.stockOeuf.grands.toDouble(),
+            title: '${controller.stockOeuf.grands}',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                color: Colors.white),
           );
         default:
           throw Error();

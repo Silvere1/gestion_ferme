@@ -13,6 +13,8 @@ class AddProvende extends StatefulWidget {
 class _AddProvendeState extends State<AddProvende> {
   final PageController pageController;
   ApproController controller = Get.find();
+  var textController = TextEditingController();
+  var textController1 = TextEditingController();
 
   _AddProvendeState(this.pageController);
   @override
@@ -21,121 +23,156 @@ class _AddProvendeState extends State<AddProvende> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 18, top: 10, left: 18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("${controller.provendeLabel}"),
-                      IconButton(
-                        splashColor: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          pageController.previousPage(
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.easeOutBack);
-                        },
-                        icon: Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 70,
-                        margin: EdgeInsets.only(top: 16),
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border:
-                              Border.all(color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.circular(6),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 18, top: 10, left: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("${controller.provende.nom}"),
+                        IconButton(
+                          splashColor: Theme.of(context).primaryColor,
+                          onPressed: () {
+                            textController1.clear();
+                            textController.clear();
+                            setState(() {});
+                            pageController.previousPage(
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeOutBack);
+                          },
+                          icon: Icon(Icons.close),
                         ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: Text("Quantité"),
-                              ),
+                      ],
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 70,
+                            margin: EdgeInsets.only(top: 16),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Theme.of(context).primaryColor),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                onChanged: (value) {
-                                  //controller.nmbrEditing(int.parse(value));
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Text("Quantité"),
                                   ),
                                 ),
-                              ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Obx(() => TextFormField(
+                                        controller: textController,
+                                        onChanged: (value) {
+                                          if (value.trim().isNotEmpty)
+                                            controller.qteProvendeEditing(
+                                                double.parse(value));
+                                          setState(() {});
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          isCollapsed: true,
+                                          contentPadding: EdgeInsets.all(10),
+                                          filled: true,
+                                          fillColor:
+                                              controller.qteProvendeError.value
+                                                  ? Colors.red
+                                                  : null,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        margin: EdgeInsets.only(top: 10),
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border:
-                              Border.all(color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: Text("Montant"),
-                              ),
+                          ),
+                          Container(
+                            height: 70,
+                            margin: EdgeInsets.only(top: 10),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Theme.of(context).primaryColor),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                onChanged: (value) {
-                                  //controller.nmbrEditing(int.parse(value));
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Text("Montant"),
                                   ),
                                 ),
-                              ),
+                                Expanded(
+                                  flex: 1,
+                                  child: TextFormField(
+                                    controller: textController1,
+                                    onChanged: (value) {
+                                      if (value.trim().isNotEmpty)
+                                        controller.valueProvendeEditing(
+                                            double.parse(value));
+                                      setState(() {});
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      isCollapsed: true,
+                                      contentPadding: EdgeInsets.all(10),
+                                      filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Container(
             height: 45,
             width: Get.width - 28,
             margin: EdgeInsets.only(bottom: 28),
-            child: ElevatedButton(
-              onPressed: () async {
-                pageController.previousPage(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeOutBack);
-              },
-              child: Text("Enregistrer"),
-            ),
+            child: Obx(() => ElevatedButton(
+                  onPressed: !controller.qteProvendeError.value &&
+                          textController.text.trim().isNotEmpty &&
+                          textController1.text.trim().isNotEmpty
+                      ? () async {
+                          await controller.doApproProvende();
+                          textController1.clear();
+                          textController.clear();
+                          setState(() {});
+                          await pageController.previousPage(
+                              duration: Duration(microseconds: 1),
+                              curve: Curves.easeOutBack);
+                          await pageController.previousPage(
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeOutBack);
+                        }
+                      : null,
+                  child: Text("Enregistrer"),
+                )),
           ),
         ],
       ),

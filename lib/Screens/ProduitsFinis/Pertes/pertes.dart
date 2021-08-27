@@ -49,7 +49,11 @@ class _PertesState extends State<Pertes> {
                 ),
               ),
             ),
-            Expanded(child: TabBarView(children: _tabPages)),
+            Expanded(
+                child: TabBarView(
+              children: _tabPages,
+              physics: NeverScrollableScrollPhysics(),
+            )),
           ],
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/consommationController.dart';
+import 'package:get/get.dart';
 
 import 'listConsEau.dart';
 import 'newConsEau.dart';
@@ -11,6 +13,7 @@ class CEau extends StatefulWidget {
 }
 
 class _CEauState extends State<CEau> {
+  ConsommationController controller = Get.find();
   PageController pageController = PageController(initialPage: 0);
 
   @override
@@ -25,7 +28,7 @@ class _CEauState extends State<CEau> {
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        ListConsEau(pageController),
+        ListConsEau(pageController, controller),
         NewConsEau(pageController),
       ],
     );

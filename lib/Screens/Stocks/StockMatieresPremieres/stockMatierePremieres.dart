@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/approController.dart';
+import 'package:get/get.dart';
 
 import 'Widgets/stockProdTraite.dart';
 import 'Widgets/stockProvende.dart';
@@ -11,6 +13,7 @@ class StockMatieresPremieres extends StatefulWidget {
 }
 
 class _StockMatieresPremieresState extends State<StockMatieresPremieres> {
+  ApproController controller = Get.put(ApproController());
   final _tab = <Tab>[
     Tab(
       text: "Provendes",
@@ -49,7 +52,11 @@ class _StockMatieresPremieresState extends State<StockMatieresPremieres> {
                 ),
               ),
             ),
-            Expanded(child: TabBarView(children: _tabPages)),
+            Expanded(
+                child: TabBarView(
+              children: _tabPages,
+              physics: NeverScrollableScrollPhysics(),
+            )),
           ],
         ),
       ),

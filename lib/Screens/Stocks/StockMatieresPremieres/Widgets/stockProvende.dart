@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:gestionferme/App/Models/provendeModel.dart';
+import 'package:gestionferme/App/Controllers/approController.dart';
 import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/stockApproProvendes.dart';
 import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/stockConsomProvendes.dart';
+import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Widgets/reajustementStockProvende.dart';
 import 'package:get/get.dart';
 
 import 'createProvende.dart';
@@ -20,6 +21,7 @@ class _StockProvendeState extends State<StockProvende>
     with TickerProviderStateMixin {
   late ScrollController scrollController;
   bool dialVisible = true;
+  ApproController controller = Get.find();
 
   @override
   void initState() {
@@ -43,30 +45,37 @@ class _StockProvendeState extends State<StockProvende>
       activeIcon: Icons.close,
       visible: dialVisible,
       children: [
-        SpeedDialChild(
+        /* SpeedDialChild(
           child: Icon(Icons.visibility),
           backgroundColor: Colors.red,
           label: 'Voir fiche',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => print('FIRST CHILD'),
+        ),*/
+        SpeedDialChild(
+          child: Icon(Icons.tune),
+          backgroundColor: Colors.white,
+          label: 'Réajustement',
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () => Get.to(() => ReajustementStockProvende()),
         ),
         SpeedDialChild(
           child: Icon(Icons.remove),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.white,
           label: 'Consommation',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => Get.to(() => StockConsomProvendes()),
         ),
         SpeedDialChild(
           child: Icon(Icons.local_grocery_store),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.white,
           label: 'Approvisionnement',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => Get.to(() => StockApproProvendes()),
         ),
         SpeedDialChild(
           child: Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.white,
           label: 'Créer',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => Get.to(() => CreateProvende()),
@@ -78,12 +87,13 @@ class _StockProvendeState extends State<StockProvende>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffeeeeee),
       body: Column(
         children: [
           Container(
             height: 50,
             width: Get.width,
-            color: Color(0xfffafafa),
+            /*color: Color(0xfffafafa),*/
             child: Row(
               children: [
                 IconButton(
@@ -95,10 +105,27 @@ class _StockProvendeState extends State<StockProvende>
             ),
           ),
           Expanded(
-            child: ListView.builder(
-                controller: scrollController,
-                itemCount: provendes.length,
-                itemBuilder: (context, i) => ItemProvende(i)),
+            child: FutureBuilder(
+                future: controller.getListProvende(),
+                builder: (_, snapshot) {
+                  return snapshot.hasData
+                      ? Obx(
+                          () => controller.listProvendes.length != 0
+                              ? ListView.builder(
+                                  controller: scrollController,
+                                  itemCount: controller.listProvendes.length,
+                                  itemBuilder: (context, i) =>
+                                      ItemProvende(controller.listProvendes[i]))
+                              : Center(
+                                  child: Text(
+                                  "Aucune provende n'est encore ajoutée !",
+                                  textAlign: TextAlign.center,
+                                )),
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        );
+                }),
           ),
         ],
       ),

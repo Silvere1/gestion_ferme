@@ -21,16 +21,28 @@ class _ListUsageOeufsState extends State<ListUsageOeufs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => controller.listUsageOeufs.length != 0
-            ? ListView.builder(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
-                physics: BouncingScrollPhysics(),
-                itemCount: controller.listUsageOeufs.length,
-                itemBuilder: (context, i) => ItemUsageOeufs(controller, i),
-              )
-            : Container(),
-      ),
+      backgroundColor: Color(0xffeeeeee),
+      body: FutureBuilder(
+          future: controller.getListUsedOeuf(),
+          builder: (_, snapshot) {
+            return snapshot.hasData
+                ? Obx(
+                    () => controller.listUsedOeufs.length != 0
+                        ? ListView.builder(
+                            padding: EdgeInsets.only(top: 10, bottom: 20),
+                            physics: BouncingScrollPhysics(),
+                            itemCount: controller.listUsedOeufs.length,
+                            itemBuilder: (context, i) =>
+                                ItemUsageOeufs(controller.listUsedOeufs[i]),
+                          )
+                        : Center(
+                            child: Text(
+                            "Aucun usage d'oeuf n'est encore enregistré !",
+                            textAlign: TextAlign.center,
+                          )),
+                  )
+                : Center(child: CircularProgressIndicator());
+          }),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             widget.pageController.nextPage(

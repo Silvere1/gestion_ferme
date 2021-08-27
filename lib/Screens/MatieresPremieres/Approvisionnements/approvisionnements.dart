@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/approController.dart';
+import 'package:get/get.dart';
 
 import 'Widgets/approvProdTraite.dart';
 import 'Widgets/approvProvendes.dart';
@@ -11,6 +13,7 @@ class Approvisionnements extends StatefulWidget {
 }
 
 class _ApprovisionnementsState extends State<Approvisionnements> {
+  ApproController controller = Get.put(ApproController());
   final _tab = <Tab>[
     Tab(
       text: "Povendes",
@@ -31,6 +34,11 @@ class _ApprovisionnementsState extends State<Approvisionnements> {
       child: DefaultTabController(
         length: _tab.length,
         child: Scaffold(
+          appBar: AppBar(
+            title: Text("Approvisionnements"),
+            centerTitle: true,
+            elevation: 0,
+          ),
           body: Column(
             children: [
               Padding(
@@ -50,7 +58,11 @@ class _ApprovisionnementsState extends State<Approvisionnements> {
                   ),
                 ),
               ),
-              Expanded(child: TabBarView(children: _tabPages)),
+              Expanded(
+                  child: TabBarView(
+                children: _tabPages,
+                physics: NeverScrollableScrollPhysics(),
+              )),
             ],
           ),
         ),

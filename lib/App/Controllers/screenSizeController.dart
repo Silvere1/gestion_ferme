@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/addLotController.dart';
+import 'package:gestionferme/App/Controllers/collecteOeufsController.dart';
 import 'package:gestionferme/App/Models/dTitleModel.dart';
+import 'package:gestionferme/App/Provider/dataBaseProvider.dart';
 import 'package:get/get.dart';
 
 class MenuController extends GetxController {
+  late AddLotController _addLotController;
+  late CollecteOeufsController _collecteOeufsController;
   var _globalKey = GlobalKey<ScaffoldState>().obs;
   var isSelectedMenuItem = false.obs;
   var initialPage = 0.obs;
@@ -13,6 +18,21 @@ class MenuController extends GetxController {
     }
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+    callDatabase();
+  }
+
+  void callDatabase() {
+    DataBaseProvider.instance.getTableNames().then((value) async {
+      _addLotController = Get.find();
+      _collecteOeufsController = Get.find();
+      await _addLotController.getStockOeuf();
+      await _collecteOeufsController.getStockOeuf();
+    });
+  }
+
   Future<void> selectedItem(int i, int j, int index, String title) async {
     initialPage.value = index;
     tolBarTitle.value = title;
@@ -21,9 +41,9 @@ class MenuController extends GetxController {
         e.selected = false;
       });
     }
-    titres.forEach((e) {
+    /* titres.forEach((e) {
       e.selected = false;
-    });
+    });*/
     titres[i].selected = true;
     titres[i].subtitle[j].selected = true;
   }

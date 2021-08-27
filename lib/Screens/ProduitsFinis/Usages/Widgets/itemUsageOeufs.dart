@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/usageController.dart';
+import 'package:gestionferme/App/Models/usageOeufsModel.dart';
 
 class ItemUsageOeufs extends StatelessWidget {
-  const ItemUsageOeufs(this.controller, this.i);
-  final UsageController controller;
-  final int i;
+  const ItemUsageOeufs(this.usedOeufs);
+  final UsedOeufs usedOeufs;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -26,14 +35,14 @@ class ItemUsageOeufs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Usage Oeufs N°: ${controller.listUsageOeufs[i].num}",
+                      "Consommation N°: ${usedOeufs.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Déclaré le ${controller.listUsageOeufs[i].dateTime.day}/"
-                      "${controller.listUsageOeufs[i].dateTime.month}/"
-                      "${controller.listUsageOeufs[i].dateTime.year}",
+                      "Déclaré le ${usedOeufs.dateTime.day}/"
+                      "${usedOeufs.dateTime.month}/"
+                      "${usedOeufs.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -44,50 +53,54 @@ class ItemUsageOeufs extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Petits : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listUsageOeufs[i].petits}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Petits : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${usedOeufs.petits}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Moyens : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listUsageOeufs[i].moyens}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Moyens : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${usedOeufs.moyens}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Grands : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listUsageOeufs[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Grands : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${usedOeufs.grands}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Total : ",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                            "${controller.listUsageOeufs[i].petits + controller.listUsageOeufs[i].moyens + controller.listUsageOeufs[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Total : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                              "${usedOeufs.petits + usedOeufs.moyens + usedOeufs.grands}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -97,9 +110,9 @@ class ItemUsageOeufs extends StatelessWidget {
                   children: [
                     Text(
                       "Motif : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${controller.listUsageOeufs[i].motif}")
+                    Text("${usedOeufs.motif}")
                   ],
                 )
               ],

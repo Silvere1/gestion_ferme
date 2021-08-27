@@ -21,83 +21,94 @@ class _NewPerteVolaillesState extends State<NewPerteVolailles> {
   _NewPerteVolaillesState(this.pageController);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 10, top: 4),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  pageController.previousPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeOutBack);
-                },
-                icon: Icon(
-                  Icons.close,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 8),
-          height: 40,
-          width: Get.width - 40,
-          child: ElevatedButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ListLotsDialog();
-                  });
-            },
-            child: Text("Sélectionner le lots"),
-          ),
-        ),
-        Expanded(
-          child: Obx(
-            () => controller.itemPerte.length != 0
-                ? ListView.builder(
-                    itemCount: controller.itemPerte.length,
-                    itemBuilder: (context, i) => ItemPerte(i))
-                : Center(
-                    child: Text("Sélectionner un lot"),
-                  ),
-          ),
-        ),
-        Container(
-          height: 80,
-          constraints: BoxConstraints(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 40,
-                width: Get.width - 50,
-                child: ElevatedButton(
+    return Container(
+      color: Color(0xffeeeeee),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 10, top: 4),
+            child: Row(
+              children: [
+                IconButton(
                   onPressed: () {
-                    Get.defaultDialog(
-                      title: "Succès",
-                      content: Text("Données enregistrées !"),
-                      radius: 5,
-                      actions: [
-                        ElevatedButton(
-                            onPressed: () {
-                              controller.itemPerte.value = [];
-                              Get.back();
-                            },
-                            child: Text("Ok"))
-                      ],
-                    );
+                    pageController.previousPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeOutBack);
                   },
-                  child: Text("Enregistrer"),
+                  icon: Icon(
+                    Icons.close,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 0),
+            height: 40,
+            width: Get.width - 40,
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ListLotsDialog();
+                    });
+              },
+              child: Text("Sélectionner le lot"),
+            ),
+          ),
+          Expanded(
+            child: Obx(
+              () => controller.itemPerte.length != 0
+                  ? ListView.builder(
+                      itemCount: controller.itemPerte.length,
+                      itemBuilder: (context, i) => ItemPerte(i))
+                  : Center(
+                      child: Text("Sélectionner un lot"),
+                    ),
+            ),
+          ),
+          Container(
+            height: 70,
+            constraints: BoxConstraints(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: 40,
+                  width: Get.width - 50,
+                  child: Obx(() => ElevatedButton(
+                        onPressed: controller.qteVolaille.value > 0 &&
+                                controller.vMotif.value != ""
+                            ? () async {
+                                await controller.savePerteVolaille();
+                                FocusScope.of(context).unfocus();
+                                pageController.previousPage(
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.easeOutBack);
+                                /* Get.defaultDialog(
+                        title: "Succès",
+                        content: Text("Données enregistrées !"),
+                        radius: 5,
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+
+                                Get.back();
+                              },
+                              child: Text("Ok"))
+                        ],
+                      );*/
+                              }
+                            : null,
+                        child: Text("Enregistrer"),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,18 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Models/consomProdTraiteModel.dart';
 
 class ItemConsProdTraite extends StatelessWidget {
-  const ItemConsProdTraite(this.i);
-  final int i;
+  const ItemConsProdTraite(this.consomProdTraite);
+  final ConsomProdTraite consomProdTraite;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        borderRadius: BorderRadius.circular(5),
+        elevation: 0.9,
         child: InkWell(
+          borderRadius: BorderRadius.circular(5),
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
           child: Container(
@@ -25,53 +36,53 @@ class ItemConsProdTraite extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Consomation N°: ${consomprodtraite[i].num}",
+                      "Traitement N°: ${consomProdTraite.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Effectué le ${consomprodtraite[i].dateTime.day}/"
-                      "${consomprodtraite[i].dateTime.month}/"
-                      "${consomprodtraite[i].dateTime.year}",
+                      "Effectué le ${consomProdTraite.dateTime.day}/"
+                      "${consomProdTraite.dateTime.month}/"
+                      "${consomProdTraite.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Row(
                   children: [
                     Text(
                       "Lot N° : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${consomprodtraite[i].lot.num}")
+                    Text("${consomProdTraite.lot.num}")
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Row(
                   children: [
                     Text(
-                      "Provende : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      "Produit : ",
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${consomprodtraite[i].produit.nom}")
+                    Text("${consomProdTraite.produit.nom}")
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Row(
                   children: [
                     Text(
                       "Quantité : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     Text(
-                        "${consomprodtraite[i].qte} ${consomprodtraite[i].produit.unite}")
+                        "${consomProdTraite.qte} ${consomProdTraite.produit.unite}")
                   ],
                 ),
               ],

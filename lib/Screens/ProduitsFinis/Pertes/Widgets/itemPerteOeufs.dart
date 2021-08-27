@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/perteController.dart';
+import 'package:gestionferme/App/Models/perteOeufsModel.dart';
 
 class ItemPerteOeufs extends StatelessWidget {
-  const ItemPerteOeufs(this.controller, this.i);
-  final PerteController controller;
-  final int i;
+  const ItemPerteOeufs(this.perteOeufs);
+  final PerteOeufs perteOeufs;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -26,68 +35,72 @@ class ItemPerteOeufs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Perte Oeufs N°: ${controller.listPerteOeufs[i].num}",
+                      "Perte Oeufs N°: ${perteOeufs.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Déclarée le ${controller.listPerteOeufs[i].dateTime.day}/"
-                      "${controller.listPerteOeufs[i].dateTime.month}/"
-                      "${controller.listPerteOeufs[i].dateTime.year}",
+                      "Déclarée le ${perteOeufs.dateTime.day}/"
+                      "${perteOeufs.dateTime.month}/"
+                      "${perteOeufs.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Petits : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listPerteOeufs[i].petits}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Petits : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${perteOeufs.petits}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Moyens : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listPerteOeufs[i].moyens}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Moyens : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${perteOeufs.moyens}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Grands : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listPerteOeufs[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Grands : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${perteOeufs.grands}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Total : ",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                            "${controller.listPerteOeufs[i].petits + controller.listPerteOeufs[i].moyens + controller.listPerteOeufs[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Total : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                              "${perteOeufs.petits + perteOeufs.moyens + perteOeufs.grands}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -97,9 +110,9 @@ class ItemPerteOeufs extends StatelessWidget {
                   children: [
                     Text(
                       "Motif : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${controller.listPerteOeufs[i].motif}")
+                    Text("${perteOeufs.motif}")
                   ],
                 )
               ],

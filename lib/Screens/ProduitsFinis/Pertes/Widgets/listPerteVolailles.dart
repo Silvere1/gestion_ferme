@@ -21,16 +21,32 @@ class _ListPerteVolaillesState extends State<ListPerteVolailles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => controller.listPerteVolailles.length != 0
-            ? ListView.builder(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
-                physics: BouncingScrollPhysics(),
-                itemCount: controller.listPerteVolailles.length,
-                itemBuilder: (context, i) => ItemPerteVolailles(controller, i),
-              )
-            : Container(),
-      ),
+      backgroundColor: Color(0xffeeeeee),
+      body: FutureBuilder(
+          future: controller.getListPerteVolailles(),
+          builder: (_, snapshot) {
+            return snapshot.hasData
+                ? Obx(
+                    () => controller.listPerteVolailles.length != 0
+                        ? ListView.builder(
+                            padding: EdgeInsets.only(top: 10, bottom: 20),
+                            physics: BouncingScrollPhysics(),
+                            itemCount: controller.listPerteVolailles.length,
+                            itemBuilder: (context, i) => ItemPerteVolailles(
+                              controller.listPerteVolailles[i],
+                            ),
+                          )
+                        : Center(
+                            child: Text(
+                              "Aucune Perte de volailles n'est encore déclarée !",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
+                  );
+          }),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             pageController.nextPage(

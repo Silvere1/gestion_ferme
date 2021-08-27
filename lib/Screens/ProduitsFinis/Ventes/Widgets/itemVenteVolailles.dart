@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/venteController.dart';
+import 'package:gestionferme/App/Models/venteVolaillesModel.dart';
 
 class ItemVenteVolailles extends StatelessWidget {
-  const ItemVenteVolailles(this.controller, this.i);
-  final VenteController controller;
-  final int i;
+  const ItemVenteVolailles(this.venteVolailles);
+  final VenteVolailles venteVolailles;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(6),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
+          borderRadius: BorderRadius.circular(6),
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
           child: Container(
@@ -26,14 +36,14 @@ class ItemVenteVolailles extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Vente Volailles N°: ${controller.listVenteVolailles[i].num}",
+                      "Vente Volailles N°: ${venteVolailles.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Effectuée le ${controller.listVenteVolailles[i].dateTime.day}/"
-                      "${controller.listVenteVolailles[i].dateTime.month}/"
-                      "${controller.listVenteVolailles[i].dateTime.year}",
+                      "Effectuée le ${venteVolailles.dateTime.day}/"
+                      "${venteVolailles.dateTime.month}/"
+                      "${venteVolailles.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -45,9 +55,9 @@ class ItemVenteVolailles extends StatelessWidget {
                   children: [
                     Text(
                       "Quantité : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${controller.listVenteVolailles[i].qte}")
+                    Text("${venteVolailles.qte}")
                   ],
                 ),
                 SizedBox(
@@ -57,10 +67,9 @@ class ItemVenteVolailles extends StatelessWidget {
                   children: [
                     Text(
                       "Vendus à : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text(
-                        "${controller.listVenteVolailles[i].montant.round()} Fcfa")
+                    Text("${venteVolailles.montant.round()} fcfa")
                   ],
                 )
               ],

@@ -10,21 +10,26 @@ class SubTitle {
 }
 
 List<DrTitle> titres = [
-  DrTitle(true, [SubTitle(false)]),
+  DrTitle(true, [SubTitle(true)]),
+  /*DrTitle(true, [
+    SubTitle(false),
+    SubTitle(false),
+  ]),*/
   DrTitle(false, [
     SubTitle(false),
     SubTitle(false),
+    SubTitle(false),
+    SubTitle(false),
+    /*SubTitle(false),*/
+  ]),
+  DrTitle(true, [
     SubTitle(false),
   ]),
   DrTitle(false, [
     SubTitle(false),
     SubTitle(false),
-    SubTitle(false),
+  ]),
+  DrTitle(true, [
     SubTitle(false),
   ]),
-  DrTitle(false, [
-    SubTitle(false),
-    SubTitle(false),
-    SubTitle(false),
-  ])
 ];

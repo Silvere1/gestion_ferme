@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/consommationController.dart';
+import 'package:get/get.dart';
 
 import 'Widgets/cEau.dart';
 import 'Widgets/cProvende.dart';
 import 'Widgets/cTraitement.dart';
 
-class Consommations extends StatefulWidget {
-  const Consommations({Key? key}) : super(key: key);
+class Alimantations extends StatefulWidget {
+  const Alimantations({Key? key}) : super(key: key);
 
   @override
-  _ConsommationsState createState() => _ConsommationsState();
+  _AlimantationsState createState() => _AlimantationsState();
 }
 
-class _ConsommationsState extends State<Consommations> {
+class _AlimantationsState extends State<Alimantations> {
+  ConsommationController controller = Get.find();
   final _tab = <Tab>[
     Tab(
       text: "Povendes",
@@ -36,6 +39,7 @@ class _ConsommationsState extends State<Consommations> {
       child: DefaultTabController(
         length: _tab.length,
         child: Scaffold(
+          backgroundColor: Color(0xffeeeeee),
           body: Column(
             children: [
               Padding(
@@ -55,7 +59,12 @@ class _ConsommationsState extends State<Consommations> {
                   ),
                 ),
               ),
-              Expanded(child: TabBarView(children: _tabPages)),
+              Expanded(
+                child: TabBarView(
+                  children: _tabPages,
+                  physics: NeverScrollableScrollPhysics(),
+                ),
+              ),
             ],
           ),
         ),

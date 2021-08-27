@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/venteController.dart';
+import 'package:gestionferme/App/Models/venteOeufsModel.dart';
 
 class ItemVenteOeufs extends StatelessWidget {
-  const ItemVenteOeufs(this.controller, this.i);
-  final VenteController controller;
-  final int i;
+  const ItemVenteOeufs(this.venteOeuf);
+  final VenteOeuf venteOeuf;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -26,12 +35,12 @@ class ItemVenteOeufs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Vente Oeufs N°: ${controller.listVenteOeufs[i].num}",
+                      "Vente Oeufs N°: ${venteOeuf.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Effectuée le ${controller.listVenteOeufs[i].dateTime.day}/${controller.listVenteOeufs[i].dateTime.month}/${controller.listVenteOeufs[i].dateTime.year}",
+                      "Effectuée le ${venteOeuf.dateTime.day}/${venteOeuf.dateTime.month}/${venteOeuf.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -42,50 +51,54 @@ class ItemVenteOeufs extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Petits : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listVenteOeufs[i].petits}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Petits : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${venteOeuf.petits}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Moyens : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listVenteOeufs[i].moyens}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Moyens : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${venteOeuf.moyens}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Grands : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${controller.listVenteOeufs[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Grands : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${venteOeuf.grands}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Total : ",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                            "${controller.listVenteOeufs[i].petits + controller.listVenteOeufs[i].moyens + controller.listVenteOeufs[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Total : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                              "${venteOeuf.petits + venteOeuf.moyens + venteOeuf.grands}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -95,9 +108,9 @@ class ItemVenteOeufs extends StatelessWidget {
                   children: [
                     Text(
                       "Vendus à : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${controller.listVenteOeufs[i].montant.round()} Fcfa")
+                    Text("${venteOeuf.montant.round()} fcfa")
                   ],
                 )
               ],

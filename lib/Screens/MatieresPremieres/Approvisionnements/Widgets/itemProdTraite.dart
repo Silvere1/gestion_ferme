@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Controllers/approController.dart';
+import 'package:gestionferme/App/Models/produitTraiteModel.dart';
 
 class ItemProdTraite extends StatelessWidget {
   const ItemProdTraite(
     this.controller,
-    this.i,
+    this.produit,
     this.pageController,
   );
 
   final ApproController controller;
-  final int i;
+  final Produit produit;
   final PageController pageController;
 
   @override
@@ -17,6 +18,16 @@ class ItemProdTraite extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 4, left: 10, right: 10),
       height: 70,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         shadowColor: Colors.black,
@@ -28,7 +39,7 @@ class ItemProdTraite extends StatelessWidget {
           onTap: () {},
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).primaryColor),
+              /*border: Border.all(color: Theme.of(context).primaryColor),*/
               borderRadius: BorderRadius.circular(5),
             ),
             padding: EdgeInsets.only(top: 8, bottom: 8, left: 18),
@@ -40,12 +51,14 @@ class ItemProdTraite extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("${controller.listProdTraite[i].nom}"),
+                      Text(
+                        "${produit.nom}",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
                       SizedBox(
                         height: 12,
                       ),
-                      Text("Qté : ${controller.listProdTraite[i].qte}" +
-                          " ${controller.listProdTraite[i].unite}"),
+                      Text("Qté : ${produit.qte}" + " ${produit.unite}"),
                     ],
                   ),
                 ),
@@ -54,7 +67,7 @@ class ItemProdTraite extends StatelessWidget {
                     child: IconButton(
                       splashColor: Theme.of(context).primaryColor,
                       onPressed: () async {
-                        await controller.moveInstenceTwo(i);
+                        await controller.recuperateProduit(produit);
                         pageController.nextPage(
                             duration: Duration(milliseconds: 300),
                             curve: Curves.easeOutCirc);

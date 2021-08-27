@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Models/collecteModel.dart';
 
 class ItemStockOeufs extends StatelessWidget {
-  const ItemStockOeufs();
+  const ItemStockOeufs(this.collecteOeuf);
+  final CollecteOeuf collecteOeuf;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -23,65 +35,69 @@ class ItemStockOeufs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Lot N°: 1",
+                      "Lot N°: ${collecteOeuf.lot.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Collecté le 12/05/2021",
+                      "Effectuée le ${collecteOeuf.dateTime.day}/${collecteOeuf.dateTime.month}/${collecteOeuf.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 4,
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Petits : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("XXX"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Petits : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${collecteOeuf.petits}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Moyens : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("XXX"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Moyens : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${collecteOeuf.moyens}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Grands : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("XXX"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Grands : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${collecteOeuf.grands}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Fêlés : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("XXX"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Fêlés : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${collecteOeuf.feles}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

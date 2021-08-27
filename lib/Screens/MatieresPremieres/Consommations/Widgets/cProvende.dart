@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/consommationController.dart';
+import 'package:get/get.dart';
 
 import 'listConsProvende.dart';
 import 'newConsProvende.dart';
@@ -12,6 +14,7 @@ class CProvende extends StatefulWidget {
 
 class _CProvendeState extends State<CProvende> {
   PageController pageController = PageController(initialPage: 0);
+  ConsommationController controller = Get.find();
 
   @override
   void dispose() {
@@ -25,8 +28,8 @@ class _CProvendeState extends State<CProvende> {
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        ListConsProvende(pageController),
-        NewConsProvende(pageController),
+        ListConsProvende(pageController, controller),
+        NewConsProvende(pageController, controller),
       ],
     );
   }

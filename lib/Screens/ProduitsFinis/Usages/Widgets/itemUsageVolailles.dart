@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/usageController.dart';
+import 'package:gestionferme/App/Models/usageVolaillesModel.dart';
 
 class ItemUsageVolailles extends StatelessWidget {
-  const ItemUsageVolailles(this.controller, this.i);
-  final UsageController controller;
-  final int i;
+  const ItemUsageVolailles(this.usedVolailles);
+  final UsedVolailles usedVolailles;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -26,14 +35,14 @@ class ItemUsageVolailles extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Usage Volailles N°: ${controller.listUsageVolailles[i].num}",
+                      "Consommation N°: ${usedVolailles.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "Déclaré le ${controller.listUsageVolailles[i].dateTime.day}/"
-                      "${controller.listUsageVolailles[i].dateTime.month}/"
-                      "${controller.listUsageVolailles[i].dateTime.year}",
+                      "Déclaré le ${usedVolailles.dateTime.day}/"
+                      "${usedVolailles.dateTime.month}/"
+                      "${usedVolailles.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -45,21 +54,21 @@ class ItemUsageVolailles extends StatelessWidget {
                   children: [
                     Text(
                       "Quantité : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${controller.listUsageVolailles[i].qte}")
+                    Text("${usedVolailles.qte}")
                   ],
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 2,
                 ),
                 Row(
                   children: [
                     Text(
                       "Motif : ",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${controller.listUsageVolailles[i].motif}")
+                    Text("${usedVolailles.motif}")
                   ],
                 )
               ],

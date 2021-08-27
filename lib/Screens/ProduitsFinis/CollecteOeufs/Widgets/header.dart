@@ -46,12 +46,9 @@ class Header extends StatelessWidget {
                         firstDate: DateTime(2020),
                         lastDate: DateTime.now(),
                         initialDate: DateTime.now(),
-                      ).then((value) => {
-                            controller.getDate(value!.day.toString() +
-                                "/" +
-                                value.month.toString() +
-                                "/" +
-                                value.year.toString()),
+                      ).then((DateTime? value) => {
+                            if (value != null)
+                              controller.getDate(value.toIso8601String()),
                           });
                     },
                     child: Text(controller.date.value),

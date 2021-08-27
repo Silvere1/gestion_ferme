@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/venteController.dart';
-import 'package:get/get.dart';
 
 import 'listVenteVolailles.dart';
 import 'newVenteVolailles.dart';
@@ -14,7 +12,6 @@ class VenteVolailles extends StatefulWidget {
 
 class _VenteVolaillesState extends State<VenteVolailles> {
   PageController pageController = PageController(initialPage: 0);
-  VenteController controller = Get.put(VenteController());
 
   @override
   void dispose() {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/perteController.dart';
-import 'package:get/get.dart';
 
 import 'listPerteVolailles.dart';
 import 'newPerteVolailles.dart';
@@ -14,7 +12,6 @@ class PerteVolailles extends StatefulWidget {
 
 class _PerteVolaillesState extends State<PerteVolailles> {
   PageController pageController = PageController(initialPage: 0);
-  PerteController controller = Get.put(PerteController());
 
   @override
   void dispose() {

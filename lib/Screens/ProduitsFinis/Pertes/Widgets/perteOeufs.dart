@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/perteController.dart';
-import 'package:get/get.dart';
 
 import 'listPerteOeufs.dart';
 import 'newPerteOeufs.dart';
@@ -14,7 +12,6 @@ class PerteOeufs extends StatefulWidget {
 
 class _PerteOeufsState extends State<PerteOeufs> {
   PageController pageController = PageController(initialPage: 0);
-  PerteController controller = Get.put(PerteController());
 
   @override
   void dispose() {

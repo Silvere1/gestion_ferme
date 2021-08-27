@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/addLotController.dart';
 import 'package:gestionferme/App/Controllers/collecteOeufsController.dart';
 import 'package:get/get.dart';
 
@@ -14,10 +15,13 @@ class CollecteOeufs extends StatefulWidget {
 }
 
 class _CollecteOeufsState extends State<CollecteOeufs> {
-  CollecteOeufsController controller = Get.put(CollecteOeufsController());
+  CollecteOeufsController controller = Get.find();
+  AddLotController lotController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffeeeeee),
       appBar: AppBar(
         title: Text("Nouvelle collecte d'oeufs"),
         centerTitle: true,
@@ -31,7 +35,12 @@ class _CollecteOeufsState extends State<CollecteOeufs> {
               () => controller.itemLotCollect.length != 0
                   ? ListView.builder(
                       itemCount: controller.itemLotCollect.length,
-                      itemBuilder: (context, i) => ItemLotCollected(i))
+                      itemBuilder: (context, i) => ItemLotCollected(
+                          i,
+                          new TextEditingController(),
+                          new TextEditingController(),
+                          new TextEditingController(),
+                          new TextEditingController()))
                   : Center(
                       child:
                           Text("Sélectionner un lot pour faire sa collecte!"),
@@ -47,25 +56,21 @@ class _CollecteOeufsState extends State<CollecteOeufs> {
                 Container(
                   height: 40,
                   width: Get.width - 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.defaultDialog(
-                        title: "Succès",
-                        content: Text("Données enregistrées !"),
-                        radius: 5,
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
+                  child: Obx(() => ElevatedButton(
+                        onPressed: controller.isValide.value &&
+                                controller.date.value != "Date"
+                            ? () async {
+                                await controller.remakeListToSave();
+                                await controller.saveCollecteOeuf();
                                 controller.itemLotCollect.value = [];
+                                controller.newListCollect.value = [];
+                                controller.date.value = "Date";
+                                controller.checkList();
                                 Get.back();
-                                Get.back();
-                              },
-                              child: Text("Ok"))
-                        ],
-                      );
-                    },
-                    child: Text("Enregistrer"),
-                  ),
+                              }
+                            : null,
+                        child: Text("Enregistrer"),
+                      )),
                 ),
               ],
             ),

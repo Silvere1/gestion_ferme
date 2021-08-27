@@ -2,17 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Models/editStockOeufModel.dart';
 
 class ItemReajustementOeufs extends StatelessWidget {
-  const ItemReajustementOeufs(this.i);
-  final int i;
+  const ItemReajustementOeufs(this.editStockOeuf);
+  final EditStockOeuf editStockOeuf;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -25,13 +35,12 @@ class ItemReajustementOeufs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Réajustement N°: ${editstockoeuf[i].num}",
+                      "Réajustement N°: ${editStockOeuf.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "${editstockoeuf[i].isadd ? "Ajouté" : "Extrait"}" +
-                          " le ${editstockoeuf[i].dateTime.day}/${editstockoeuf[i].dateTime.month}/${editstockoeuf[i].dateTime.year}",
+                      "réajusté le ${editStockOeuf.dateTime.day}/${editStockOeuf.dateTime.month}/${editStockOeuf.dateTime.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -42,50 +51,54 @@ class ItemReajustementOeufs extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Petits : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${editstockoeuf[i].petits}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Petits : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${editStockOeuf.petits}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Moyens : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${editstockoeuf[i].moyens}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Moyens : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${editStockOeuf.moyens}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Grands : ",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text("${editstockoeuf[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Grands : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text("${editStockOeuf.grands}"),
+                        ],
+                      ),
+                    ),
                     Expanded(
-                        child: Row(
-                      children: [
-                        Text(
-                          "Total : ",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                            "${editstockoeuf[i].petits + editstockoeuf[i].moyens + editstockoeuf[i].grands}"),
-                      ],
-                    )),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Total : ",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                              "${editStockOeuf.petits + editStockOeuf.moyens + editStockOeuf.grands}"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

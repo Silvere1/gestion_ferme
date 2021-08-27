@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Models/archiveModel.dart';
+import 'package:gestionferme/App/Models/lotModel.dart';
 
 class ItemArchive extends StatelessWidget {
-  const ItemArchive(this.i);
-  final int i;
+  const ItemArchive(this.lot);
+  final Lot lot;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 1,
+            spreadRadius: 0.1,
+          )
+        ],
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        elevation: 2,
+        elevation: 0.9,
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           onTap: () {},
@@ -25,13 +35,13 @@ class ItemArchive extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Lot N°: ${archives[i].lot.num}",
+                      "Lot N°: ${lot.num}",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "${archives[i].isdeleted ? "Supprimé" : "Archivé"}" +
-                          " le ${archives[i].dateTime.day}/${archives[i].dateTime.month}/${archives[i].dateTime.year}",
+                      "${lot.archive == 2 ? "Supprimé" : "Archivé"}" +
+                          " le ${lot.archiveAt.day}/${lot.archiveAt.month}/${lot.archiveAt.year}",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -45,7 +55,7 @@ class ItemArchive extends StatelessWidget {
                       "Nombre de volailles : ",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text("${archives[i].lot.nmbrVolauillles}"),
+                    Text("${lot.nmbrVolauillles}"),
                   ],
                 ),
               ],

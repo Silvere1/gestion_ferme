@@ -20,16 +20,28 @@ class _ListVenteOeufsState extends State<ListVenteOeufs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => controller.listVenteOeufs.length != 0
-            ? ListView.builder(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
-                physics: BouncingScrollPhysics(),
-                itemCount: controller.listVenteOeufs.length,
-                itemBuilder: (context, i) => ItemVenteOeufs(controller, i),
-              )
-            : Container(),
-      ),
+      backgroundColor: Color(0xffeeeeee),
+      body: FutureBuilder(
+          future: controller.getListVenteOeufs(),
+          builder: (_, snapshot) {
+            return snapshot.hasData
+                ? Obx(
+                    () => controller.listVenteOeufs.length != 0
+                        ? ListView.builder(
+                            padding: EdgeInsets.only(top: 10, bottom: 20),
+                            physics: BouncingScrollPhysics(),
+                            itemCount: controller.listVenteOeufs.length,
+                            itemBuilder: (context, i) =>
+                                ItemVenteOeufs(controller.listVenteOeufs[i]),
+                          )
+                        : Center(
+                            child: Text(
+                            "Aucune vente d'oeuf n'est encore effectuée!",
+                            textAlign: TextAlign.center,
+                          )),
+                  )
+                : Center(child: CircularProgressIndicator());
+          }),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             pageController.nextPage(

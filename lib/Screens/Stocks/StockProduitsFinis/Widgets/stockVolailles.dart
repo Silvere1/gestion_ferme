@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:gestionferme/App/Models/lotModel.dart';
-import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/stockAddLot.dart';
-import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Components/reajustementVolailles.dart';
-import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Components/voirFicheAllLots.dart';
+import 'package:gestionferme/App/Controllers/addLotController.dart';
+import 'package:gestionferme/Screens/MatieresPremieres/Lots/addLots.dart';
+import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Components/voirFicheStock.dart';
+import 'package:gestionferme/Screens/Stocks/StockProduitsFinis/Widgets/reajustementVolailles.dart';
 import 'package:get/get.dart';
 
 import 'itemStockVolaille.dart';
@@ -18,6 +18,7 @@ class StockVolailles extends StatefulWidget {
 
 class _StockVolaillesState extends State<StockVolailles>
     with TickerProviderStateMixin {
+  AddLotController controller = Get.find();
   late ScrollController scrollController;
   bool dialVisible = true;
 
@@ -45,24 +46,27 @@ class _StockVolaillesState extends State<StockVolailles>
       children: [
         SpeedDialChild(
           child: Icon(Icons.visibility),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.white,
           label: 'Voir fiche',
           labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => Get.to(() => VoirFicheAllLots()),
+          onTap: () => controller.lotsExist.length != 0
+              ? Get.to(() => VoirFicheStock())
+              : Get.snackbar("Attention !", "Vous ne disposez d'aucune donnée.",
+                  duration: Duration(seconds: 5), colorText: Colors.white),
         ),
         SpeedDialChild(
           child: Icon(Icons.tune),
-          backgroundColor: Colors.lightBlue,
+          backgroundColor: Colors.white,
           label: 'Réajustement',
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => Get.to(() => ReajustementVolailles()),
         ),
         SpeedDialChild(
           child: Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.white,
           label: 'Créer un lot',
           labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => Get.to(() => StockAddLot()),
+          onTap: () => Get.to(() => AddLots()),
         ),
       ],
     );
@@ -71,16 +75,31 @@ class _StockVolaillesState extends State<StockVolailles>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffeeeeee),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: Text("Semaines")),
+          Center(
+              child: Text(
+            "Semaines",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          )),
           Container(
             margin: EdgeInsets.only(top: 4, left: 10, right: 10, bottom: 10),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 1,
+                  spreadRadius: 0.1,
+                )
+              ],
+              borderRadius: BorderRadius.circular(6),
+            ),
             child: Material(
               color: Colors.white,
               borderRadius: BorderRadius.circular(6),
-              elevation: 2,
+              elevation: 0.6,
               child: Row(
                 children: [
                   Expanded(
@@ -94,7 +113,8 @@ class _StockVolaillesState extends State<StockVolailles>
                             height: 1,
                             color: Colors.black,
                           ),
-                          Text("124 volailles"),
+                          Obx(() =>
+                              Text("${controller.allVoByAge1} volailles")),
                         ],
                       ),
                     ),
@@ -115,7 +135,8 @@ class _StockVolaillesState extends State<StockVolailles>
                             height: 1,
                             color: Colors.black,
                           ),
-                          Text("540 volailles"),
+                          Obx(() =>
+                              Text("${controller.allVoByAge2} volailles")),
                         ],
                       ),
                     ),
@@ -136,7 +157,8 @@ class _StockVolaillesState extends State<StockVolailles>
                             height: 1,
                             color: Colors.black,
                           ),
-                          Text("500 volailles"),
+                          Obx(() =>
+                              Text("${controller.allVoByAge3} volailles")),
                         ],
                       ),
                     ),
@@ -147,16 +169,35 @@ class _StockVolaillesState extends State<StockVolailles>
           ),
           Container(
             margin: EdgeInsets.only(left: 10),
-            child: Text("Total : XXXX"),
+            child: Obx(() => Text(
+                  "Total : ${controller.allVoByAge3.value + controller.allVoByAge2.value + controller.allVoByAge1.value} volailles",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                )),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(bottom: 40),
-              physics: BouncingScrollPhysics(),
-              controller: scrollController,
-              itemCount: lots.length,
-              itemBuilder: (context, i) => ItemStockVolailles(i),
-            ),
+            child: FutureBuilder(
+                future: controller.getListLots(),
+                builder: (_, snapshot) {
+                  return snapshot.hasData
+                      ? Obx(() => controller.listlot.length != 0
+                          ? ListView.builder(
+                              padding: EdgeInsets.only(bottom: 40),
+                              physics: BouncingScrollPhysics(),
+                              // controller: scrollController,
+                              itemCount: controller.listlot.length,
+                              itemBuilder: (context, i) =>
+                                  ItemStockVolailles(i),
+                            )
+                          : Center(
+                              child: Text(
+                                "Vous ne disposez d'aucun lot de volailles!",
+                                textAlign: TextAlign.center,
+                              ),
+                            ))
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        );
+                }),
           ),
         ],
       ),

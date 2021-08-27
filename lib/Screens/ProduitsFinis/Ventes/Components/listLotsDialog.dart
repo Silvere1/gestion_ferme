@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Controllers/venteController.dart';
-import 'package:gestionferme/App/Models/lotModel.dart';
 import 'package:get/get.dart';
 
 class ListLotsDialog extends StatefulWidget {
-  const ListLotsDialog(this.uni);
-  final bool uni;
+  const ListLotsDialog();
 
   @override
-  _ListLotsDialogState createState() => _ListLotsDialogState(uni);
+  _ListLotsDialogState createState() => _ListLotsDialogState();
 }
 
 class _ListLotsDialogState extends State<ListLotsDialog> {
   VenteController controller = Get.find();
-  final bool uni;
 
-  _ListLotsDialogState(this.uni);
+  _ListLotsDialogState();
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: Get.height * 0.7,
-        child: ListView.builder(
-          itemCount: lots.length,
-          itemBuilder: (context, i) => Container(
-            height: 45,
-            margin: EdgeInsets.all(4),
-            child: ElevatedButton(
-              onPressed: () async {
-                uni
-                    ? await controller.getItem(lots[i])
-                    : controller.getMoreItem(lots[i]);
-                Get.back();
-              },
-              child: Text("Lot N°: ${lots[i].num}"),
-            ),
-          ),
-        ),
+        height: 54.0 * controller.listLot.length,
+        child: controller.listLot.length > 0
+            ? ListView.builder(
+                itemCount: controller.listLot.length,
+                itemBuilder: (context, i) => Container(
+                  height: 45,
+                  margin: EdgeInsets.all(4),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await controller.getItem(controller.listLot[i]);
+
+                      Get.back();
+                    },
+                    child: Text("Lot N°: ${controller.listLot[i].num}"),
+                  ),
+                ),
+              )
+            : Container(
+                height: 54,
+                child: Center(
+                  child: Text("Aucun lot n'est disponible !"),
+                ),
+              ),
       ),
     );
   }

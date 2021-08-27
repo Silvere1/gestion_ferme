@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestionferme/App/Controllers/venteController.dart';
 import 'package:get/get.dart';
 
 class NewVenteOeufs extends StatefulWidget {
@@ -10,6 +11,7 @@ class NewVenteOeufs extends StatefulWidget {
 }
 
 class _NewVenteOeufsState extends State<NewVenteOeufs> {
+  VenteController controller = Get.find();
   final PageController pageController;
 
   _NewVenteOeufsState(this.pageController);
@@ -40,17 +42,26 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
             shrinkWrap: true,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                margin: EdgeInsets.only(top: 0, left: 10, right: 10),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 1,
+                      spreadRadius: 0.1,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(6),
-                  elevation: 2,
+                  elevation: 0.9,
                   child: Container(
-                    padding: EdgeInsets.all(18),
-                    height: 150,
+                    padding: EdgeInsets.all(10),
                     width: Get.width,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).primaryColor),
+                      /*border: Border.all(color: Theme.of(context).primaryColor),*/
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Column(
@@ -58,10 +69,11 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Stock Oeufs"),
-                        Text("Petits : 1990"),
-                        Text("Moyens : 740"),
-                        Text("Grand : 230"),
-                        Text("Total : 2960"),
+                        Text("Petits : ${controller.stockOeuf.petits}"),
+                        Text("Moyens : ${controller.stockOeuf.moyens}"),
+                        Text("Grand : ${controller.stockOeuf.grands}"),
+                        Text(
+                            "Total : ${controller.stockOeuf.petits + controller.stockOeuf.moyens + controller.stockOeuf.grands}"),
                       ],
                     ),
                   ),
@@ -83,13 +95,13 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                   borderRadius: BorderRadius.circular(6),
                   elevation: 0.9,
                   child: Container(
-                    margin: EdgeInsets.only(left: 4, right: 4, bottom: 4),
+                    padding: EdgeInsets.all(8),
                     child: Column(
                       children: [
                         Container(
-                          height: 55,
+                          height: 60,
                           margin: EdgeInsets.only(top: 8),
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: Theme.of(context).primaryColor),
@@ -105,28 +117,47 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextFormField(
-                                  style: TextStyle(fontSize: 16),
-                                  onChanged: (value) {
-                                    //controller.nmbrEditing(int.parse(value));
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    isDense: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                ),
+                                child: Obx(() => TextFormField(
+                                      enabled: controller.stockOeuf.petits > 0
+                                          ? true
+                                          : false,
+                                      style: TextStyle(fontSize: 16),
+                                      onChanged: (value) async {
+                                        if (value.trim().isNotEmpty)
+                                          await controller.nmbrPetitsEditing(
+                                              int.parse(value));
+                                        if (value.trim().isEmpty)
+                                          await controller.nmbrPetitsEditing(0);
+                                        await controller.validateMe();
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        isCollapsed: true,
+                                        contentPadding: EdgeInsets.all(10),
+                                        hintText:
+                                            "${controller.stockOeuf.petits}",
+                                        errorText: controller.erro1.value
+                                            ? controller.invalide1.value
+                                                ? "valeur invalide !"
+                                                : "doit être >= 0 et <= ${controller.stockOeuf.petits}"
+                                            : null,
+                                        errorStyle: TextStyle(height: 0),
+                                        filled: true,
+                                        isDense: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                    )),
                               ),
                             ],
                           ),
                         ),
                         Container(
-                          height: 55,
+                          height: 60,
                           margin: EdgeInsets.only(top: 10),
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: Theme.of(context).primaryColor),
@@ -142,28 +173,49 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextFormField(
-                                  style: TextStyle(fontSize: 16),
-                                  onChanged: (value) {
-                                    //controller.nmbrEditing(int.parse(value));
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    isDense: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                ),
+                                child: Obx(() => TextFormField(
+                                      enabled: controller.stockOeuf.moyens > 0
+                                          ? true
+                                          : false,
+                                      style: TextStyle(fontSize: 16),
+                                      onChanged: (value) async {
+                                        if (value.trim().isNotEmpty)
+                                          await controller.nmbrMoyensEditing(
+                                              int.parse(value));
+                                        if (value.trim().isEmpty)
+                                          await controller.nmbrMoyensEditing(0);
+                                        await controller.validateMe();
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        isCollapsed: true,
+                                        contentPadding: EdgeInsets.all(10),
+                                        hintText:
+                                            "${controller.stockOeuf.moyens}",
+                                        errorText: controller.erro2.value
+                                            ? controller.invalide2.value
+                                                ? "valeur invalide !"
+                                                /*: controller.stockOeuf.moyens == 0
+                                                ? "le stock est vide !"*/
+                                                : "doit être <= ${controller.stockOeuf.moyens}"
+                                            : null,
+                                        errorStyle: TextStyle(height: 0),
+                                        filled: true,
+                                        isDense: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                    )),
                               ),
                             ],
                           ),
                         ),
                         Container(
-                          height: 55,
+                          height: 60,
                           margin: EdgeInsets.only(top: 10),
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: Theme.of(context).primaryColor),
@@ -179,28 +231,49 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextFormField(
-                                  style: TextStyle(fontSize: 16),
-                                  onChanged: (value) {
-                                    //controller.nmbrEditing(int.parse(value));
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    isDense: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                ),
+                                child: Obx(() => TextFormField(
+                                      enabled: controller.stockOeuf.grands > 0
+                                          ? true
+                                          : false,
+                                      style: TextStyle(fontSize: 16),
+                                      onChanged: (value) async {
+                                        if (value.trim().isNotEmpty)
+                                          await controller.nmbrGrandsEditing(
+                                              int.parse(value));
+                                        if (value.trim().isEmpty)
+                                          await controller.nmbrGrandsEditing(0);
+                                        await controller.validateMe();
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        isCollapsed: true,
+                                        contentPadding: EdgeInsets.all(10),
+                                        hintText:
+                                            "${controller.stockOeuf.grands}",
+                                        errorText: controller.erro3.value
+                                            ? controller.invalide3.value
+                                                ? "valeur invalide !"
+                                                /*: controller.stockOeuf.grands == 0
+                                                ? "le stock est vide "*/
+                                                : "doit être >= 0 et <= ${controller.stockOeuf.grands}"
+                                            : null,
+                                        errorStyle: TextStyle(height: 0),
+                                        filled: true,
+                                        isDense: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                    )),
                               ),
                             ],
                           ),
                         ),
                         Container(
-                          height: 55,
+                          height: 60,
                           margin: EdgeInsets.only(top: 10),
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: Theme.of(context).primaryColor),
@@ -218,11 +291,19 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                                 flex: 1,
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 16),
-                                  onChanged: (value) {
-                                    //controller.nmbrEditing(int.parse(value));
+                                  onChanged: (value) async {
+                                    if (value.trim().isNotEmpty)
+                                      await controller.montantOeufEditing(
+                                          double.parse(value));
+                                    if (value.trim().isEmpty)
+                                      await controller.montantOeufEditing(0);
+                                    await controller.validateMe();
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
+                                    isCollapsed: true,
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: "0",
                                     filled: true,
                                     isDense: true,
                                     border: OutlineInputBorder(
@@ -253,33 +334,44 @@ class _NewVenteOeufsState extends State<NewVenteOeufs> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 28),
-                    child: Text("Total : XXX"),
+                    child: Obx(() => Text(
+                        "Total : ${controller.nombreP.value + controller.nombreM.value + controller.nombreG.value}")),
                   ),
                 ],
               ),
               Container(
                 height: 40,
                 width: Get.width - 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.defaultDialog(
+                child: Obx(() => ElevatedButton(
+                      onPressed: (controller.nombreP.value +
+                                      controller.nombreM.value +
+                                      controller.nombreG.value) >
+                                  0 &&
+                              controller.isValidate.value &&
+                              controller.oeufMontant.value > 0
+                          ? () async {
+                              FocusScope.of(context).unfocus();
+                              await controller.saveVenteOeuf();
+                              pageController.previousPage(
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.easeOutBack);
+                              /*Get.defaultDialog(
                       title: "Succès",
                       content: Text("Données enregistrées !"),
                       radius: 5,
                       actions: [
                         ElevatedButton(
                             onPressed: () {
-                              pageController.previousPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeOutBack);
+
                               Get.back();
                             },
                             child: Text("Ok"))
                       ],
-                    );
-                  },
-                  child: Text("Enregistrer"),
-                ),
+                    );*/
+                            }
+                          : null,
+                      child: Text("Enregistrer"),
+                    )),
               ),
             ],
           ),
