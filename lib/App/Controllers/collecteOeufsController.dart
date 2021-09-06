@@ -77,6 +77,7 @@ class CollecteOeufsController extends GetxController {
 
   Future<void> saveCollecteOeuf() async {
     _addLotController = Get.find();
+    await remakeListToSave();
     for (int i = 0; i < newListCollect.length; i++) {
       await DataBaseProvider.instance.insertCollecteOeuf(newListCollect[i]);
     }
@@ -84,6 +85,10 @@ class CollecteOeufsController extends GetxController {
     await getListCollecte();
     await getStockOeuf();
     await _addLotController.getStockOeuf();
+    itemLotCollect.clear();
+    newListCollect.clear();
+    date.value = "Date";
+    await checkList();
   }
 
   Future<List<CollecteOeuf>> getListCollecte() async {

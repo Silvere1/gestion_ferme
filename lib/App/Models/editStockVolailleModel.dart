@@ -35,11 +35,3 @@ class EditStockVolailles {
         colcreateAt: dateTime.toIso8601String(),
       };
 }
-
-/*List<EditStockVolailles> editstockvolailles = [
-*/ /*  EditStockVolailles(1, lots[0], 3, false, DateTime(2021, 2, 12)),
-  EditStockVolailles(1, lots[0], 3, false, DateTime(2021, 2, 12)),
-  EditStockVolailles(1, lots[0], 3, true, DateTime(2021, 2, 12)),
-  EditStockVolailles(1, lots[0], 3, false, DateTime(2021, 2, 12)),
-  EditStockVolailles(1, lots[0], 3, true, DateTime(2021, 2, 12)),*/ /*
-];*/

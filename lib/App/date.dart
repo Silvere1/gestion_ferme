@@ -1,4 +1,4 @@
-extension DateOnlyDayDufference on DateTime {
+extension DateOnlyDayDifference on DateTime {
   int difOnlyDay(DateTime other) {
     return DateTime(this.year, this.month, this.day)
         .difference(DateTime(other.year, other.month, other.day))

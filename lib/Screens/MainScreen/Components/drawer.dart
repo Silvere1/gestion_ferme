@@ -272,7 +272,7 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                           ),
                         ),
                         Text(
-                          "Consommations",
+                          "Utilisations",
                         ),
                       ],
                     ),
@@ -281,7 +281,7 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                   selectedTileColor: _color,
                   onTap: () {
                     titres[0].selected = false;
-                    menuController.selectedItem(1, 3, 4, "Consommations");
+                    menuController.selectedItem(1, 3, 4, "Utilisations");
                     Navigator.pop(context);
                   },
                 ),

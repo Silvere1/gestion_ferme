@@ -34,8 +34,10 @@ class _CreateProdTraiteState extends State<CreateProdTraite> {
                         Obx(() => TextFormField(
                               onChanged: (value) {
                                 if (value.trim().isNotEmpty &&
-                                    value.trim().length >= 4)
+                                    value.trim().length >= 1)
                                   controller.namePrduitEditing(value);
+                                else
+                                  controller.namePrduitEditing("");
                               },
                               keyboardType: TextInputType.name,
                               decoration: InputDecoration(
@@ -87,7 +89,7 @@ class _CreateProdTraiteState extends State<CreateProdTraite> {
                         SizedBox(
                           height: 10,
                         ),
-                        TextFormField(
+                        /*TextFormField(
                           onChanged: (value) {
                             if (value.trim().isNotEmpty && value.trim().isNum)
                               controller
@@ -125,7 +127,7 @@ class _CreateProdTraiteState extends State<CreateProdTraite> {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               hintText: "Valeur"),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),

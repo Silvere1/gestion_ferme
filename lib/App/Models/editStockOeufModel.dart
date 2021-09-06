@@ -43,11 +43,3 @@ class EditStockOeuf {
         colcreateAt: dateTime.toIso8601String(),
       };
 }
-
-/*List<EditStockOeuf> editstockoeuf = [
-  */ /*EditStockOeuf(1, true, 2, 5, 0, DateTime(2021, 2, 12)),
-  EditStockOeuf(1, false, 2, 5, 0, DateTime(2021, 2, 12)),
-  EditStockOeuf(1, true, 2, 5, 0, DateTime(2021, 2, 12)),
-  EditStockOeuf(1, false, 2, 5, 0, DateTime(2021, 2, 12)),
-  EditStockOeuf(1, true, 2, 5, 0, DateTime(2021, 2, 12)),*/ /*
-];*/

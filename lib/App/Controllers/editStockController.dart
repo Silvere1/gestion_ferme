@@ -19,7 +19,7 @@ class EditStockController extends GetxController {
   var nmbPetit = 0.obs;
   var nmbMoyen = 0.obs;
   var nmbGrand = 0.obs;
-  var nmmbrVolail = 0.obs;
+  var nmbrVolail = 0.obs;
   var qteProv = 0.0.obs;
   var qteProd = 0.0.obs;
   var valNmbrV = "".obs;
@@ -47,7 +47,7 @@ class EditStockController extends GetxController {
 
   Future<void> nmbrVolaillesEditing(int nmbr) async {
     valNmbrV.value = "$nmbr";
-    nmmbrVolail.value = nmbr;
+    nmbrVolail.value = nmbr;
   }
 
   Future<void> qteProvendeEditing(double val) async {
@@ -88,15 +88,15 @@ class EditStockController extends GetxController {
     _addLotController = Get.find();
     Lot xlot = itemLot[0];
     EditStockVolailles editStockVolailles =
-        EditStockVolailles(null, itemLot[0], nmmbrVolail.value, DateTime.now());
+        EditStockVolailles(null, itemLot[0], nmbrVolail.value, DateTime.now());
     await DataBaseProvider.instance
         .insertEditStockVolailles(editStockVolailles);
-    if (nmmbrVolail.value == 0) {
+    if (nmbrVolail.value == 0) {
       xlot.archive = 1;
-      xlot.nmbrVolauillles = nmmbrVolail.value;
+      xlot.nmbrVolauillles = nmbrVolail.value;
       await DataBaseProvider.instance.updateLot(xlot);
     }
-    xlot.nmbrVolauillles = nmmbrVolail.value;
+    xlot.nmbrVolauillles = nmbrVolail.value;
     await DataBaseProvider.instance.updateLot(xlot);
     await getListEditStkVolaille();
     await _addLotController.getListLots();

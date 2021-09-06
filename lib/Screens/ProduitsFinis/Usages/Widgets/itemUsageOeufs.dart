@@ -35,7 +35,7 @@ class ItemUsageOeufs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Consommation N°: ${usedOeufs.num}",
+                      "Usage Oeuf N°: ${usedOeufs.num}",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),

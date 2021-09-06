@@ -27,6 +27,11 @@ class StockFicheController extends GetxController {
   var _stkListAllLot = <Lot>[];
   var listInfoStock = <InfoStock>[];
   late InfoStock _infoStock;
+  var isLoading = false.obs;
+
+  Future<bool> setLoading(bool val) async {
+    return isLoading.value = val;
+  }
 
   Future<List<PerteOeufs>> _getPerteOeuf() async {
     _stkListPerteOeuf.clear();
@@ -99,8 +104,17 @@ class StockFicheController extends GetxController {
     /*var _newListEditVol = <EditStockVolailles>[];*/
     for (int i = 0; i <= DateTime.now().difOnlyDay(dateTime); i++) {
       _infoStock = InfoStock(DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       _infoStock.dateAt = dateTime.add(Duration(days: i)).myDateTime();
+      int pousMort = 0;
+      int poulMort = 0;
+      int pondMort = 0;
+      int pousVen = 0;
+      int poulVen = 0;
+      int pondVen = 0;
+      int pousUse = 0;
+      int poulUse = 0;
+      int pondUse = 0;
       /*_stkListEditVol.every((e) {
         if (_newListEditVol.length == 0) {
           if (e.dateTime.isSameDate(_infoStock.dateAt)) {
@@ -126,6 +140,15 @@ class StockFicheController extends GetxController {
             if (e.buyAt.isSameDate(_infoStock.dateAt)) {
               _infoStock.stkInitial += e.iniNbrVol;
               _infoStock.oeufEclore += e.iniNbrVol;
+              if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                  (8 * 7)) {
+                _infoStock.poussins += e.iniNbrVol;
+              } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                  (20 * 7)) {
+                _infoStock.pondeuses += e.iniNbrVol;
+              } else {
+                _infoStock.poulettes += e.iniNbrVol;
+              }
             }
             _stkListEditVol.every((x) {
               if (x.dateTime.isSameDate(_infoStock.dateAt) &&
@@ -133,12 +156,34 @@ class StockFicheController extends GetxController {
                   e.type == 0) {
                 _infoStock.stkInitial -= x.lot.nmbrVolauillles;
                 _infoStock.stkInitial += x.qte;
+
+                if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                    (8 * 7)) {
+                  _infoStock.poussins -= x.lot.nmbrVolauillles;
+                  _infoStock.poussins += x.qte;
+                } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                    (20 * 7)) {
+                  _infoStock.pondeuses -= x.lot.nmbrVolauillles;
+                  _infoStock.pondeuses += x.qte;
+                } else {
+                  _infoStock.poulettes -= x.lot.nmbrVolauillles;
+                  _infoStock.poulettes += x.qte;
+                }
               }
               return true;
             });
           } else {
             if (e.createAt.isSameDate(_infoStock.dateAt)) {
               _infoStock.stkInitial += e.iniNbrVol;
+              if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                  (8 * 7)) {
+                _infoStock.poussins += e.iniNbrVol;
+              } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                  (20 * 7)) {
+                _infoStock.pondeuses += e.iniNbrVol;
+              } else {
+                _infoStock.poulettes += e.iniNbrVol;
+              }
             }
             _stkListEditVol.every((x) {
               if (x.dateTime.isSameDate(_infoStock.dateAt) &&
@@ -146,6 +191,19 @@ class StockFicheController extends GetxController {
                   e.type == 1) {
                 _infoStock.stkInitial -= x.lot.nmbrVolauillles;
                 _infoStock.stkInitial += x.qte;
+
+                if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                    (8 * 7)) {
+                  _infoStock.poussins -= x.lot.nmbrVolauillles;
+                  _infoStock.poussins += x.qte;
+                } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                    (20 * 7)) {
+                  _infoStock.pondeuses -= x.lot.nmbrVolauillles;
+                  _infoStock.pondeuses += x.qte;
+                } else {
+                  _infoStock.poulettes -= x.lot.nmbrVolauillles;
+                  _infoStock.poulettes += x.qte;
+                }
               }
               return true;
             });
@@ -154,11 +212,23 @@ class StockFicheController extends GetxController {
         });
       } else {
         _infoStock.stkInitial = listInfoStock[i - 1].stkFinal;
+        _infoStock.poussins = listInfoStock[i - 1].poussinsF;
+        _infoStock.poulettes = listInfoStock[i - 1].poulettesF;
+        _infoStock.pondeuses = listInfoStock[i - 1].pondeusesF;
         _stkListAllLot.every((e) {
           if (e.type == 0) {
             if (e.buyAt.isSameDate(_infoStock.dateAt)) {
               _infoStock.stkInitial += e.iniNbrVol;
               _infoStock.oeufEclore += e.iniNbrVol;
+              if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                  (8 * 7)) {
+                _infoStock.poussins += e.iniNbrVol;
+              } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                  (20 * 7)) {
+                _infoStock.pondeuses += e.iniNbrVol;
+              } else {
+                _infoStock.poulettes += e.iniNbrVol;
+              }
             }
             _stkListEditVol.every((x) {
               if (x.dateTime.isSameDate(_infoStock.dateAt) &&
@@ -166,12 +236,34 @@ class StockFicheController extends GetxController {
                   e.type == 0) {
                 _infoStock.stkInitial -= x.lot.nmbrVolauillles;
                 _infoStock.stkInitial += x.qte;
+
+                if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                    (8 * 7)) {
+                  _infoStock.poussins -= x.lot.nmbrVolauillles;
+                  _infoStock.poussins += x.qte;
+                } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                    (20 * 7)) {
+                  _infoStock.pondeuses -= x.lot.nmbrVolauillles;
+                  _infoStock.pondeuses += x.qte;
+                } else {
+                  _infoStock.poulettes -= x.lot.nmbrVolauillles;
+                  _infoStock.poulettes += x.qte;
+                }
               }
               return true;
             });
           } else {
             if (e.createAt.isSameDate(_infoStock.dateAt)) {
               _infoStock.stkInitial += e.iniNbrVol;
+              if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                  (8 * 7)) {
+                _infoStock.poussins += e.iniNbrVol;
+              } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                  (20 * 7)) {
+                _infoStock.pondeuses += e.iniNbrVol;
+              } else {
+                _infoStock.poulettes += e.iniNbrVol;
+              }
             }
             _stkListEditVol.every((x) {
               if (x.dateTime.isSameDate(_infoStock.dateAt) &&
@@ -179,6 +271,19 @@ class StockFicheController extends GetxController {
                   e.type == 1) {
                 _infoStock.stkInitial -= x.lot.nmbrVolauillles;
                 _infoStock.stkInitial += x.qte;
+
+                if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) <=
+                    (8 * 7)) {
+                  _infoStock.poussins -= x.lot.nmbrVolauillles;
+                  _infoStock.poussins += x.qte;
+                } else if ((e.age + _infoStock.dateAt.difOnlyDay(e.createAt)) >=
+                    (20 * 7)) {
+                  _infoStock.pondeuses -= x.lot.nmbrVolauillles;
+                  _infoStock.pondeuses += x.qte;
+                } else {
+                  _infoStock.poulettes -= x.lot.nmbrVolauillles;
+                  _infoStock.poulettes += x.qte;
+                }
               }
               return true;
             });
@@ -189,28 +294,69 @@ class StockFicheController extends GetxController {
 
       ///Perte Vol make
       _stkListPerte.every((e) {
-        if (e.dateTime.isSameDate(_infoStock.dateAt))
+        if (e.dateTime.isSameDate(_infoStock.dateAt)) {
           _infoStock.nbrMort += e.qte;
+          if ((e.lot.age + _infoStock.dateAt.difOnlyDay(e.lot.createAt)) <=
+              (8 * 7)) {
+            pousMort += e.qte;
+          } else if ((e.lot.age +
+                  _infoStock.dateAt.difOnlyDay(e.lot.createAt)) >=
+              (20 * 7)) {
+            pondMort += e.qte;
+          } else {
+            poulMort += e.qte;
+          }
+        }
         return true;
       });
 
       ///Use Vol make
       _stkListUsedVol.every((e) {
-        if (e.dateTime.isSameDate(_infoStock.dateAt))
+        if (e.dateTime.isSameDate(_infoStock.dateAt)) {
           _infoStock.nbrCons += e.qte;
+          if ((e.lot.age + _infoStock.dateAt.difOnlyDay(e.lot.createAt)) <=
+              (8 * 7)) {
+            pousUse += e.qte;
+          } else if ((e.lot.age +
+                  _infoStock.dateAt.difOnlyDay(e.lot.createAt)) >=
+              (20 * 7)) {
+            pondUse += e.qte;
+          } else {
+            poulUse += e.qte;
+          }
+        }
+
         return true;
       });
 
       ///Vente Vol make
       _stkListVenteVol.every((e) {
-        if (e.dateTime.isSameDate(_infoStock.dateAt))
+        if (e.dateTime.isSameDate(_infoStock.dateAt)) {
           _infoStock.nbrVendu += e.qte;
+          if ((e.lot.age + _infoStock.dateAt.difOnlyDay(e.lot.createAt)) <=
+              (8 * 7)) {
+            pousVen += e.qte;
+          } else if ((e.lot.age +
+                  _infoStock.dateAt.difOnlyDay(e.lot.createAt)) >=
+              (20 * 7)) {
+            pondVen += e.qte;
+          } else {
+            poulVen += e.qte;
+          }
+        }
+
         return true;
       });
 
       ///Nbr Vol final
       _infoStock.stkFinal = _infoStock.stkInitial -
           (_infoStock.nbrMort + _infoStock.nbrCons + _infoStock.nbrVendu);
+      _infoStock.poussinsF =
+          _infoStock.poussins - (pousMort + pousVen + pousUse);
+      _infoStock.poulettesF =
+          _infoStock.poulettes - (poulMort + poulVen + poulUse);
+      _infoStock.pondeusesF =
+          _infoStock.pondeuses - (pondUse + pondVen + pondMort);
 
       /// oeuf initial
       if (listInfoStock.length > 0) {

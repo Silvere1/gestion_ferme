@@ -28,15 +28,15 @@ class PdfApi {
       MultiPage(
         /*orientation: PageOrientation.landscape,*/
         pageFormat: PdfPageFormat(
-            29.7 * PdfPageFormat.cm, 21.0 * PdfPageFormat.cm,
-            marginAll: 1.2 * PdfPageFormat.cm),
+            420 * PdfPageFormat.mm, 297 * PdfPageFormat.mm,
+            marginAll: 1.0 * PdfPageFormat.cm),
         build: (_) => [
-          buildTitle(infoDayVol[0].lot, image),
+          buildTitle(infoDayVol.last, image),
           buildHeadTble1(infoDayVol),
           buildTable1(infoDayVol),
           SizedBox(height: 20),
-          buildHeadTble2(),
-          buildTable2(infoDayVol),
+          /*buildHeadTble2(),
+          buildTable2(infoDayVol),*/
         ],
         header: (_) => buildHead(),
         footer: (_) => buildFoot(_, image),
@@ -54,7 +54,7 @@ class PdfApi {
     );
 
     await SavePdf.saveDoc(
-        "Fiche de survie lot ${infoDayVol[0].lot.num}.pdf", _pdf);
+        "Fiche de suivi lot ${infoDayVol[0].lot.num}.pdf", _pdf);
   }
 
   static var dateFormat = DateFormat.yMMMMd('fr');
@@ -76,7 +76,7 @@ class PdfApi {
   static Widget buildHead() => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Fiche de suvi journalier",
+          Text("Fiche de suivi journalier",
               style: TextStyle(
                   fontStyle: FontStyle.italic, color: PdfColors.grey)),
         ],
@@ -84,54 +84,12 @@ class PdfApi {
   static Widget buildHeadBilan(int num) => Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text("Bilan de suvi du lot N°: $num",
+          Text("Bilan de suivi du lot N°: $num",
               style: TextStyle(
                   fontStyle: FontStyle.italic, color: PdfColors.grey)),
         ],
       );
 
-  static Widget buildHeadTble1(List<InfoDayVol> infoDayVol) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Container(
-              height: 30,
-              child: Center(
-                child: Text(infoDayVol.length % 7 == 0 &&
-                        infoDayVol.length ~/ 7 > 0
-                    ? "${(infoDayVol.length ~/ 7).toInt()} semane(s)"
-                    : infoDayVol.length ~/ 7 > 0 && infoDayVol.length % 7 != 0
-                        ? "${(infoDayVol.length ~/ 7).toInt()} semaine(s)\n${infoDayVol.length % 7} jour(s)"
-                        : "${infoDayVol.length % 7} jour(s)"),
-              ),
-              decoration: BoxDecoration(
-                color: PdfColors.green600,
-              ),
-            ),
-          ),
-          Container(
-            height: 30,
-            width: 279,
-            child: Center(
-              child: Text("Volailles"),
-            ),
-            decoration: BoxDecoration(
-              color: PdfColors.green400,
-            ),
-          ),
-          Container(
-            height: 30,
-            width: 399,
-            child: Center(
-              child: Text("Oeufs"),
-            ),
-            decoration: BoxDecoration(
-              color: PdfColors.green200,
-            ),
-          ),
-        ],
-      );
   static Widget buildHeadTble2() => Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,17 +119,31 @@ class PdfApi {
         ],
       );
 
-  static Widget buildTitle(Lot lot, var image) => Column(
+  static Widget buildTitle(InfoDayVol info, var image) => Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Le ${dateFormat.format(DateTime.now())}"),
-              Text("Lot N°: ${lot.num}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18,
-                  )),
+              Column(
+                children: [
+                  Text("Lot N°: ${info.lot.num}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                      )),
+                  Wrap(
+                    children: [
+                      Text("${info.effFinal}"),
+                      Text(controller.ageType.value == 1
+                          ? " poussin(s)"
+                          : controller.ageType.value == 2
+                              ? " poulette(s)"
+                              : " pondeuse(s)"),
+                    ],
+                  ),
+                ],
+              ),
               Image(MemoryImage(image), width: 55),
             ],
           ),
@@ -372,9 +344,10 @@ class PdfApi {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                  "- De ${controller.listEditeStockVol[i].lot.nmbrVolauillles}"
-                                  " à ${controller.listEditeStockVol[i].qte} volaille(s)"
-                                  " le ${dateFormat.format(controller.listEditeStockVol[i].dateTime)}"),
+                                "- De ${controller.listEditeStockVol[i].lot.nmbrVolauillles}"
+                                " à ${controller.listEditeStockVol[i].qte} volaille(s)"
+                                " le ${dateFormat.format(controller.listEditeStockVol[i].dateTime)}",
+                              ),
                             ],
                           ),
                           itemCount: controller.listEditeStockVol.length,
@@ -496,7 +469,7 @@ class PdfApi {
   static Widget buildTable1(List<InfoDayVol> infoDayVol) {
     final headers = [
       "Date",
-      "Nbre\njours",
+      "jours",
       "Effect\ndépart",
       "Morts",
       "Vendus",
@@ -509,6 +482,13 @@ class PdfApi {
       "Total",
       "Plateaux",
       "Taux de\nponte",
+      "1er service",
+      "2è service",
+      "3è service",
+      "    Total    ",
+      " Qte \n Eau",
+      "Traitements",
+      "Total / traite",
     ];
     final data = infoDayVol.map((e) {
       return [
@@ -526,23 +506,160 @@ class PdfApi {
         "${e.cT}",
         "${(e.cT / 12).toPrecision(1)}",
         "${e.tauxPonte.toPrecision(2)}",
+        e.service1
+            .map((x) => "${x.provende.nom}: ${x.qte} ${x.provende.unite}\n")
+            .toList()
+            .toString()
+            .replaceRange(0, 1, " ")
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .replaceAll(",", ""),
+        e.service2
+            .map((x) => "${x.provende.nom}: ${x.qte} ${x.provende.unite}\n")
+            .toList()
+            .toString()
+            .replaceRange(0, 1, " ")
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .replaceAll(",", ""),
+        e.service3
+            .map((x) => "${x.provende.nom}: ${x.qte} ${x.provende.unite}\n")
+            .toList()
+            .toString()
+            .replaceRange(0, 1, " ")
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .replaceAll(",", ""),
+        e.totalServices
+            .map((x) => "${x.nom}: ${x.total} ${x.unite}\n")
+            .toList()
+            .toString()
+            .replaceRange(0, 1, " ")
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .replaceAll(",", ""),
+        "${e.qteEau} l",
+        e.traitement
+            .map((x) => "${x.produit.nom}: ${x.qte} ${x.produit.unite}\n")
+            .toList()
+            .toString()
+            .replaceRange(0, 1, " ")
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .replaceAll(",", ""),
+        e.totalTraitement
+            .map((x) => "${x.nom}: ${x.total} ${x.unite}\n")
+            .toList()
+            .toString()
+            .replaceRange(0, 1, " ")
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .replaceAll(",", ""),
       ];
     }).toList();
+    Map<int, TableColumnWidth>? columnWidth() => {
+          0: FixedColumnWidth(34),
+          1: FixedColumnWidth(30),
+          2: FixedColumnWidth(36),
+          3: FixedColumnWidth(35),
+          4: FixedColumnWidth(39),
+          5: FixedColumnWidth(40),
+          6: FixedColumnWidth(36),
+          7: FixedColumnWidth(35),
+          8: FixedColumnWidth(40),
+          9: FixedColumnWidth(39),
+          10: FixedColumnWidth(35),
+          11: FixedColumnWidth(45),
+          12: FixedColumnWidth(45),
+          13: FixedColumnWidth(45),
+          14: FixedColumnWidth(90),
+          15: FixedColumnWidth(90),
+          16: FixedColumnWidth(90),
+          17: FixedColumnWidth(90),
+          18: FixedColumnWidth(35),
+          19: FixedColumnWidth(90),
+          20: FixedColumnWidth(90),
+        };
     return Table.fromTextArray(
       headers: headers,
-      headerStyle:
-          TextStyle(fontWeight: FontWeight.bold, color: PdfColors.white),
-      cellStyle: TextStyle(fontSize: 10),
+      headerStyle: TextStyle(
+          fontWeight: FontWeight.bold, color: PdfColors.white, fontSize: 8),
+      cellStyle: TextStyle(fontSize: 6),
       headerDecoration: BoxDecoration(
         color: PdfColor.fromHex("006A34"),
       ),
 
       /*headerStyle: TextStyle(fontSize: 10),*/
       data: data,
+      columnWidths: columnWidth(),
+      tableWidth: TableWidth.min,
     );
   }
 
-  static Widget buildTable2(List<InfoDayVol> infoDayVol) {
+  static Widget buildHeadTble1(List<InfoDayVol> infoDayVol) => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            height: 24,
+            width: 64,
+            child: Center(
+              child: Text(
+                  infoDayVol.length % 7 == 0 && infoDayVol.length ~/ 7 > 0
+                      ? "${(infoDayVol.length ~/ 7).toInt()} semane(s)"
+                      : infoDayVol.length ~/ 7 > 0 && infoDayVol.length % 7 != 0
+                          ? "${(infoDayVol.length ~/ 7).toInt()} semaine(s)\n${infoDayVol.length % 7} jour(s)"
+                          : "${infoDayVol.length % 7} jour(s)",
+                  style: TextStyle(fontSize: 8)),
+            ),
+            decoration: BoxDecoration(
+              color: PdfColors.green600,
+            ),
+          ),
+          Container(
+            height: 24,
+            width: 186,
+            child: Center(
+              child: Text("Volailles"),
+            ),
+            decoration: BoxDecoration(
+              color: PdfColors.green500,
+            ),
+          ),
+          Container(
+            height: 24,
+            width: 284,
+            child: Center(
+              child: Text("Oeufs"),
+            ),
+            decoration: BoxDecoration(
+              color: PdfColors.green400,
+            ),
+          ),
+          Container(
+            height: 24,
+            width: 395,
+            child: Center(
+              child: Text("Alimentations"),
+            ),
+            decoration: BoxDecoration(
+              color: PdfColors.green300,
+            ),
+          ),
+          Container(
+            height: 24,
+            width: 180,
+            child: Center(
+              child: Text("Traitements"),
+            ),
+            decoration: BoxDecoration(
+              color: PdfColors.green200,
+            ),
+          ),
+        ],
+      );
+
+  /*static Widget buildTable2(List<InfoDayVol> infoDayVol) {
     final headers = [
       "Date",
       "1er service",
@@ -609,7 +726,6 @@ class PdfApi {
     }).toList();
     return Table.fromTextArray(
       headers: headers,
-      /*headerStyle: TextStyle(fontSize: 10),*/
       headerStyle:
           TextStyle(fontWeight: FontWeight.bold, color: PdfColors.white),
       cellStyle: TextStyle(fontSize: 10),
@@ -619,7 +735,7 @@ class PdfApi {
       cellAlignment: Alignment.centerLeft,
       data: data,
     );
-  }
+  }*/
 }
 
 class _Percent extends StatelessWidget {

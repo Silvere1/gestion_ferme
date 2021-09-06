@@ -27,17 +27,41 @@ class _NewUsageOeufsState extends State<NewUsageOeufs> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 10, top: 4),
+                    margin: EdgeInsets.only(left: 10, top: 4, right: 10),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
                           onPressed: () {
+                            controller.date.value = "Date";
                             pageController.previousPage(
                                 duration: Duration(milliseconds: 300),
                                 curve: Curves.easeOutBack);
                           },
                           icon: Icon(
                             Icons.close,
+                          ),
+                        ),
+                        Expanded(child: SizedBox()),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 38,
+                            child: Obx(() => ElevatedButton(
+                                  onPressed: () {
+                                    showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2020),
+                                      lastDate: DateTime.now(),
+                                      initialDate: DateTime.now(),
+                                    ).then((DateTime? value) => {
+                                          if (value != null)
+                                            controller.getDate(
+                                                value.toIso8601String()),
+                                        });
+                                  },
+                                  child: Text(controller.date.value),
+                                )),
                           ),
                         ),
                       ],
@@ -291,7 +315,8 @@ class _NewUsageOeufsState extends State<NewUsageOeufs> {
                                         controller.nombreG.value) >
                                     0 &&
                                 controller.isValidate.value &&
-                                controller.motif.value != ""
+                                controller.motif.value != "" &&
+                                controller.date.value != "Date"
                             ? () async {
                                 await controller.saveUsedOeuf();
                                 FocusScope.of(context).unfocus();

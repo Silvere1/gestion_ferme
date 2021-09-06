@@ -68,6 +68,12 @@ class TotalProduit {
 class InfoStock {
   DateTime dateAt;
   int stkInitial;
+  int poussins;
+  int poulettes;
+  int pondeuses;
+  int poussinsF;
+  int poulettesF;
+  int pondeusesF;
   int nbrMort;
   int nbrVendu;
   int nbrCons;
@@ -95,6 +101,12 @@ class InfoStock {
   InfoStock(
       this.dateAt,
       this.stkInitial,
+      this.poussins,
+      this.poulettes,
+      this.pondeuses,
+      this.poussinsF,
+      this.poulettesF,
+      this.pondeusesF,
       this.nbrMort,
       this.nbrVendu,
       this.nbrCons,
@@ -118,4 +130,35 @@ class InfoStock {
       this.sFinalMoeuf,
       this.sFinalGoeuf,
       this.oeufEclore);
+}
+
+class InfoPro {
+  DateTime dateAt;
+  List<Prod> prod;
+  List<Prov> prov;
+  InfoPro(this.dateAt, this.prod, this.prov);
+}
+
+class Prod {
+  int? num;
+  String nom;
+  String unite;
+  double iniQte;
+  double approQte;
+  double consQte;
+  double finQte;
+  Prod(this.num, this.nom, this.unite, this.iniQte, this.approQte, this.consQte,
+      this.finQte);
+}
+
+class Prov {
+  int? num;
+  String nom;
+  String unite;
+  double iniQte;
+  double approQte;
+  double consQte;
+  double finQte;
+  Prov(this.num, this.nom, this.unite, this.iniQte, this.approQte, this.consQte,
+      this.finQte);
 }

@@ -30,6 +30,8 @@ class PerteController extends GetxController {
   var qteError = false.obs;
   var qteVolaille = 0.obs;
   late StockOeuf stockOeuf;
+  var date = "Date".obs;
+  var _date = "".obs;
 
   @override
   void onReady() {
@@ -94,8 +96,16 @@ class PerteController extends GetxController {
     print("nombre = $nombreG");
   }
 
+  Future<void> getDate(String dat) async {
+    date.value = "${DateTime.parse(dat).day}"
+        " -${DateTime.parse(dat).month}"
+        " -${DateTime.parse(dat).year}";
+    _date.value = dat;
+    print("date = $date");
+  }
+
   Future<void> motifEditing(String text) async {
-    if (text.trim().length <= 4) {
+    if (text.trim().length <= 1) {
       motif.value = "";
     } else {
       motif.value = text;
@@ -103,7 +113,7 @@ class PerteController extends GetxController {
   }
 
   Future<void> motifVolaillesEditing(String text) async {
-    if (text.trim().length <= 4) {
+    if (text.trim().length <= 1) {
       vMotif.value = "";
     } else {
       vMotif.value = text;
@@ -159,21 +169,22 @@ class PerteController extends GetxController {
 
   Future<void> savePerteVolaille() async {
     _addLotController = Get.find();
-    PerteVolailles perteVolailles = PerteVolailles(
-        null, itemPerte[0], qteVolaille.value, vMotif.value, DateTime.now());
+    PerteVolailles perteVolailles = PerteVolailles(null, itemPerte[0],
+        qteVolaille.value, vMotif.value, DateTime.parse(_date.value));
     await DataBaseProvider.instance.insertPerteVolailles(perteVolailles);
     await _updateLot();
     await getListPerteVolailles();
     qteVolaille.value = 0;
     vMotif.value = "";
-    itemPerte.value = [];
+    itemPerte.clear();
+    date.value = "Date";
   }
 
   Future<void> savePerteOeuf() async {
     _collecteOeufsController = Get.find();
     _addLotController = Get.find();
     PerteOeufs perteOeufs = PerteOeufs(null, nombreP.value, nombreM.value,
-        nombreG.value, motif.value, DateTime.now());
+        nombreG.value, motif.value, DateTime.parse(_date.value));
     await DataBaseProvider.instance.insertPerteOeuf(perteOeufs);
     await _updateStockOeuf();
     await getStockOeuf();
@@ -184,6 +195,7 @@ class PerteController extends GetxController {
     nombreM.value = 0;
     nombreG.value = 0;
     motif.value = "";
+    date.value = "Date";
   }
 
   Future<List<PerteOeufs>> getListPerteOeufs() async {

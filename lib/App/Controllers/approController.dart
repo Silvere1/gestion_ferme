@@ -5,7 +5,10 @@ import 'package:gestionferme/App/Models/provendeModel.dart';
 import 'package:gestionferme/App/Provider/dataBaseProvider.dart';
 import 'package:get/get.dart';
 
+import 'proFicheController.dart';
+
 class ApproController extends GetxController {
+  late ProFicheController _ficheController;
   var listProvendes = <Provende>[].obs;
   var listProdTraite = <Produit>[].obs;
   var listApproProvendes = <ApproProvende>[].obs;
@@ -27,6 +30,8 @@ class ApproController extends GetxController {
   late Provende provende;
   late Produit produit;
   double xQte = 0;
+  var date = "Date".obs;
+  var _date = "".obs;
 
   @override
   void onReady() {
@@ -34,7 +39,17 @@ class ApproController extends GetxController {
     super.onReady();
   }
 
+  Future<void> getDate(String dat) async {
+    date.value = "${DateTime.parse(dat).day}"
+        " -${DateTime.parse(dat).month}"
+        " -${DateTime.parse(dat).year}";
+    _date.value = dat;
+    print("date = $date");
+  }
+
   Future<List<Provende>> getListProvende() async {
+    _ficheController = Get.find();
+    await _ficheController.checkData();
     await DataBaseProvider.instance
         .getProvendes()
         .then((value) => listProvendes.value = value.reversed.toList());
@@ -42,6 +57,8 @@ class ApproController extends GetxController {
   }
 
   Future<List<Produit>> getListProduit() async {
+    _ficheController = Get.find();
+    await _ficheController.checkData();
     await DataBaseProvider.instance
         .getProduits()
         .then((value) => listProdTraite.value = value.reversed.toList());
@@ -162,23 +179,25 @@ class ApproController extends GetxController {
   }
 
   Future<void> doApproProvende() async {
+    ApproProvende approProvende = ApproProvende(null, provende, xQte > 0, xQte,
+        valuePv.value, DateTime.parse(_date.value));
+    await DataBaseProvider.instance.insertApproProvende(approProvende);
     provende.qte = initStkPv.value;
     provende.value = (provende.value! + valuePv.value);
-    ApproProvende approProvende = ApproProvende(
-        null, provende, xQte > 0, xQte, valuePv.value, DateTime.now());
     await DataBaseProvider.instance.updateProvende(provende);
-    await DataBaseProvider.instance.insertApproProvende(approProvende);
     await getListApproProvende();
+    date.value = "Date";
   }
 
   Future<void> doApproProduit() async {
+    ApproProduit approProduit = ApproProduit(null, produit, xQte > 0, xQte,
+        valuePd.value, DateTime.parse(_date.value));
+    await DataBaseProvider.instance.insertApproProduit(approProduit);
     produit.qte = initStkPd.value;
     produit.value = (produit.value + valuePd.value);
-    ApproProduit approProduit = ApproProduit(
-        null, produit, xQte > 0, xQte, valuePd.value, DateTime.now());
     await DataBaseProvider.instance.updateProduit(produit);
-    await DataBaseProvider.instance.insertApproProduit(approProduit);
     await getListApproProduit();
+    date.value = "Date";
   }
 
   Future<void> qteProduitEditing(double qte) async {

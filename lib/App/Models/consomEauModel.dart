@@ -33,11 +33,3 @@ class ConsomEau {
         colcreateAt: dateTime.toIso8601String(),
       };
 }
-
-/*List<ConsomEau> consomeau = [
-  ConsomEau(1, 2, lots[3], DateTime(2021, 3, 4)),
-  ConsomEau(1, 2, lots[3], DateTime(2021, 3, 4)),
-  ConsomEau(1, 2, lots[3], DateTime(2021, 3, 4)),
-  ConsomEau(1, 2, lots[3], DateTime(2021, 3, 4)),
-  ConsomEau(1, 2, lots[3], DateTime(2021, 3, 4)),
-];*/

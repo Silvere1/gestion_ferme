@@ -200,13 +200,13 @@ class _DashBoardState extends State<DashBoard> {
                                       children: [
                                         Obx(() => Text(
                                               controller.allVoByAge1.value > 1
-                                                  ? "${controller.allVoByAge1} volailles"
-                                                  : "${controller.allVoByAge1} volaille",
+                                                  ? "${controller.allVoByAge1} Poussins"
+                                                  : "${controller.allVoByAge1} Poussin",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 16),
                                             )),
-                                        Text("0 à 12 semaines"),
+                                        Text("0 à 8 semaines"),
                                       ],
                                     ),
                                   ),
@@ -245,7 +245,7 @@ class _DashBoardState extends State<DashBoard> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 8),
-                                    height: 40,
+                                    height: 28,
                                     width: 40,
                                     child: SvgPicture.asset(
                                       "assets/icons/chickenm.svg",
@@ -258,13 +258,13 @@ class _DashBoardState extends State<DashBoard> {
                                       children: [
                                         Obx(() => Text(
                                               controller.allVoByAge2.value > 1
-                                                  ? "${controller.allVoByAge2} volailles"
-                                                  : "${controller.allVoByAge2} volaille",
+                                                  ? "${controller.allVoByAge2} Poulettes"
+                                                  : "${controller.allVoByAge2} Poulette",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 16),
                                             )),
-                                        Text("12 à 24 semaines"),
+                                        Text("8 à 20 semaines"),
                                       ],
                                     ),
                                   ),
@@ -315,13 +315,13 @@ class _DashBoardState extends State<DashBoard> {
                                       children: [
                                         Obx(() => Text(
                                               controller.allVoByAge3.value > 1
-                                                  ? "${controller.allVoByAge3} volailles"
-                                                  : "${controller.allVoByAge3} volaille",
+                                                  ? "${controller.allVoByAge3} Pondeuses"
+                                                  : "${controller.allVoByAge3} Pondeuse",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 16),
                                             )),
-                                        Text("+24 semaines"),
+                                        Text("+20 semaines"),
                                       ],
                                     ),
                                   ),
@@ -866,7 +866,7 @@ class _DashBoardState extends State<DashBoard> {
                           onPressed: () {
                             DataBaseProvider.instance.deleteDataBase();
                           },
-                          child: Center())*/
+                          child: Text("Ok"))*/
                     ],
                   ),
                 )

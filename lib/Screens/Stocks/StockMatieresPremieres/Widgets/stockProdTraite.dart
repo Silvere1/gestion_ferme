@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gestionferme/App/Controllers/approController.dart';
+import 'package:gestionferme/App/Controllers/proFicheController.dart';
+import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/selectPeriode.dart';
 import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/stockApproProdTraite.dart';
 import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Components/stockConsomProdTraite.dart';
 import 'package:gestionferme/Screens/Stocks/StockMatieresPremieres/Widgets/reajustementStockProduit.dart';
@@ -22,6 +24,7 @@ class _StockProTraiteState extends State<StockProTraite>
   late ScrollController scrollController;
   bool dialVisible = true;
   ApproController controller = Get.find();
+  ProFicheController _ficheController = Get.find();
 
   @override
   void initState() {
@@ -52,6 +55,17 @@ class _StockProTraiteState extends State<StockProTraite>
           labelStyle: TextStyle(fontSize: 18.0),
           onTap: () => print('FIRST CHILD'),
         ),*/
+        SpeedDialChild(
+          child: Icon(Icons.visibility),
+          backgroundColor: Colors.white,
+          label: 'Voir fiche',
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () => _ficheController.listProd.length != 0 ||
+                  _ficheController.listProv.length != 0
+              ? showDialog(context: context, builder: (_) => SelectePeriode())
+              : Get.snackbar("Attention !", "Vous ne disposez d'aucune donnée.",
+                  duration: Duration(seconds: 5), colorText: Colors.white),
+        ),
         SpeedDialChild(
           child: Icon(Icons.tune),
           backgroundColor: Colors.white,
@@ -108,6 +122,9 @@ class _StockProTraiteState extends State<StockProTraite>
             child: FutureBuilder(
                 future: controller.getListProduit(),
                 builder: (_, snapshot) {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                  }
                   return snapshot.hasData
                       ? Obx(
                           () => controller.listProdTraite.length != 0

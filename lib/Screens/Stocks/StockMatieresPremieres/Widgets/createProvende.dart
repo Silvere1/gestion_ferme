@@ -36,8 +36,10 @@ class _CreateProvendeState extends State<CreateProvende> {
                         () => TextFormField(
                           onChanged: (value) {
                             if (value.trim().isNotEmpty &&
-                                value.trim().length >= 4)
+                                value.trim().length >= 1)
                               controller.nameProvendeEditing(value);
+                            else
+                              controller.nameProvendeEditing("");
                           },
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
@@ -89,7 +91,7 @@ class _CreateProvendeState extends State<CreateProvende> {
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
+                      /*TextFormField(
                         onChanged: (value) {
                           if (value.trim().isNotEmpty)
                             controller
@@ -127,7 +129,7 @@ class _CreateProvendeState extends State<CreateProvende> {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             hintText: "Valeur"),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

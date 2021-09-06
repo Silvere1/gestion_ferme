@@ -18,49 +18,53 @@ class _ListLotsDialogState extends State<ListLotsDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: 54 * lotController.listlot.length.toDouble(),
         child: lotController.listlot.length > 0
-            ? Column(
-                children: [
-                  /* Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.all(10),
+            ? Container(
+                height: 54 * lotController.listlot.length.toDouble(),
+                child: Column(
+                  children: [
+                    /* Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await controller
+                                    .getAllItem(lotController.listlot);
+                                Get.back();
+                              },
+                              child: Text("Sélectionner tout"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),*/
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: lotController.listlot.length,
+                        itemBuilder: (context, i) => Container(
                           height: 45,
+                          margin: EdgeInsets.all(4),
                           child: ElevatedButton(
                             onPressed: () async {
                               await controller
-                                  .getAllItem(lotController.listlot);
-                              Get.back();
+                                  .getItem(lotController.listlot[i]);
+                              Navigator.pop(context);
                             },
-                            child: Text("Sélectionner tout"),
+                            child:
+                                Text("Lot N°: ${lotController.listlot[i].num}"),
                           ),
                         ),
                       ),
-                    ],
-                  ),*/
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: lotController.listlot.length,
-                      itemBuilder: (context, i) => Container(
-                        height: 45,
-                        margin: EdgeInsets.all(4),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller.getItem(lotController.listlot[i]);
-                            Navigator.pop(context);
-                          },
-                          child:
-                              Text("Lot N°: ${lotController.listlot[i].num}"),
-                        ),
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             : Container(
                 height: 54,
+                width: double.infinity,
                 child: Center(
                   child: Text(
                     "Vous ne disposez d'aucun lot de volailles actuellement !",

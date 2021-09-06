@@ -108,13 +108,13 @@ class _StockVolaillesState extends State<StockVolailles>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("0 à 12"),
+                          Text("0 à 8"),
                           Container(
                             height: 1,
                             color: Colors.black,
                           ),
                           Obx(() =>
-                              Text("${controller.allVoByAge1} volailles")),
+                              Text("${controller.allVoByAge1} poussin(s)")),
                         ],
                       ),
                     ),
@@ -130,13 +130,13 @@ class _StockVolaillesState extends State<StockVolailles>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("12 à 24"),
+                          Text("8 à 20"),
                           Container(
                             height: 1,
                             color: Colors.black,
                           ),
                           Obx(() =>
-                              Text("${controller.allVoByAge2} volailles")),
+                              Text("${controller.allVoByAge2} poulette(s)")),
                         ],
                       ),
                     ),
@@ -152,13 +152,13 @@ class _StockVolaillesState extends State<StockVolailles>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("24 à +"),
+                          Text("+ 20"),
                           Container(
                             height: 1,
                             color: Colors.black,
                           ),
                           Obx(() =>
-                              Text("${controller.allVoByAge3} volailles")),
+                              Text("${controller.allVoByAge3} pondeuse(s)")),
                         ],
                       ),
                     ),

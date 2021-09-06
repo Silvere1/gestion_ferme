@@ -19,7 +19,7 @@ class SavePdf {
       chemin = join(_pt!.path, folderName);
       path = Directory(chemin);
       if (!await path.exists()) {
-        path.create();
+        await path.create();
         print("Le dossier créé sur windows !!!");
       } else {
         print("Le dossier existe sur windows");
@@ -31,7 +31,7 @@ class SavePdf {
         await Permission.storage.request();
       } else {
         if (!await path.exists()) {
-          path.create();
+          await path.create();
         }
       }
     }

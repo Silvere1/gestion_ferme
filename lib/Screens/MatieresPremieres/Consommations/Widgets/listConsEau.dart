@@ -28,7 +28,7 @@ class ListConsEau extends StatelessWidget {
                           )
                         : Center(
                             child: Text(
-                              "Aucune consommation d'eau n'est encore effectuée !",
+                              "Aucune Alimentation en eau n'est encore effectuée !",
                               textAlign: TextAlign.center,
                             ),
                           ),

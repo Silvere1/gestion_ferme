@@ -30,10 +30,20 @@ class UsageController extends GetxController {
   var qteError = false.obs;
   var qteVolaille = 0.obs;
   late StockOeuf stockOeuf;
+  var date = "Date".obs;
+  var _date = "".obs;
 
   @override
   void onReady() {
     super.onReady();
+  }
+
+  Future<void> getDate(String dat) async {
+    date.value = "${DateTime.parse(dat).day}"
+        " -${DateTime.parse(dat).month}"
+        " -${DateTime.parse(dat).year}";
+    _date.value = dat;
+    print("date = $date");
   }
 
   Future<List<Lot>> getListLot() async {
@@ -95,7 +105,7 @@ class UsageController extends GetxController {
   }
 
   Future<void> motifEditing(String text) async {
-    if (text.trim().length <= 4) {
+    if (text.trim().length <= 1) {
       motif.value = "";
     } else {
       motif.value = text;
@@ -103,7 +113,7 @@ class UsageController extends GetxController {
   }
 
   Future<void> motifVolaillesEditing(String text) async {
-    if (text.trim().length <= 4) {
+    if (text.trim().length <= 1) {
       vMotif.value = "";
     } else {
       vMotif.value = text;
@@ -159,21 +169,22 @@ class UsageController extends GetxController {
 
   Future<void> saveUsedVolaille() async {
     _addLotController = Get.find();
-    UsedVolailles usedVolailles = UsedVolailles(
-        null, itemUsage[0], qteVolaille.value, vMotif.value, DateTime.now());
+    UsedVolailles usedVolailles = UsedVolailles(null, itemUsage[0],
+        qteVolaille.value, vMotif.value, DateTime.parse(_date.value));
     await DataBaseProvider.instance.insertUsedVolailles(usedVolailles);
     await _updateLot();
     await getListUsedVolailles();
     qteVolaille.value = 0;
     vMotif.value = "";
-    itemUsage.value = [];
+    itemUsage.clear();
+    date.value = "Date";
   }
 
   Future<void> saveUsedOeuf() async {
     _collecteOeufsController = Get.find();
     _addLotController = Get.find();
     UsedOeufs usedOeufs = UsedOeufs(null, nombreP.value, nombreM.value,
-        nombreG.value, motif.value, DateTime.now());
+        nombreG.value, motif.value, DateTime.parse(_date.value));
     await DataBaseProvider.instance.insertUsedOeuf(usedOeufs);
     await _updateStockOeuf();
     await getListUsedOeuf();
@@ -184,6 +195,7 @@ class UsageController extends GetxController {
     nombreM.value = 0;
     nombreG.value = 0;
     motif.value = "";
+    date.value = "Date";
   }
 
   Future<List<UsedOeufs>> getListUsedOeuf() async {

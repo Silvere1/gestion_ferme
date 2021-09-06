@@ -296,69 +296,84 @@ class _VoirFicheLotState extends State<VoirFicheLot>
               }
               return snapshot.hasData
                   ? Scaffold(
-                      body: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${lot.nmbrVolauillles} volaille(s)"),
-                                Text(
-                                    "${lot.age + DateTime.now().difOnlyDay(lot.createAt)} jour(s)"),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Tableau des données",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: DataTable(
-                                columnSpacing: 30,
-                                showBottomBorder: true,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                  top: BorderSide(
-                                    width: 1,
+                      body: SingleChildScrollView(
+                        padding: EdgeInsets.only(bottom: 46),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(controller.ageType.value == 1
+                                      ? "${lot.nmbrVolauillles} poussin(s)"
+                                      : controller.ageType.value == 2
+                                          ? "${lot.nmbrVolauillles} poulette(s)"
+                                          : "${lot.nmbrVolauillles} pondeuse(s)"),
+                                  Text(
+                                      "${lot.age + DateTime.now().difOnlyDay(lot.createAt)} jour(s)"),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                  bottom: BorderSide(
-                                    width: 1,
+                                  Text(
+                                    "Tableau des données",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16),
                                   ),
-                                  left: BorderSide(
-                                    width: 1,
-                                  ),
-                                  right: BorderSide(
-                                    width: 1,
-                                  ),
-                                )),
-                                columns: _createColumn(),
-                                rows: controller.listInfoDayVol
-                                    .map((e) => _createRow(e))
-                                    .toList(),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                            SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: DataTable(
+                                  columnSpacing: 30,
+                                  showBottomBorder: true,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                    top: BorderSide(
+                                      width: 1,
+                                    ),
+                                    bottom: BorderSide(
+                                      width: 1,
+                                    ),
+                                    left: BorderSide(
+                                      width: 1,
+                                    ),
+                                    right: BorderSide(
+                                      width: 1,
+                                    ),
+                                  )),
+                                  columns: _createColumn(),
+                                  rows: controller.listInfoDayVol
+                                      .map((e) => _createRow(e))
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      floatingActionButton: FloatingActionButton(
-                        onPressed: () async {
-                          await PdfApi.generatePdf(controller.listInfoDayVol);
-                        },
-                        child: SvgPicture.asset("assets/icons/export_pdf.svg"),
-                        backgroundColor: Colors.white,
-                      ),
+                      floatingActionButton: Obx(() => FloatingActionButton(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () async {
+                                    await controller.setLoading(true);
+                                    await PdfApi.generatePdf(
+                                        controller.listInfoDayVol);
+                                    await controller.setLoading(false);
+                                  },
+                            child: controller.isLoading.value
+                                ? CircularProgressIndicator()
+                                : SvgPicture.asset(
+                                    "assets/icons/export_pdf.svg"),
+                            backgroundColor: Colors.white,
+                          )),
                     )
                   : Center(child: CircularProgressIndicator());
             }),

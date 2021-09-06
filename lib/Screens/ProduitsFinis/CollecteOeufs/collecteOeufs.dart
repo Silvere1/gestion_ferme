@@ -60,12 +60,8 @@ class _CollecteOeufsState extends State<CollecteOeufs> {
                         onPressed: controller.isValide.value &&
                                 controller.date.value != "Date"
                             ? () async {
-                                await controller.remakeListToSave();
                                 await controller.saveCollecteOeuf();
-                                controller.itemLotCollect.value = [];
-                                controller.newListCollect.value = [];
-                                controller.date.value = "Date";
-                                controller.checkList();
+
                                 Get.back();
                               }
                             : null,

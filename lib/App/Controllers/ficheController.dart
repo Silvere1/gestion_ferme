@@ -32,9 +32,15 @@ class FicheController extends GetxController {
   int totalVendu = 0;
   int totalOeufs = 0;
   double totalEau = 0;
+  var isLoading = false.obs;
+  var ageType = 0.obs;
 
   var listInfoDayVol = <InfoDayVol>[];
   late InfoDayVol _infoDayVol;
+
+  Future<bool> setLoading(bool val) async {
+    return isLoading.value = val;
+  }
 
   Future<List<PerteVolailles>> _getMort() async {
     _listPerte.clear();
@@ -137,6 +143,16 @@ class FicheController extends GetxController {
     await _getMort();
     await _getVenteVol();
     await _getEditVol();
+
+    if ((_lot.age + DateTime.now().difOnlyDay(_lot.createAt)) <= (8 * 7)) {
+      ageType.value = 1;
+    } else if ((_lot.age + DateTime.now().difOnlyDay(_lot.createAt)) >=
+        (20 * 7)) {
+      ageType.value = 3;
+    } else {
+      ageType.value = 2;
+    }
+
     print("OkOKok");
     for (int i = 0;
         i <=

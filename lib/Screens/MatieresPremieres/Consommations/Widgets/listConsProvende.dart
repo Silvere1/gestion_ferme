@@ -27,7 +27,7 @@ class ListConsProvende extends StatelessWidget {
                           )
                         : Center(
                             child: Text(
-                              "Aucune consommation de provende n'est encore effectuée !",
+                              "Aucune Alimentation en provende n'est encore effectuée !",
                               textAlign: TextAlign.center,
                             ),
                           ),

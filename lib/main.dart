@@ -14,6 +14,7 @@ import 'App/Controllers/consommationController.dart';
 import 'App/Controllers/editStockController.dart';
 import 'App/Controllers/ficheController.dart';
 import 'App/Controllers/perteController.dart';
+import 'App/Controllers/proFicheController.dart';
 import 'App/Controllers/screenSizeController.dart';
 import 'App/Controllers/stockFicheController.dart';
 import 'App/Controllers/usageController.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
         Get.put(EditStockController());
         Get.put(FicheController());
         Get.put(StockFicheController());
+        Get.put(ProFicheController());
       }),
     );
   }

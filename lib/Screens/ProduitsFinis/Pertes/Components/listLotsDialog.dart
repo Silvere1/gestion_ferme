@@ -15,25 +15,28 @@ class _ListLotsDialogState extends State<ListLotsDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: 54.0 * controller.listLot.length,
         child: controller.listLot.length > 0
-            ? ListView.builder(
-                itemCount: controller.listLot.length,
-                itemBuilder: (context, i) => Container(
-                  height: 45,
-                  margin: EdgeInsets.all(4),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await controller.getItem(controller.listLot[i]);
+            ? Container(
+                height: 54.0 * controller.listLot.length,
+                child: ListView.builder(
+                  itemCount: controller.listLot.length,
+                  itemBuilder: (context, i) => Container(
+                    height: 45,
+                    margin: EdgeInsets.all(4),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await controller.getItem(controller.listLot[i]);
 
-                      Get.back();
-                    },
-                    child: Text("Lot N°: ${controller.listLot[i].num}"),
+                        Get.back();
+                      },
+                      child: Text("Lot N°: ${controller.listLot[i].num}"),
+                    ),
                   ),
                 ),
               )
             : Container(
                 height: 54,
+                width: double.infinity,
                 child: Center(
                   child: Text("Aucun lot n'est disponible"),
                 ),

@@ -25,6 +25,8 @@ class VenteController extends GetxController {
   var isValidate = false.obs;
   var erroQte = <bool>[].obs;
   var erroMontant = <bool>[].obs;
+  var date = "Date".obs;
+  var _date = "".obs;
 
   var itemVolaillesVente = <Lot>[].obs;
   var plus = false.obs;
@@ -40,6 +42,14 @@ class VenteController extends GetxController {
   void onInit() {
     super.onInit();
     _resetOj();
+  }
+
+  Future<void> getDate(String dat) async {
+    date.value = "${DateTime.parse(dat).day}"
+        " -${DateTime.parse(dat).month}"
+        " -${DateTime.parse(dat).year}";
+    _date.value = dat;
+    print("date = $date");
   }
 
   Future<void> _resetOj() async {
@@ -139,7 +149,7 @@ class VenteController extends GetxController {
 
   Future<void> _remakeListToSave() async {
     for (int i = 0; i < newListVenteVolailles.length; i++) {
-      newListVenteVolailles[i].dateTime = DateTime.now();
+      newListVenteVolailles[i].dateTime = DateTime.parse(_date.value);
     }
   }
 
@@ -204,18 +214,19 @@ class VenteController extends GetxController {
     }
     await _updateLots();
     await _archiving();
-    erroQte.value = [];
-    erroMontant.value = [];
-    itemVolaillesVente.value = [];
-    newListVenteVolailles.value = [];
+    erroQte.clear();
+    erroMontant.clear();
+    itemVolaillesVente.clear();
+    newListVenteVolailles.clear();
     await getListVenteVolailles();
+    date.value = "Date";
   }
 
   Future<void> saveVenteOeuf() async {
     _collecteOeufsController = Get.find();
     _addLotController = Get.find();
     VenteOeuf venteOeuf = VenteOeuf(null, nombreP.value, nombreM.value,
-        nombreG.value, oeufMontant.value, DateTime.now());
+        nombreG.value, oeufMontant.value, DateTime.parse(_date.value));
     await DataBaseProvider.instance.insertVenteOeuf(venteOeuf);
     await _updateStockOeuf();
     await getStockOeuf();
@@ -226,6 +237,7 @@ class VenteController extends GetxController {
     nombreM.value = 0;
     nombreG.value = 0;
     oeufMontant.value = 0;
+    date.value = "Date";
   }
 
   Future<List<VenteVolailles>> getListVenteVolailles() async {

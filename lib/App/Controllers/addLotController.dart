@@ -105,20 +105,19 @@ class AddLotController extends GetxController {
     lotsAge3.value = 0;
     for (int i = 0; i < listlot.length; i++) {
       totalVolailles.value += listlot[i].nmbrVolauillles;
-      if ((listlot[i].age +
-              DateTime.now().difference(listlot[i].createAt).inDays) <=
-          (12 * 7)) {
-        ///To do
+      if ((listlot[i].age + DateTime.now().difOnlyDay(listlot[i].createAt)) <=
+          (8 * 7)) {
+        ///To do poussins
         allVoByAge1.value += listlot[i].nmbrVolauillles;
         lotsAge1.value += 1;
       } else if ((listlot[i].age +
-              DateTime.now().difference(listlot[i].createAt).inDays) >=
-          (24 * 7)) {
-        ///To do
+              DateTime.now().difOnlyDay(listlot[i].createAt)) >=
+          (20 * 7)) {
+        ///To do pondeuses
         allVoByAge3.value += listlot[i].nmbrVolauillles;
         lotsAge3.value += 1;
       } else {
-        /// To do
+        /// To do poulettes
         allVoByAge2.value += listlot[i].nmbrVolauillles;
         lotsAge2.value += 1;
       }

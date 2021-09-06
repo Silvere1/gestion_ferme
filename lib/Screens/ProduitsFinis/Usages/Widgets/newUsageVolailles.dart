@@ -26,17 +26,40 @@ class _NewUsageVolaillesState extends State<NewUsageVolailles> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10, top: 0),
+            margin: EdgeInsets.only(left: 10, top: 4, right: 20, bottom: 8),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   onPressed: () {
+                    controller.date.value = "Date";
                     pageController.previousPage(
                         duration: Duration(milliseconds: 300),
                         curve: Curves.easeOutBack);
                   },
                   icon: Icon(
                     Icons.close,
+                  ),
+                ),
+                Expanded(child: SizedBox()),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 38,
+                    child: Obx(() => ElevatedButton(
+                          onPressed: () {
+                            showDatePicker(
+                              context: context,
+                              firstDate: DateTime(2020),
+                              lastDate: DateTime.now(),
+                              initialDate: DateTime.now(),
+                            ).then((DateTime? value) => {
+                                  if (value != null)
+                                    controller.getDate(value.toIso8601String()),
+                                });
+                          },
+                          child: Text(controller.date.value),
+                        )),
                   ),
                 ),
               ],
@@ -79,26 +102,14 @@ class _NewUsageVolaillesState extends State<NewUsageVolailles> {
                   width: Get.width - 50,
                   child: Obx(() => ElevatedButton(
                         onPressed: controller.qteVolaille.value > 0 &&
-                                controller.vMotif.value != ""
+                                controller.vMotif.value != "" &&
+                                controller.date.value != "Date"
                             ? () async {
                                 await controller.saveUsedVolaille();
                                 FocusScope.of(context).unfocus();
                                 pageController.previousPage(
                                     duration: Duration(milliseconds: 300),
                                     curve: Curves.easeOutBack);
-                                /*Get.defaultDialog(
-                        title: "Succès",
-                        content: Text("Données enregistrées !"),
-                        radius: 5,
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                controller.itemUsage.value = [];
-                                Get.back();
-                              },
-                              child: Text("Ok"))
-                        ],
-                      );*/
                               }
                             : null,
                         child: Text("Enregistrer"),

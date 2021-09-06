@@ -38,17 +38,3 @@ class UsedVolailles {
         colcreateAt: dateTime.toIso8601String(),
       };
 }
-
-/*List<UsedVolailles> myusagevolaille = [
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-  UsedVolailles(0, lots[0], 3, "Sous ordre du boss", DateTime(2021, 7, 8)),
-];*/

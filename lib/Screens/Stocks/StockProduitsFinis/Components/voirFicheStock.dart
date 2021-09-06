@@ -102,72 +102,82 @@ class _VoirFicheStockState extends State<VoirFicheStock> {
               if (snapshot.hasError) {
                 print(snapshot.error);
               }
-              return snapshot.hasData
-                  ? Scaffold(
-                      body: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 16),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Tableau des données",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: DataTable(
-                                columnSpacing: 30,
-                                showBottomBorder: true,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                  top: BorderSide(
-                                    width: 1,
-                                  ),
-                                  bottom: BorderSide(
-                                    width: 1,
-                                  ),
-                                  left: BorderSide(
-                                    width: 1,
-                                  ),
-                                  right: BorderSide(
-                                    width: 1,
-                                  ),
-                                )),
-                                columns: _createColumn(),
-                                rows: controller.listInfoStock
-                                    .map((e) => _createRow(e))
-                                    .toList(),
+              if (snapshot.hasData) {
+                return Scaffold(
+                  body: SingleChildScrollView(
+                    padding: EdgeInsets.only(bottom: 40),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
                               ),
+                              Text(
+                                "Tableau des données",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: DataTable(
+                              columnSpacing: 30,
+                              showBottomBorder: true,
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                top: BorderSide(
+                                  width: 1,
+                                ),
+                                bottom: BorderSide(
+                                  width: 1,
+                                ),
+                                left: BorderSide(
+                                  width: 1,
+                                ),
+                                right: BorderSide(
+                                  width: 1,
+                                ),
+                              )),
+                              columns: _createColumn(),
+                              rows: controller.listInfoStock
+                                  .map((e) => _createRow(e))
+                                  .toList(),
                             ),
                           ),
-                        ],
-                      ),
-                      floatingActionButton: FloatingActionButton(
-                        onPressed: () async {
-                          await PdfApiStock.generatePdf(
-                              controller.listInfoStock);
-                        },
-                        child: SvgPicture.asset("assets/icons/export_pdf.svg"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  floatingActionButton: Obx(() => FloatingActionButton(
+                        onPressed: controller.isLoading.value
+                            ? null
+                            : () async {
+                                await controller.setLoading(true);
+                                await PdfApiStock.generatePdf(
+                                    controller.listInfoStock);
+                                await controller.setLoading(false);
+                              },
+                        child: controller.isLoading.value
+                            ? CircularProgressIndicator()
+                            : SvgPicture.asset("assets/icons/export_pdf.svg"),
                         backgroundColor: Colors.white,
-                      ),
-                    )
-                  : Center(
-                      child: CircularProgressIndicator(),
-                    );
+                      )),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             }),
       ),
     );

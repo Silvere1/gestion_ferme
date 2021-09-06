@@ -35,7 +35,7 @@ class ItemUsageVolailles extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Consommation N°: ${usedVolailles.num}",
+                      "Usage Volailles N°: ${usedVolailles.num}",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
