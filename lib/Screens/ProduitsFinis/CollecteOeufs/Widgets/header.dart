@@ -21,16 +21,18 @@ class Header extends StatelessWidget {
           Expanded(
             child: Container(
               height: 40,
-              child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ListLotsDialog();
-                      });
-                },
-                child: Text("Sélectionner de lots"),
-              ),
+              child: Obx(() => ElevatedButton(
+                    onPressed: controller.date.value == "Date"
+                        ? null
+                        : () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ListLotsDialog();
+                                });
+                          },
+                    child: Text("Sélectionner de lots"),
+                  )),
             ),
           ),
           SizedBox(
@@ -40,15 +42,15 @@ class Header extends StatelessWidget {
             child: Container(
               height: 40,
               child: Obx(() => ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       showDatePicker(
                         context: context,
                         firstDate: DateTime(2020),
                         lastDate: DateTime.now(),
                         initialDate: DateTime.now(),
-                      ).then((DateTime? value) => {
+                      ).then((DateTime? value) async => {
                             if (value != null)
-                              controller.getDate(value.toIso8601String()),
+                              await controller.getDate(value.toIso8601String()),
                           });
                     },
                     child: Text(controller.date.value),

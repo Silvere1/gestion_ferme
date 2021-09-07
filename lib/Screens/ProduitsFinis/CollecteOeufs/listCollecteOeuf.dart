@@ -24,6 +24,9 @@ class _ListCollecteOeufState extends State<ListCollecteOeuf> {
       body: FutureBuilder(
           future: controller.getListCollecte(),
           builder: (_, snapshot) {
+            if (snapshot.hasError) {
+              print(snapshot.error);
+            }
             return snapshot.hasData
                 ? Obx(
                     () => controller.listCollecteOuf.length != 0
@@ -43,7 +46,10 @@ class _ListCollecteOeufState extends State<ListCollecteOeuf> {
                   );
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          controller.date.value = "Date";
+          controller.newListCollect.clear();
+          controller.itemLotCollect.clear();
           Get.to(() => CollecteOeufs());
         },
         splashColor: Theme.of(context).primaryColor,

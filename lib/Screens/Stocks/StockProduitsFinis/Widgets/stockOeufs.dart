@@ -63,12 +63,16 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
           onTap: () => Get.to(() => ReajustementOeufs()),
         ),
         SpeedDialChild(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.white,
-          label: 'Nouvelle collecte',
-          labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => Get.to(() => CollecteOeufs()),
-        ),
+            child: Icon(Icons.add),
+            backgroundColor: Colors.white,
+            label: 'Nouvelle collecte',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () async {
+              controller.date.value = "Date";
+              controller.newListCollect.clear();
+              controller.itemLotCollect.clear();
+              Get.to(() => CollecteOeufs());
+            }),
       ],
     );
   }

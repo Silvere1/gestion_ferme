@@ -72,9 +72,16 @@ class _ItemLotCollectedState extends State<ItemLotCollected> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Lot N°: ${controller.itemLotCollect[i].num}",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Lot N°: ${controller.itemLotCollect[i].num}",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                          "${controller.itemLotCollect[i].nmbrVolauillles} volailles(s)"),
+                    ],
                   ),
                   InkWell(
                       splashColor: Colors.red,
@@ -83,10 +90,11 @@ class _ItemLotCollectedState extends State<ItemLotCollected> {
                         ediTextC2.clear();
                         ediTextC3.clear();
                         ediTextC4.clear();
-                        FocusScope.of(context).unfocus();
-                        controller.deleteItem(controller.itemLotCollect[i],
+                        await controller.deleteItem(
+                            controller.itemLotCollect[i],
                             controller.newListCollect[i]);
                         await controller.validateMe();
+                        FocusScope.of(context).unfocus();
                       },
                       child: Icon(Icons.close))
                 ],
@@ -111,15 +119,15 @@ class _ItemLotCollectedState extends State<ItemLotCollected> {
                       flex: 1,
                       child: Obx(() => TextFormField(
                             controller: ediTextC1,
-                            onChanged: (value) {
-                              if (value.trim().isNotEmpty)
-                                controller.nbrPetEditing(int.parse(value),
+                            onChanged: (value) async {
+                              if (value.trim().isNotEmpty) {
+                                await controller.nbrPetEditing(int.parse(value),
                                     controller.itemLotCollect[i]);
-                              if (value.trim().isEmpty)
-                                controller.nbrPetEditing(
+                              } else {
+                                await controller.nbrPetEditing(
                                     0, controller.itemLotCollect[i]);
-                              setState(() {});
-                              controller.validateMe();
+                              }
+                              await controller.validateMe();
                             },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -157,15 +165,16 @@ class _ItemLotCollectedState extends State<ItemLotCollected> {
                       flex: 1,
                       child: Obx(() => TextFormField(
                             controller: ediTextC2,
-                            onChanged: (value) {
-                              if (value.trim().isNotEmpty)
-                                controller.nbrMoyEditing(int.parse(value),
+                            onChanged: (value) async {
+                              if (value.trim().isNotEmpty) {
+                                await controller.nbrMoyEditing(int.parse(value),
                                     controller.itemLotCollect[i]);
-                              if (value.trim().isEmpty)
-                                controller.nbrMoyEditing(
+                              } else {
+                                await controller.nbrMoyEditing(
                                     0, controller.itemLotCollect[i]);
-                              setState(() {});
-                              controller.validateMe();
+                              }
+
+                              await controller.validateMe();
                             },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -204,15 +213,15 @@ class _ItemLotCollectedState extends State<ItemLotCollected> {
                       flex: 1,
                       child: Obx(() => TextFormField(
                             controller: ediTextC3,
-                            onChanged: (value) {
-                              if (value.trim().isNotEmpty)
-                                controller.nbrGraEditing(int.parse(value),
+                            onChanged: (value) async {
+                              if (value.trim().isNotEmpty) {
+                                await controller.nbrGraEditing(int.parse(value),
                                     controller.itemLotCollect[i]);
-                              if (value.trim().isEmpty)
-                                controller.nbrGraEditing(
+                              } else {
+                                await controller.nbrGraEditing(
                                     0, controller.itemLotCollect[i]);
-                              setState(() {});
-                              controller.validateMe();
+                              }
+                              await controller.validateMe();
                             },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -250,15 +259,15 @@ class _ItemLotCollectedState extends State<ItemLotCollected> {
                       flex: 1,
                       child: Obx(() => TextFormField(
                             controller: ediTextC4,
-                            onChanged: (value) {
-                              if (value.trim().isNotEmpty)
-                                controller.nbrFelEditing(int.parse(value),
+                            onChanged: (value) async {
+                              if (value.trim().isNotEmpty) {
+                                await controller.nbrFelEditing(int.parse(value),
                                     controller.itemLotCollect[i]);
-                              if (value.trim().isEmpty)
-                                controller.nbrFelEditing(
+                              } else {
+                                await controller.nbrFelEditing(
                                     0, controller.itemLotCollect[i]);
-                              setState(() {});
-                              controller.validateMe();
+                              }
+                              await controller.validateMe();
                             },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gestionferme/App/Controllers/addLotController.dart';
 import 'package:gestionferme/App/Controllers/collecteOeufsController.dart';
 import 'package:get/get.dart';
 
@@ -13,14 +12,14 @@ class ListLotsDialog extends StatefulWidget {
 
 class _ListLotsDialogState extends State<ListLotsDialog> {
   CollecteOeufsController controller = Get.find();
-  AddLotController lotController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        child: lotController.listlot.length > 0
+        child: controller.listlot.length > 0
             ? Container(
-                height: 54 * lotController.listlot.length.toDouble(),
+                height: 54 * controller.listlot.length.toDouble(),
                 child: Column(
                   children: [
                     /* Row(
@@ -43,18 +42,16 @@ class _ListLotsDialogState extends State<ListLotsDialog> {
                     ),*/
                     Expanded(
                       child: ListView.builder(
-                        itemCount: lotController.listlot.length,
+                        itemCount: controller.listlot.length,
                         itemBuilder: (context, i) => Container(
                           height: 45,
                           margin: EdgeInsets.all(4),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await controller
-                                  .getItem(lotController.listlot[i]);
+                              await controller.getItem(controller.listlot[i]);
                               Navigator.pop(context);
                             },
-                            child:
-                                Text("Lot N°: ${lotController.listlot[i].num}"),
+                            child: Text("Lot N°: ${controller.listlot[i].num}"),
                           ),
                         ),
                       ),
@@ -63,11 +60,12 @@ class _ListLotsDialogState extends State<ListLotsDialog> {
                 ),
               )
             : Container(
-                height: 54,
+                height: 84,
                 width: double.infinity,
+                padding: EdgeInsets.all(16),
                 child: Center(
                   child: Text(
-                    "Vous ne disposez d'aucun lot de volailles actuellement !",
+                    "Vous ne disposez d'aucun lot de volailles à cette Date !",
                     textAlign: TextAlign.center,
                   ),
                 ),

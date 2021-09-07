@@ -5,6 +5,8 @@ import 'package:gestionferme/App/Models/stockOeufsModel.dart';
 import 'package:gestionferme/App/Provider/dataBaseProvider.dart';
 import 'package:get/get.dart';
 
+import '/App/date.dart';
+
 class CollecteOeufsController extends GetxController {
   late AddLotController _addLotController;
   var date = "Date".obs;
@@ -12,8 +14,11 @@ class CollecteOeufsController extends GetxController {
   var itemLotCollect = <Lot>[].obs;
   var newListCollect = <CollecteOeuf>[].obs;
   var listCollecteOuf = <CollecteOeuf>[].obs;
-  var isValide = true.obs;
+  var isValide = false.obs;
   var lotsExist = <Lot>[].obs;
+  var listlot = <Lot>[].obs;
+  var _listlot = <Lot>[].obs;
+  var stored = <Stored>[].obs;
 
   late CollecteOeuf _collecteOeuf;
   late Lot xlot;
@@ -34,6 +39,12 @@ class CollecteOeufsController extends GetxController {
     super.onInit();
   }
 
+  Future<List<Lot>> getListLots() async {
+    await DataBaseProvider.instance.getLots().then((value) =>
+        _listlot.value = value.reversed.where((e) => e.archive == 3).toList());
+    return _listlot;
+  }
+
   Future<StockOeuf> getStockOeuf() async {
     return stockOeuf = await DataBaseProvider.instance.getStockOeuf();
   }
@@ -45,18 +56,55 @@ class CollecteOeufsController extends GetxController {
   }
 
   Future<void> validateMe() async {
-    print(newListCollect.length);
+    DateTime _dateAt = DateTime.parse(_date.value);
 
-    newListCollect.every((e) => (e.petits + e.moyens + e.grands + e.feles) > 0)
+    stored.every((e) {
+      e.deja = 0;
+      return true;
+    });
+
+    listCollecteOuf.every((e) {
+      if (e.dateTime.isSameDate(_dateAt)) {
+        stored.every((x) {
+          if (x.numLot == e.lot.num) {
+            x.deja += (e.petits + e.moyens + e.grands + e.feles);
+          }
+          return true;
+        });
+        print("Okko${e.num}");
+        print(e.petits + e.moyens + e.grands + e.feles);
+        print("Okko");
+      }
+      return true;
+    });
+
+    stored.every((e) {
+      newListCollect.every((x) {
+        if (e.numLot == x.lot.num &&
+            (e.deja + x.petits + x.moyens + x.grands + x.feles) <=
+                x.lot.nmbrVolauillles &&
+            (x.petits + x.moyens + x.grands + x.feles) > 0) {
+          e.valide = true;
+        } else if (e.numLot == x.lot.num &&
+            ((e.deja + x.petits + x.moyens + x.grands + x.feles) >
+                    x.lot.nmbrVolauillles ||
+                (x.petits + x.moyens + x.grands + x.feles) == 0)) {
+          e.valide = false;
+        }
+        return true;
+      });
+      return true;
+    });
+
+    stored.every((e) {
+      print(e.valide);
+      print(e.deja);
+      return true;
+    });
+
+    stored.every((e) => e.valide == true)
         ? isValide.value = true
         : isValide.value = false;
-
-    for (int i = 0; i < newListCollect.length; i++) {
-      print(newListCollect[i].petits +
-          newListCollect[i].moyens +
-          newListCollect[i].grands +
-          newListCollect[i].feles);
-    }
   }
 
   Future<StockOeuf> _getStockOeuf() async {
@@ -92,10 +140,13 @@ class CollecteOeufsController extends GetxController {
   }
 
   Future<List<CollecteOeuf>> getListCollecte() async {
+    listCollecteOuf.clear();
+    await getListLots();
     await checkLot();
     await DataBaseProvider.instance
         .getCollecteOeuf()
         .then((value) => listCollecteOuf.value = value.reversed.toList());
+
     return listCollecteOuf;
   }
 
@@ -104,22 +155,54 @@ class CollecteOeufsController extends GetxController {
   }
 
   Future<void> getDate(String dat) async {
+    listlot.clear();
+    itemLotCollect.clear();
+    newListCollect.clear();
+    stored.clear();
     date.value = "${DateTime.parse(dat).day}"
         " -${DateTime.parse(dat).month}"
         " -${DateTime.parse(dat).year}";
     _date.value = dat;
     print("date = $date");
+
+    DateTime _dateAt = DateTime.parse(dat).myDateTime();
+    _listlot.every((e) {
+      print(e.buyAt);
+      if (e.buyAt.isSameDate(_dateAt) ||
+          e.buyAt.myDateTime().isBefore(_dateAt)) {
+        listlot.add(e);
+      }
+      return true;
+    });
+    var _listItem = <Lot>[];
+    var _newList = <CollecteOeuf>[];
+    itemLotCollect.every((e) {
+      if (e.buyAt.isSameDate(_dateAt) ||
+          e.buyAt.myDateTime().isBefore(_dateAt)) {
+        _listItem.add(e);
+      }
+      return true;
+    });
+    itemLotCollect.value = _listItem;
+    newListCollect.every((e) {
+      if (e.lot.buyAt.isSameDate(_dateAt) ||
+          e.lot.buyAt.myDateTime().isBefore(_dateAt)) {
+        _newList.add(e);
+      }
+      return true;
+    });
+    newListCollect.value = _newList;
   }
 
   Future<void> getItem(Lot lot) async {
     _collecteOeuf.lot = lot;
-    print(itemLotCollect.length);
-    print(newListCollect.length);
-    if (!itemLotCollect.any((e) => e.num == lot.num)) {
+    if (itemLotCollect.every((e) => e.num != lot.num)) {
       itemLotCollect.add(lot);
       newListCollect.add(_collecteOeuf);
+      stored.add(Stored(lot.num!, 0, false));
     }
     _resetObj();
+    await validateMe();
   }
 
   Future<void> checkList() async {
@@ -188,6 +271,14 @@ class CollecteOeufsController extends GetxController {
   Future<void> deleteItem(Lot lot, CollecteOeuf collecteOeuf) async {
     itemLotCollect.remove(lot);
     newListCollect.remove(collecteOeuf);
+    stored.removeWhere((e) => e.numLot == lot.num);
     print(newListCollect.length);
   }
+}
+
+class Stored {
+  int numLot;
+  int deja;
+  bool valide;
+  Stored(this.numLot, this.deja, this.valide);
 }

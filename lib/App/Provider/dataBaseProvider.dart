@@ -669,6 +669,15 @@ class DataBaseProvider {
         where: "${Produit.colnom} = ?", whereArgs: [produit.nom]);
   }
 
+  Future<void> updateCollecte() async {
+    Database db = await instance.database;
+    /*await db.update(CollecteOeuf.tableName, collecteOeuf.toJson(),
+        where: "${collecteOeuf.num}", whereArgs: [23]);*/
+    await db.delete(CollecteOeuf.tableName,
+        where: "${CollecteOeuf.colid} = ?", whereArgs: [23]);
+    print("Okok");
+  }
+
   /// Rename Provende
   Future<int> updateNameProvende(Provende provende, String lastName) async {
     Database db = await instance.database;

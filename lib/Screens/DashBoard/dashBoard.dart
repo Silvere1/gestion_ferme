@@ -863,8 +863,9 @@ class _DashBoardState extends State<DashBoard> {
                         ),
                       ),
                       /*ElevatedButton(
-                          onPressed: () {
-                            DataBaseProvider.instance.deleteDataBase();
+                          onPressed: () async {
+                            //DataBaseProvider.instance.deleteDataBase();
+                            await DataBaseProvider.instance.updateCollecte();
                           },
                           child: Text("Ok"))*/
                     ],

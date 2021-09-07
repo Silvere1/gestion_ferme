@@ -58,10 +58,10 @@ class _CollecteOeufsState extends State<CollecteOeufs> {
                   width: Get.width - 50,
                   child: Obx(() => ElevatedButton(
                         onPressed: controller.isValide.value &&
-                                controller.date.value != "Date"
+                                controller.date.value != "Date" &&
+                                controller.newListCollect.length != 0
                             ? () async {
                                 await controller.saveCollecteOeuf();
-
                                 Get.back();
                               }
                             : null,
