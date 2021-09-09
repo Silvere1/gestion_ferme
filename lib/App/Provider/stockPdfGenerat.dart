@@ -231,27 +231,27 @@ class PdfApiStock {
       "Petits",
       "Moyens",
       "Grands",
-      "  Total  ",
+      "  Total  \n (Platx)",
       "Petits",
       "Moyens",
       "Grands",
-      "  Total  ",
+      "  Total  \n (Platx)",
       "Petits",
       "Moyens",
       "Grands",
-      "  Total  ",
+      "  Total  \n (Platx)",
       "Petits",
       "Moyens",
       "Grands",
-      "  Total  ",
+      "  Total  \n (Platx)",
       "Petits",
       "Moyens",
       "Grands",
-      "  Total  ",
+      "  Total  \n (Platx)",
       "Petits",
       "Moyens",
       "Grands",
-      "  Total  ",
+      "  Total  \n (Platx)",
       "Eclores",
     ];
     final data = info.map((e) {
@@ -271,27 +271,39 @@ class PdfApiStock {
         "${e.iPoeuf}",
         "${e.iMoeuf}",
         "${e.iGoeuf}",
-        "${e.iPoeuf + e.iMoeuf + e.iGoeuf}",
+        (e.iPoeuf + e.iMoeuf + e.iGoeuf) % 30 == 0
+            ? "${((e.iPoeuf + e.iMoeuf + e.iGoeuf) ~/ 30)}"
+            : "${((e.iPoeuf + e.iMoeuf + e.iGoeuf) ~/ 30)} + ${((e.iPoeuf + e.iMoeuf + e.iGoeuf) % 30)}",
         "${e.cPoeuf}",
         "${e.cMoeuf}",
         "${e.cGoeuf}",
-        "${e.cPoeuf + e.cMoeuf + e.cGoeuf}",
+        (e.cPoeuf + e.cMoeuf + e.cGoeuf) % 30 == 0
+            ? "${((e.cPoeuf + e.cMoeuf + e.cGoeuf) ~/ 30)}"
+            : "${((e.cPoeuf + e.cMoeuf + e.cGoeuf) ~/ 30)} + ${((e.cPoeuf + e.cMoeuf + e.cGoeuf) % 30)}",
         "${e.vPoeuf}",
         "${e.vMoeuf}",
         "${e.vGoeuf}",
-        "${e.vPoeuf + e.vMoeuf + e.vGoeuf}",
+        (e.vPoeuf + e.vMoeuf + e.vGoeuf) % 30 == 0
+            ? "${((e.vPoeuf + e.vMoeuf + e.vGoeuf) ~/ 30)}"
+            : "${((e.vPoeuf + e.vMoeuf + e.vGoeuf) ~/ 30)} + ${((e.vPoeuf + e.vMoeuf + e.vGoeuf) % 30)}",
         "${e.uPoeuf}",
         "${e.uMoeuf}",
         "${e.uGoeuf}",
-        "${e.uPoeuf + e.uMoeuf + e.uGoeuf}",
+        (e.uPoeuf + e.uMoeuf + e.uGoeuf) % 30 == 0
+            ? "${((e.uPoeuf + e.uMoeuf + e.uGoeuf) ~/ 30)}"
+            : "${((e.uPoeuf + e.uMoeuf + e.uGoeuf) ~/ 30)} + ${((e.uPoeuf + e.uMoeuf + e.uGoeuf) % 30)}",
         "${e.pPoeuf}",
         "${e.pMoeuf}",
         "${e.pGoeuf}",
-        "${e.pPoeuf + e.pMoeuf + e.pGoeuf}",
+        (e.pPoeuf + e.pMoeuf + e.pGoeuf) % 30 == 0
+            ? "${((e.pPoeuf + e.pMoeuf + e.pGoeuf) ~/ 30)}"
+            : "${((e.pPoeuf + e.pMoeuf + e.pGoeuf) ~/ 30)} + ${((e.pPoeuf + e.pMoeuf + e.pGoeuf) % 30)}",
         "${e.sFinalPoeuf}",
         "${e.sFinalMoeuf}",
         "${e.sFinalGoeuf}",
-        "${e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf}",
+        (e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) % 30 == 0
+            ? "${((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) ~/ 30)}"
+            : "${((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) ~/ 30)} + ${((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) % 30)}",
         "${e.oeufEclore}",
       ];
     }).toList();

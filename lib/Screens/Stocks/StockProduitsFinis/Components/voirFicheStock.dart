@@ -19,34 +19,34 @@ class _VoirFicheStockState extends State<VoirFicheStock> {
     return [
       DataColumn(label: Text("Date")),
       DataColumn(label: Text("Sujets\ninitial")),
-      DataColumn(label: Text("morts")),
-      DataColumn(label: Text("mangés")),
-      DataColumn(label: Text("vendu")),
+      DataColumn(label: Text("Morts")),
+      DataColumn(label: Text("Utilisés")),
+      DataColumn(label: Text("Vendus")),
       DataColumn(label: Text("Effectif\nfinal")),
       DataColumn(label: Text("oeufs P\ninitial")),
       DataColumn(label: Text("oeufs M\ninitial")),
       DataColumn(label: Text("oeufs G\ninitial")),
-      DataColumn(label: Text("Total oeufs\ninitial")),
+      DataColumn(label: Text("Total oeufs\ninitial (Plateaux)")),
       DataColumn(label: Text("oeufs P\nProduits")),
       DataColumn(label: Text("oeufs M\nProduits")),
       DataColumn(label: Text("oeufs G\nProduits")),
-      DataColumn(label: Text("Total oeufs\nProduits")),
+      DataColumn(label: Text("Total oeufs\nProduits (Plateaux)")),
       DataColumn(label: Text("oeufs P\nSortis")),
       DataColumn(label: Text("oeufs M\nSortis")),
       DataColumn(label: Text("oeufs G\nSortis")),
-      DataColumn(label: Text("Total oeufs\nSortis")),
-      DataColumn(label: Text("oeufs P\nMangés")),
-      DataColumn(label: Text("oeufs M\nMangés")),
-      DataColumn(label: Text("oeufs G\nMangés")),
-      DataColumn(label: Text("Total oeufs\nMangés")),
+      DataColumn(label: Text("Total oeufs\nSortis (Plateaux)")),
+      DataColumn(label: Text("oeufs P\nUtilisés")),
+      DataColumn(label: Text("oeufs M\nUtilisés")),
+      DataColumn(label: Text("oeufs G\nUtilisés")),
+      DataColumn(label: Text("Total oeufs\nUtilisés (Plateaux)")),
       DataColumn(label: Text("oeufs P\nPertes")),
       DataColumn(label: Text("oeufs M\nPertes")),
       DataColumn(label: Text("oeufs G\nPertes")),
-      DataColumn(label: Text("Total oeufs\nPertes")),
+      DataColumn(label: Text("Total oeufs\nPertes (Plateaux)")),
       DataColumn(label: Text("oeufs P\nFinal")),
       DataColumn(label: Text("oeufs M\nFinal")),
       DataColumn(label: Text("oeufs G\nFinal")),
-      DataColumn(label: Text("Total oeufs\nFinal")),
+      DataColumn(label: Text("Total oeufs\nFinal (Plateaux)")),
       DataColumn(label: Text("Sortis en\néclosion")),
     ];
   }
@@ -62,27 +62,39 @@ class _VoirFicheStockState extends State<VoirFicheStock> {
       DataCell(Text("${e.iPoeuf}")),
       DataCell(Text("${e.iMoeuf}")),
       DataCell(Text("${e.iGoeuf}")),
-      DataCell(Text("${e.iPoeuf + e.iMoeuf + e.iGoeuf}")),
+      DataCell(Text((e.iPoeuf + e.iMoeuf + e.iGoeuf) % 30 == 0
+          ? "${((e.iPoeuf + e.iMoeuf + e.iGoeuf) ~/ 30)}"
+          : "${((e.iPoeuf + e.iMoeuf + e.iGoeuf) ~/ 30)} + ${((e.iPoeuf + e.iMoeuf + e.iGoeuf) % 30)}")),
       DataCell(Text("${e.cPoeuf}")),
       DataCell(Text("${e.cMoeuf}")),
       DataCell(Text("${e.cGoeuf}")),
-      DataCell(Text("${e.cPoeuf + e.cMoeuf + e.cGoeuf}")),
+      DataCell(Text((e.cPoeuf + e.cMoeuf + e.cGoeuf) % 30 == 0
+          ? "${((e.cPoeuf + e.cMoeuf + e.cGoeuf) ~/ 30)}"
+          : "${((e.cPoeuf + e.cMoeuf + e.cGoeuf) ~/ 30)} + ${((e.cPoeuf + e.cMoeuf + e.cGoeuf) % 30)}")),
       DataCell(Text("${e.vPoeuf}")),
       DataCell(Text("${e.vMoeuf}")),
       DataCell(Text("${e.vGoeuf}")),
-      DataCell(Text("${e.vPoeuf + e.vMoeuf + e.vGoeuf}")),
+      DataCell(Text((e.vPoeuf + e.vMoeuf + e.vGoeuf) % 30 == 0
+          ? "${((e.vPoeuf + e.vMoeuf + e.vGoeuf) ~/ 30)}"
+          : "${((e.vPoeuf + e.vMoeuf + e.vGoeuf) ~/ 30)} + ${((e.vPoeuf + e.vMoeuf + e.vGoeuf) % 30)}")),
       DataCell(Text("${e.uPoeuf}")),
       DataCell(Text("${e.uMoeuf}")),
       DataCell(Text("${e.uGoeuf}")),
-      DataCell(Text("${e.uPoeuf + e.uMoeuf + e.uGoeuf}")),
+      DataCell(Text((e.uPoeuf + e.uMoeuf + e.uGoeuf) % 30 == 0
+          ? "${((e.uPoeuf + e.uMoeuf + e.uGoeuf) ~/ 30)}"
+          : "${((e.uPoeuf + e.uMoeuf + e.uGoeuf) ~/ 30)} + ${((e.uPoeuf + e.uMoeuf + e.uGoeuf) % 30)}")),
       DataCell(Text("${e.pPoeuf}")),
       DataCell(Text("${e.pMoeuf}")),
       DataCell(Text("${e.pGoeuf}")),
-      DataCell(Text("${e.pPoeuf + e.pMoeuf + e.pGoeuf}")),
+      DataCell(Text((e.pPoeuf + e.pMoeuf + e.pGoeuf) % 30 == 0
+          ? "${((e.pPoeuf + e.pMoeuf + e.pGoeuf) ~/ 30)}"
+          : "${((e.pPoeuf + e.pMoeuf + e.pGoeuf) ~/ 30)} + ${((e.pPoeuf + e.pMoeuf + e.pGoeuf) % 30)}")),
       DataCell(Text("${e.sFinalPoeuf}")),
       DataCell(Text("${e.sFinalMoeuf}")),
       DataCell(Text("${e.sFinalGoeuf}")),
-      DataCell(Text("${e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf}")),
+      DataCell(Text((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) % 30 == 0
+          ? "${((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) ~/ 30)}"
+          : "${((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) ~/ 30)} + ${((e.sFinalPoeuf + e.sFinalMoeuf + e.sFinalGoeuf) % 30)}")),
       DataCell(Text("${e.oeufEclore}")),
     ]);
   }

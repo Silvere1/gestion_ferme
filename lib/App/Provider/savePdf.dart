@@ -38,14 +38,24 @@ class SavePdf {
 
     final bytes = await document.save();
     final file = File("${path.path}/$name");
-    await file.writeAsBytes(bytes);
-    _nackbar().then((value) async => await OpenFile.open(file.path));
+    if (await path.exists()) {
+      await file.writeAsBytes(bytes);
+      _nackbar().then((value) async => await OpenFile.open(file.path));
+    } else {
+      path = Directory("storage/emulated/0/$folderName");
+      await Permission.storage.request();
+      var status = await Permission.storage.status;
+      if (status.isGranted) {
+        await path.create();
+        await file.writeAsBytes(bytes);
+        _nackbar().then((value) async => await OpenFile.open(file.path));
+      }
+    }
   }
 
   static _nackbar() {
     return Get.snackbar("Succès", "Le fiche est enregistrée avec succès.",
         duration: Duration(seconds: 5),
-        /*instantInit: false,*/
         colorText: Color(0xffffffff),
         backgroundColor: Color(0xff006A34).withOpacity(0.65));
   }

@@ -83,9 +83,9 @@ class _VoirFicheLotState extends State<VoirFicheLot>
       DataColumn(label: Text("Date")),
       DataColumn(label: Text("Nbre\njours")),
       DataColumn(label: Text("Effectif\ndépart")),
-      DataColumn(label: Text("mort")),
-      DataColumn(label: Text("vendu")),
-      DataColumn(label: Text("manger")),
+      DataColumn(label: Text("Morts")),
+      DataColumn(label: Text("Vendus")),
+      DataColumn(label: Text("Utilisés")),
       DataColumn(label: Text("Effectif\nfinal")),
       DataColumn(label: Text("1er service")),
       DataColumn(label: Text("2ème service")),
@@ -96,7 +96,7 @@ class _VoirFicheLotState extends State<VoirFicheLot>
       DataColumn(label: Text("Moyens\noeufs")),
       DataColumn(label: Text("Grands\noeufs")),
       DataColumn(label: Text("Fêlés\noeufs")),
-      DataColumn(label: Text("Total\noeufs")),
+      DataColumn(label: Text("Total oeufs\n(Plateaux)")),
       DataColumn(label: Text("Traitements")),
       DataColumn(label: Text("Total\ntraitements")),
       DataColumn(label: Text("Taux\nponte")),
@@ -222,7 +222,9 @@ class _VoirFicheLotState extends State<VoirFicheLot>
       DataCell(Text("${info.cM}")),
       DataCell(Text("${info.cG}")),
       DataCell(Text("${info.cF}")),
-      DataCell(Text("${info.cT}")),
+      DataCell(Text((info.cT % 30) == 0
+          ? "${(info.cT ~/ 30)}"
+          : "${(info.cT ~/ 30)} + ${(info.cT % 30)}")),
       DataCell(
         Container(
           width: 100,

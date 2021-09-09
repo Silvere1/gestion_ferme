@@ -245,7 +245,7 @@ class PdfApi {
                     padding: EdgeInsets.only(left: 6, top: 4, bottom: 4),
                     margin: EdgeInsets.only(left: 3),
                     child: Text(
-                        "- ${controller.totalOeufs} oeuf(s), soit ${controller.totalOeufs ~/ 12} douzaine(s)")),
+                        "- ${controller.totalOeufs} oeuf(s), soit ${(controller.totalOeufs / 30).toPrecision(2)} plateaux")),
                 Row(
                   children: [
                     Container(
@@ -473,7 +473,7 @@ class PdfApi {
       "Effect\ndépart",
       "Morts",
       "Vendus",
-      "Mangés",
+      "Utilisés",
       "Effect\nfinal",
       "Petits",
       "Moyens",
@@ -504,7 +504,9 @@ class PdfApi {
         "${e.cG}",
         "${e.cF}",
         "${e.cT}",
-        "${(e.cT / 12).toPrecision(1)}",
+        (e.cT % 30) == 0
+            ? "${(e.cT ~/ 30)}"
+            : "${(e.cT ~/ 30)} + ${(e.cT % 30)}",
         "${e.tauxPonte.toPrecision(2)}",
         e.service1
             .map((x) => "${x.provende.nom}: ${x.qte} ${x.provende.unite}\n")
