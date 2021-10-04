@@ -224,7 +224,19 @@ class CollecteOeufsController extends GetxController {
   Future<void> nbrPetEditing(int nbr, Lot lot) async {
     for (int i = 0; i < newListCollect.length; i++) {
       if (lot.num == newListCollect[i].lot.num) {
-        newListCollect[i].petits = nbr;
+        int pl = newListCollect[i].petits ~/ 30;
+        newListCollect[i].petits = (pl * 30) + nbr;
+        print("Dans l'editer ${newListCollect[i].petits}");
+        return;
+      }
+    }
+  }
+
+  Future<void> nbrPetEditingPlt(int nbr, Lot lot) async {
+    for (int i = 0; i < newListCollect.length; i++) {
+      if (lot.num == newListCollect[i].lot.num) {
+        int oef = newListCollect[i].petits % 30;
+        newListCollect[i].petits = (nbr * 30) + oef;
         print("Dans l'editer ${newListCollect[i].petits}");
         return;
       }
@@ -234,7 +246,19 @@ class CollecteOeufsController extends GetxController {
   Future<void> nbrMoyEditing(int nbr, Lot lot) async {
     for (int i = 0; i < newListCollect.length; i++) {
       if (lot.num == newListCollect[i].lot.num) {
-        newListCollect[i].moyens = nbr;
+        int pl = newListCollect[i].moyens ~/ 30;
+        newListCollect[i].moyens = (pl * 30) + nbr;
+        print("Dans l'editer ${newListCollect[i].moyens}");
+        return;
+      }
+    }
+  }
+
+  Future<void> nbrMoyEditingPlt(int nbr, Lot lot) async {
+    for (int i = 0; i < newListCollect.length; i++) {
+      if (lot.num == newListCollect[i].lot.num) {
+        int oef = newListCollect[i].moyens % 30;
+        newListCollect[i].moyens = (nbr * 30) + oef;
         print("Dans l'editer ${newListCollect[i].moyens}");
         return;
       }
@@ -244,7 +268,19 @@ class CollecteOeufsController extends GetxController {
   Future<void> nbrGraEditing(int nbr, Lot lot) async {
     for (int i = 0; i < newListCollect.length; i++) {
       if (lot.num == newListCollect[i].lot.num) {
-        newListCollect[i].grands = nbr;
+        int pl = newListCollect[i].grands ~/ 30;
+        newListCollect[i].grands = (pl * 30) + nbr;
+        print("Dans l'editer ${newListCollect[i].grands}");
+        return;
+      }
+    }
+  }
+
+  Future<void> nbrGraEditingPlt(int nbr, Lot lot) async {
+    for (int i = 0; i < newListCollect.length; i++) {
+      if (lot.num == newListCollect[i].lot.num) {
+        int oef = newListCollect[i].grands % 30;
+        newListCollect[i].grands = (nbr * 30) + oef;
         print("Dans l'editer ${newListCollect[i].grands}");
         return;
       }
@@ -254,7 +290,19 @@ class CollecteOeufsController extends GetxController {
   Future<void> nbrFelEditing(int nbr, Lot lot) async {
     for (int i = 0; i < newListCollect.length; i++) {
       if (lot.num == newListCollect[i].lot.num) {
-        newListCollect[i].feles = nbr;
+        int pl = newListCollect[i].feles ~/ 30;
+        newListCollect[i].feles = (pl * 30) + nbr;
+        print("Dans l'editer ${newListCollect[i].feles}");
+        return;
+      }
+    }
+  }
+
+  Future<void> nbrFelEditingPlt(int nbr, Lot lot) async {
+    for (int i = 0; i < newListCollect.length; i++) {
+      if (lot.num == newListCollect[i].lot.num) {
+        int oef = newListCollect[i].feles % 30;
+        newListCollect[i].feles = (nbr * 30) + oef;
         print("Dans l'editer ${newListCollect[i].feles}");
         return;
       }

@@ -37,6 +37,13 @@ class VenteController extends GetxController {
   var newListVenteVolailles = <VenteVolailles>[].obs;
   late Lot _lot;
   late VenteVolailles _venteVolailles;
+  var clientName = "".obs;
+  var lastP = 0.obs;
+  var lastM = 0.obs;
+  var lastG = 0.obs;
+  var v1 = true.obs;
+  var v2 = true.obs;
+  var v3 = true.obs;
 
   @override
   void onInit() {
@@ -55,7 +62,7 @@ class VenteController extends GetxController {
   Future<void> _resetOj() async {
     _lot = Lot(null, 0, 0, 0, DateTime.now(), DateTime.now(), 1, 0, false, 3,
         DateTime.now());
-    _venteVolailles = VenteVolailles(null, _lot, 0, 0, DateTime.now());
+    _venteVolailles = VenteVolailles(null, _lot, 0, 0, "", DateTime.now());
   }
 
   Future<List<Lot>> getListLot() async {
@@ -71,11 +78,45 @@ class VenteController extends GetxController {
       erro1.value = true;
     } else {
       invalide1.value = false;
+      int pl = nombreP.value ~/ 30;
+      oeufMontant.value -= (lastP.value * pl);
+      oeufMontant.value += (nmbr * pl);
+      lastP.value = nmbr;
+      erro1.value = false;
+      /* invalide1.value = false;
       if (nmbr > stockOeuf.petits) {
-        nombreP.value = nmbr;
+        int pl = nombreP.value ~/ 30;
+        nombreP.value = (pl * 30) + nmbr;
         erro1.value = true;
       } else {
-        nombreP.value = nmbr;
+        int pl = nombreP.value ~/ 30;
+        nombreP.value = (pl * 30) + nmbr;
+        erro1.value = false;
+      }*/
+    }
+
+    print("nombre = $nombreP");
+  }
+
+  Future<void> nmbrPetitsEditingPl(int nmbr) async {
+    if (nmbr < 0) {
+      invalide1.value = true;
+      erro1.value = true;
+    } else {
+      invalide1.value = false;
+      if ((nmbr * 30) > stockOeuf.petits) {
+        int pl = nombreP.value ~/ 30;
+        oeufMontant.value -= (lastP.value * pl);
+        int oef = nombreP.value % 30;
+        nombreP.value = (nmbr * 30) + oef;
+        oeufMontant.value += (lastP.value * nmbr);
+        erro1.value = true;
+      } else {
+        int pl = nombreP.value ~/ 30;
+        oeufMontant.value -= (lastP.value * pl);
+        int oef = nombreP.value % 30;
+        nombreP.value = (nmbr * 30) + oef;
+        oeufMontant.value += (lastP.value * nmbr);
         erro1.value = false;
       }
     }
@@ -89,11 +130,43 @@ class VenteController extends GetxController {
       erro2.value = true;
     } else {
       invalide2.value = false;
-      if (nmbr > stockOeuf.moyens) {
-        nombreM.value = nmbr;
+      int pl = nombreM.value ~/ 30;
+      oeufMontant.value -= (lastM.value * pl);
+      oeufMontant.value += (nmbr * pl);
+      lastM.value = nmbr;
+      erro2.value = false;
+      /* if (nmbr > stockOeuf.moyens) {
+        int pl = nombreM.value ~/ 30;
+        nombreM.value = (pl * 30) + nmbr;
         erro2.value = true;
       } else {
-        nombreM.value = nmbr;
+        int pl = nombreM.value ~/ 30;
+        nombreM.value = (pl * 30) + nmbr;
+        erro2.value = false;
+      }*/
+    }
+    print("nombre = $nombreM");
+  }
+
+  Future<void> nmbrMoyensEditingPl(int nmbr) async {
+    if (nmbr < 0) {
+      invalide2.value = true;
+      erro2.value = true;
+    } else {
+      invalide2.value = false;
+      if ((nmbr * 30) > stockOeuf.moyens) {
+        int pl = nombreM.value ~/ 30;
+        oeufMontant.value -= (lastM.value * pl);
+        int oef = nombreM.value % 30;
+        nombreM.value = (nmbr * 30) + oef;
+        oeufMontant.value += (lastM.value * nmbr);
+        erro2.value = true;
+      } else {
+        int pl = nombreM.value ~/ 30;
+        oeufMontant.value -= (lastM.value * pl);
+        int oef = nombreM.value % 30;
+        nombreM.value = (nmbr * 30) + oef;
+        oeufMontant.value += (lastM.value * nmbr);
         erro2.value = false;
       }
     }
@@ -106,11 +179,43 @@ class VenteController extends GetxController {
       erro3.value = true;
     } else {
       invalide3.value = false;
-      if (nmbr > stockOeuf.grands) {
-        nombreG.value = nmbr;
+      int pl = nombreG.value ~/ 30;
+      oeufMontant.value -= (lastG.value * pl);
+      oeufMontant.value += (nmbr * pl);
+      lastG.value = nmbr;
+      erro3.value = false;
+      /*if (nmbr > stockOeuf.grands) {
+        int pl = nombreG.value ~/ 30;
+        nombreG.value = (pl * 30) + nmbr;
         erro3.value = true;
       } else {
-        nombreG.value = nmbr;
+        int pl = nombreG.value ~/ 30;
+        nombreG.value = (pl * 30) + nmbr;
+
+      }*/
+    }
+    print("nombre = $nombreG");
+  }
+
+  Future<void> nmbrGrandsEditingPl(int nmbr) async {
+    if (nmbr < 0) {
+      invalide3.value = true;
+      erro3.value = true;
+    } else {
+      invalide3.value = false;
+      if ((nmbr * 30) > stockOeuf.grands) {
+        int pl = nombreG.value ~/ 30;
+        oeufMontant.value -= (lastG.value * pl);
+        int oef = nombreG.value % 30;
+        nombreG.value = (nmbr * 30) + oef;
+        oeufMontant.value += (lastG.value * nmbr);
+        erro3.value = true;
+      } else {
+        int pl = nombreG.value ~/ 30;
+        oeufMontant.value -= (lastG.value * pl);
+        int oef = nombreG.value % 30;
+        nombreG.value = (nmbr * 30) + oef;
+        oeufMontant.value += (lastG.value * nmbr);
         erro3.value = false;
       }
     }
@@ -150,6 +255,7 @@ class VenteController extends GetxController {
   Future<void> _remakeListToSave() async {
     for (int i = 0; i < newListVenteVolailles.length; i++) {
       newListVenteVolailles[i].dateTime = DateTime.parse(_date.value);
+      newListVenteVolailles[i].clientName = clientName.value;
     }
   }
 
@@ -182,16 +288,32 @@ class VenteController extends GetxController {
     } else {
       isValidate.value = false;
     }
+    if (nombreP.value > 0 && lastP.value <= 0) {
+      v1.value = false;
+    } else {
+      v1.value = true;
+    }
+    if (nombreM.value > 0 && lastM.value <= 0) {
+      v2.value = false;
+    } else {
+      v2.value = true;
+    }
+    if (nombreG.value > 0 && lastG.value <= 0) {
+      v3.value = false;
+    } else {
+      v3.value = true;
+    }
   }
 
-  Future<void> montantOeufEditing(double val) async {
-    if (val <= 0) {
+  Future<void> clientNameEditing(String val) async {
+    clientName.value = val;
+    /* if (val <= 0) {
       invalide4.value = true;
       oeufMontant.value = val;
     } else {
       invalide4.value = false;
       oeufMontant.value = val;
-    }
+    }*/
   }
 
   Future<StockOeuf> getStockOeuf() async {
@@ -219,25 +341,42 @@ class VenteController extends GetxController {
     itemVolaillesVente.clear();
     newListVenteVolailles.clear();
     await getListVenteVolailles();
-    date.value = "Date";
+    await clearData();
   }
 
   Future<void> saveVenteOeuf() async {
     _collecteOeufsController = Get.find();
     _addLotController = Get.find();
-    VenteOeuf venteOeuf = VenteOeuf(null, nombreP.value, nombreM.value,
-        nombreG.value, oeufMontant.value, DateTime.parse(_date.value));
+    VenteOeuf venteOeuf = VenteOeuf(
+        null,
+        nombreP.value,
+        nombreM.value,
+        nombreG.value,
+        oeufMontant.value,
+        clientName.value,
+        DateTime.parse(_date.value));
     await DataBaseProvider.instance.insertVenteOeuf(venteOeuf);
     await _updateStockOeuf();
     await getStockOeuf();
     await getListVenteOeufs();
     await _addLotController.getStockOeuf();
     await _collecteOeufsController.getStockOeuf();
+    await clearData();
+  }
+
+  Future<void> clearData() async {
     nombreP.value = 0;
     nombreM.value = 0;
     nombreG.value = 0;
     oeufMontant.value = 0;
     date.value = "Date";
+    clientName.value = "";
+    lastP.value = 0;
+    lastM.value = 0;
+    lastG.value = 0;
+    v1.value = false;
+    v2.value = false;
+    v3.value = false;
   }
 
   Future<List<VenteVolailles>> getListVenteVolailles() async {

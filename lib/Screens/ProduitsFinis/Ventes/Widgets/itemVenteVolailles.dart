@@ -71,7 +71,16 @@ class ItemVenteVolailles extends StatelessWidget {
                     ),
                     Text("${venteVolailles.montant.round()} fcfa")
                   ],
-                )
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Client : ",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    Text("${venteVolailles.clientName}")
+                  ],
+                ),
               ],
             ),
           ),

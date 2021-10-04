@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:gestionferme/App/Models/approProduitModel.dart';
 import 'package:gestionferme/App/Models/approProvendeModel.dart';
 import 'package:gestionferme/App/Models/collecteModel.dart';
@@ -22,9 +24,11 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/utils/utils.dart';
 
+import 'dataFile.dart';
+
 class DataBaseProvider {
   static final _dataBaseName = "ferme.db";
-  static final _dbVersion = 1;
+  static final _dbVersion = 2;
 
   /// Using this class in singleton.
   DataBaseProvider._();
@@ -39,17 +43,27 @@ class DataBaseProvider {
   }
 
   _initDataBase() async {
-    return await openDatabase(
-      join(await getDatabasesPath(), _dataBaseName),
-      version: _dbVersion,
-      onCreate: _onCreate,
-    );
+    dbFile = File(join(await getDatabasesPath(), _dataBaseName));
+    print(dbFile.path);
+    return await openDatabase(join(await getDatabasesPath(), _dataBaseName),
+        version: _dbVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
   Future<void> deleteDataBase() async {
     databaseFactory
         .deleteDatabase(join(await getDatabasesPath(), _dataBaseName));
     print("Suppression Ok !!!");
+  }
+
+  /// UPGRADE DATABASE TABLES
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < newVersion) {
+      await db.execute(
+          "ALTER TABLE ${VenteOeuf.tableName} ADD COLUMN ${VenteOeuf.colClient} TEXT;");
+      await db.execute(
+          "ALTER TABLE ${VenteVolailles.tableName} ADD COLUMN ${VenteVolailles.colClient} TEXT;");
+      print("La base est mise à jour !!!!");
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -155,6 +169,7 @@ class DataBaseProvider {
     ${VenteOeuf.colmoyens} $integer,
     ${VenteOeuf.colgrands} $integer,
     ${VenteOeuf.colmontant} $reelType,
+    ${VenteOeuf.colClient} $textType,
     ${VenteOeuf.colcreateAt} $textType
     )
     ''');
@@ -166,6 +181,7 @@ class DataBaseProvider {
     ${VenteVolailles.colLot} $textType,
     ${VenteVolailles.colqte} $integer,
     ${VenteVolailles.colmontant} $reelType,
+    ${VenteOeuf.colClient} $textType,
     ${VenteVolailles.colcreateAt} $textType
     )
     ''');
@@ -303,7 +319,7 @@ class DataBaseProvider {
             .query('sqlite_master', where: 'type = ?', whereArgs: ['table']))
         .map((row) => row['name'] as String)
         .toList(growable: false)
-          ..sort();
+      ..sort();
     print(tableNames);
 
     var res = await db.query(StockOeuf.tableName);
@@ -717,5 +733,10 @@ class DataBaseProvider {
     }*/
     print(res);
     return StockOeuf.fromJson(res.first);
+  }
+
+  Future<void> myDbClose() async {
+    Database db = await instance.database;
+    db.close();
   }
 }

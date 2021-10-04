@@ -24,7 +24,7 @@ class _ListApproProvendeState extends State<ListApproProvende> {
       backgroundColor: Color(0xffeeeeee),
       body: Column(
         children: [
-          Container(
+          /*Container(
             height: 50,
             width: Get.width,
             child: Row(
@@ -36,7 +36,7 @@ class _ListApproProvendeState extends State<ListApproProvende> {
                 Text("Filtre")
               ],
             ),
-          ),
+          ),*/
           Expanded(
             child: FutureBuilder(
                 future: controller.getListApproProvende(),

@@ -43,7 +43,8 @@ class _ListVenteOeufsState extends State<ListVenteOeufs> {
                 : Center(child: CircularProgressIndicator());
           }),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
+            await controller.clearData();
             pageController.nextPage(
                 duration: Duration(milliseconds: 300),
                 curve: Curves.easeOutCirc);

@@ -32,4 +32,7 @@ List<DrTitle> titres = [
   DrTitle(true, [
     SubTitle(false),
   ]),
+  DrTitle(true, [
+    SubTitle(false),
+  ]),
 ];

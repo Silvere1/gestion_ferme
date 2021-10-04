@@ -8,14 +8,17 @@ class VenteVolailles {
   static final colLot = "lot";
   static final colqte = "nbrVolailles";
   static final colmontant = "montant";
+  static final colClient = "client";
   static final colcreateAt = "createAt";
 
   int? num;
   Lot lot;
   int qte;
   double montant;
+  String? clientName;
   DateTime dateTime;
-  VenteVolailles(this.num, this.lot, this.qte, this.montant, this.dateTime);
+  VenteVolailles(this.num, this.lot, this.qte, this.montant, this.clientName,
+      this.dateTime);
 
   VenteVolailles venteVolaillesFromJson(String str) =>
       VenteVolailles.fromJson(jsonDecode(str));
@@ -27,6 +30,7 @@ class VenteVolailles {
         Lot.fromJson(jsonDecode(json[colLot])),
         json[colqte],
         json[colmontant],
+        json[colClient],
         DateTime.parse(json[colcreateAt]),
       );
 
@@ -35,6 +39,7 @@ class VenteVolailles {
         colLot: jsonEncode(lot.toJson()),
         colqte: qte,
         colmontant: montant,
+        colClient: clientName,
         colcreateAt: dateTime.toIso8601String(),
       };
 }

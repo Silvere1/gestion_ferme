@@ -108,7 +108,7 @@ class PdfApiStock {
             height: 24,
             width: 183,
             child: Center(
-              child: Text("Oeufs produits"),
+              child: Text("Oeufs collectés"),
             ),
             decoration: BoxDecoration(
               color: PdfColors.green500,

@@ -112,7 +112,19 @@ class ItemVenteOeufs extends StatelessWidget {
                     ),
                     Text("${venteOeuf.montant.round()} fcfa")
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Client : ",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    Text("${venteOeuf.clientName}")
+                  ],
+                ),
               ],
             ),
           ),

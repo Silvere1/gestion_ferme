@@ -233,7 +233,7 @@ class PdfApi {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    Text("Nombre total d'oeufs produit",
+                    Text("Nombre total d'oeufs collectés",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
@@ -244,8 +244,9 @@ class PdfApi {
                     )),
                     padding: EdgeInsets.only(left: 6, top: 4, bottom: 4),
                     margin: EdgeInsets.only(left: 3),
-                    child: Text(
-                        "- ${controller.totalOeufs} oeuf(s), soit ${(controller.totalOeufs / 30).toPrecision(2)} plateaux")),
+                    child: Text(controller.totalOeufs % 30 == 0
+                        ? "- ${controller.totalOeufs} oeuf(s), soit ${(controller.totalOeufs ~/ 30)} plateau(x)"
+                        : "- ${controller.totalOeufs} oeuf(s), soit ${(controller.totalOeufs ~/ 30)} plateaux et ${(controller.totalOeufs % 30)} oeuf(s)")),
                 Row(
                   children: [
                     Container(
@@ -411,7 +412,7 @@ class PdfApi {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    Text("Volailles mangées",
+                    Text("Volailles utilisées",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),

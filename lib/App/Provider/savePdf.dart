@@ -13,7 +13,7 @@ class SavePdf {
   static Future<void> saveDoc(String name, pd.Document document) async {
     final folderName = "GestionFerme";
     Directory path;
-    if (Platform.isWindows || Platform.isLinux) {
+    if (Platform.isWindows) {
       var _pt = await getDownloadsDirectory();
       String chemin; /* = "${_pt!.path.replaceAll("'", "")}\\GestionFerme";*/
       chemin = join(_pt!.path, folderName);

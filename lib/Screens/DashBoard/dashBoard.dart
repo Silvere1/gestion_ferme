@@ -245,10 +245,13 @@ class _DashBoardState extends State<DashBoard> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 8),
-                                    height: 28,
+                                    padding: EdgeInsets.all(12),
+                                    height: 40,
                                     width: 40,
                                     child: SvgPicture.asset(
                                       "assets/icons/chickenm.svg",
+                                      height: 28,
+                                      width: 28,
                                     ),
                                   ),
                                   Expanded(

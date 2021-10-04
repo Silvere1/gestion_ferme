@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:gestionferme/App/Controllers/backupController.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -27,8 +28,8 @@ Future main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  SystemChrome.setEnabledSystemUIOverlays(
-      [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
   if (Platform.isWindows || Platform.isLinux) {
     // Initialize FFI
     sqfliteFfiInit();
@@ -52,7 +53,6 @@ class MyApp extends StatelessWidget {
       transitionDuration: Duration(milliseconds: 250),
       home: MainScreen(),
       debugShowCheckedModeBanner: false,
-      onInit: () {},
       initialBinding: BindingsBuilder(() {
         Get.put(MenuController());
         Get.put(AddLotController());
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
         Get.put(FicheController());
         Get.put(StockFicheController());
         Get.put(ProFicheController());
+        Get.put(BackupController());
       }),
     );
   }

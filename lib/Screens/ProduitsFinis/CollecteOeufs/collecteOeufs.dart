@@ -40,6 +40,10 @@ class _CollecteOeufsState extends State<CollecteOeufs> {
                           new TextEditingController(),
                           new TextEditingController(),
                           new TextEditingController(),
+                          new TextEditingController(),
+                          new TextEditingController(),
+                          new TextEditingController(),
+                          new TextEditingController(),
                           new TextEditingController()))
                   : Center(
                       child:

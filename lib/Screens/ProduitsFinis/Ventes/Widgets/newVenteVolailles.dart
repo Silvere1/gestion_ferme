@@ -34,7 +34,7 @@ class _NewVenteVolaillesState extends State<NewVenteVolailles> {
               children: [
                 IconButton(
                   onPressed: () {
-                    controller.date.value = "Date";
+                    controller.clearData();
                     pageController.previousPage(
                         duration: Duration(milliseconds: 300),
                         curve: Curves.easeOutBack);
@@ -142,54 +142,47 @@ class _NewVenteVolaillesState extends State<NewVenteVolailles> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                /*Obx(() => controller.plus.value &&
-                        controller.itemVolaillesVente.length != 0
-                    ? Container(
-                        width: Get.width - 50,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Total : XXX"),
-                            Container(
-                              height: 45,
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Theme.of(context).primaryColor),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      child: Text("Montant"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: TextFormField(
-                                      style: TextStyle(fontSize: 16),
-                                      onChanged: (value) {
-                                        //controller.nmbrEditing(int.parse(value));
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        isDense: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                Container(
+                  height: 50,
+                  width: Get.width - 50,
+                  margin: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).primaryColor),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          child: Text("Client"),
                         ),
-                      )
-                    : Container()),*/
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 16),
+                          onChanged: (value) async {
+                            await controller.clientNameEditing(value.trim());
+                            await controller.validateMe();
+                          },
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                            isCollapsed: true,
+                            contentPadding: EdgeInsets.all(10),
+                            hintText: "Nom du client",
+                            filled: true,
+                            isDense: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                   height: 40,
                   width: Get.width - 50,
@@ -201,7 +194,8 @@ class _NewVenteVolaillesState extends State<NewVenteVolailles> {
                                 controller.erroQte.every((e) => e == false) &&
                                 controller.newListVenteVolailles
                                     .every((e) => e.montant > 0) &&
-                                controller.date.value != "Date"
+                                controller.date.value != "Date" &&
+                                controller.clientName.value != ""
                             ? () async {
                                 await controller.saveVenteVolailles();
                                 FocusScope.of(context).unfocus();

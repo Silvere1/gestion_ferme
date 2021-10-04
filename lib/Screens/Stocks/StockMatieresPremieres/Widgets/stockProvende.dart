@@ -104,10 +104,7 @@ class _StockProvendeState extends State<StockProvende>
       backgroundColor: Color(0xffeeeeee),
       body: Column(
         children: [
-          Container(
-            height: 50,
-            width: Get.width,
-            /*color: Color(0xfffafafa),*/
+           /*
             child: Row(
               children: [
                 IconButton(
@@ -117,7 +114,7 @@ class _StockProvendeState extends State<StockProvende>
                 Text("Filtre")
               ],
             ),
-          ),
+          ),*/
           Expanded(
             child: FutureBuilder(
                 future: controller.getListProvende(),

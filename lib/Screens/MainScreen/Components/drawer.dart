@@ -439,6 +439,37 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: Container(
+                child: Row(
+                  children: [
+                    Container(
+                      height: 28,
+                      width: 28,
+                      margin: EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset(
+                        "assets/icons/archive.svg",
+                        color: titres[5].subtitle[0].selected
+                            ? Theme.of(context).primaryColor
+                            : null,
+                      ),
+                    ),
+                    Text(
+                      "Sauvegarde",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              selected: titres[5].subtitle[0].selected,
+              selectedTileColor: _color,
+              onTap: () {
+                titres[0].selected = false;
+                menuController.selectedItem(5, 0, 9, "Sauvegarde");
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),

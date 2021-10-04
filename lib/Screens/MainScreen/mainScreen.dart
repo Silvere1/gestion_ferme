@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gestionferme/App/Controllers/screenSizeController.dart';
+import 'package:gestionferme/Screens/Backup/backup.dart';
 import 'package:gestionferme/Screens/DashBoard/dashBoard.dart';
 import 'package:gestionferme/Screens/MatieresPremieres/Consommations/consommations.dart';
 import 'package:gestionferme/Screens/ProduitsFinis/CollecteOeufs/listCollecteOeuf.dart';
@@ -91,6 +92,7 @@ class _MainScreenState extends State<MainScreen> {
     StockMatieresPremieres(),
     StockProduitsFinis(),
     Archives(),
+    BackupDb(),
   ];
 
   @override

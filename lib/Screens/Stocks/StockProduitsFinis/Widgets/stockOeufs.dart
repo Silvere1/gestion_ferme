@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -77,16 +76,16 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
     );
   }
 
-  int touchedIndex = -1;
+  //int touchedIndex = -1;
 
-  int lastPanStartOnIndex = -1;
+  // int lastPanStartOnIndex = -1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffeeeeee),
       body: ListView(
-        controller: scrollController,
+        // controller: scrollController,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +183,7 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
                           sectionsSpace: 2,
                           pieTouchData:
                               PieTouchData(touchCallback: (pieTouchResponse) {
-                            setState(() {
+                            /* setState(() {
                               final desiredTouch = pieTouchResponse.touchInput
                                       is! PointerExitEvent &&
                                   pieTouchResponse.touchInput
@@ -196,7 +195,7 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
                               } else {
                                 touchedIndex = -1;
                               }
-                            });
+                            });*/
                           }),
                           borderData: FlBorderData(
                             show: false,
@@ -253,9 +252,9 @@ class _StockOeufsState extends State<StockOeufs> with TickerProviderStateMixin {
 
   List<PieChartSectionData> showMySections() {
     return List.generate(3, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 18.0 : 12.0;
-      final radius = isTouched ? 60.0 : 50.0;
+      //final isTouched = i == touchedIndex;
+      final fontSize = /*isTouched ? 18.0 :*/ 12.0;
+      final radius = /*isTouched ? 60.0 :*/ 50.0;
       switch (i) {
         case 0:
           return PieChartSectionData(

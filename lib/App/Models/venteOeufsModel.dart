@@ -7,6 +7,7 @@ class VenteOeuf {
   static final colmoyens = "moyens";
   static final colgrands = "grands";
   static final colmontant = "montant";
+  static final colClient = "client";
   static final colcreateAt = "createAt";
 
   int petits;
@@ -14,9 +15,10 @@ class VenteOeuf {
   int grands;
   double montant;
   int? num;
+  String? clientName;
   DateTime dateTime;
   VenteOeuf(this.num, this.petits, this.moyens, this.grands, this.montant,
-      this.dateTime);
+      this.clientName, this.dateTime);
 
   VenteOeuf venteOeufFromJson(String str) =>
       VenteOeuf.fromJson(jsonDecode(str));
@@ -28,6 +30,7 @@ class VenteOeuf {
         json[colmoyens],
         json[colgrands],
         json[colmontant],
+        json[colClient],
         DateTime.parse(json[colcreateAt]),
       );
   Map<String, dynamic> toJson() => {
@@ -36,6 +39,7 @@ class VenteOeuf {
         colmoyens: moyens,
         colgrands: grands,
         colmontant: montant,
+        colClient: clientName,
         colcreateAt: dateTime.toIso8601String(),
       };
 }

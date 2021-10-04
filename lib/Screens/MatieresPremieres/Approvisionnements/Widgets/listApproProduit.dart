@@ -24,10 +24,9 @@ class _ListApproProduitState extends State<ListApproProduit> {
       backgroundColor: Color(0xffeeeeee),
       body: Column(
         children: [
-          Container(
+          /*Container(
             height: 50,
             width: Get.width,
-            /*color: Color(0xfffafafa),*/
             child: Row(
               children: [
                 IconButton(
@@ -37,7 +36,7 @@ class _ListApproProduitState extends State<ListApproProduit> {
                 Text("Filtre")
               ],
             ),
-          ),
+          ),*/
           Expanded(
             child: FutureBuilder(
                 future: controller.getListApproProduit(),

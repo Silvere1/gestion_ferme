@@ -104,10 +104,10 @@ class _StockProTraiteState extends State<StockProTraite>
       backgroundColor: Color(0xffeeeeee),
       body: Column(
         children: [
-          Container(
+          /*Container(
             height: 50,
             width: Get.width,
-            /*color: Color(0xfffafafa),*/
+
             child: Row(
               children: [
                 IconButton(
@@ -117,7 +117,7 @@ class _StockProTraiteState extends State<StockProTraite>
                 Text("Filtre")
               ],
             ),
-          ),
+          ),*/
           Expanded(
             child: FutureBuilder(
                 future: controller.getListProduit(),
