@@ -439,7 +439,7 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
+            /*ListTile(
               title: Container(
                 child: Row(
                   children: [
@@ -448,7 +448,7 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                       width: 28,
                       margin: EdgeInsets.only(right: 10),
                       child: SvgPicture.asset(
-                        "assets/icons/archive.svg",
+                        "assets/icons/data_backup.svg",
                         color: titres[5].subtitle[0].selected
                             ? Theme.of(context).primaryColor
                             : null,
@@ -469,7 +469,7 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                 menuController.selectedItem(5, 0, 9, "Sauvegarde");
                 Navigator.pop(context);
               },
-            ),
+            ),*/
           ],
         ),
       ),

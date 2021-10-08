@@ -245,7 +245,7 @@ class _DashBoardState extends State<DashBoard> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 8),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsets.all(7),
                                     height: 40,
                                     width: 40,
                                     child: SvgPicture.asset(
@@ -556,10 +556,11 @@ class _DashBoardState extends State<DashBoard> {
                                                   fontSize: 16),
                                             ),
                                             Obx(() => Text(controller
-                                                        .oeufP.value >
-                                                    1
-                                                ? "${controller.oeufP} oeufs"
-                                                : "${controller.oeufP} oeuf")),
+                                                            .oeufP.value %
+                                                        30 ==
+                                                    0
+                                                ? "${controller.oeufP.value ~/ 30}P"
+                                                : "${controller.oeufP ~/ 30}P + ${controller.oeufP % 30}o")),
                                           ],
                                         ),
                                       ],
@@ -608,10 +609,11 @@ class _DashBoardState extends State<DashBoard> {
                                                   fontSize: 16),
                                             ),
                                             Obx(() => Text(controller
-                                                        .oeufM.value >
-                                                    1
-                                                ? "${controller.oeufM} oeufs"
-                                                : "${controller.oeufM} oeuf")),
+                                                            .oeufM.value %
+                                                        30 ==
+                                                    0
+                                                ? "${controller.oeufM ~/ 30}P"
+                                                : "${controller.oeufM ~/ 30}P + ${controller.oeufM % 30}o")),
                                           ],
                                         ),
                                       ],
@@ -664,10 +666,11 @@ class _DashBoardState extends State<DashBoard> {
                                                   fontSize: 16),
                                             ),
                                             Obx(() => Text(controller
-                                                        .oeufG.value >
-                                                    1
-                                                ? "${controller.oeufG} oeufs"
-                                                : "${controller.oeufG} oeuf")),
+                                                            .oeufG.value %
+                                                        30 ==
+                                                    0
+                                                ? "${controller.oeufG ~/ 30}P"
+                                                : "${controller.oeufG ~/ 30}P + ${controller.oeufG % 30}o")),
                                           ],
                                         ),
                                       ],
@@ -717,10 +720,11 @@ class _DashBoardState extends State<DashBoard> {
                                                   fontSize: 16),
                                             ),
                                             Obx(() => Text(controller
-                                                        .oeufT.value >
-                                                    1
-                                                ? "${controller.oeufT} oeufs"
-                                                : "${controller.oeufT} oeuf")),
+                                                            .oeufT.value %
+                                                        30 ==
+                                                    0
+                                                ? "${controller.oeufT ~/ 30}P"
+                                                : "${controller.oeufT ~/ 30}P + ${controller.oeufT % 30}o")),
                                           ],
                                         ),
                                       ],

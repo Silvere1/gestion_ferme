@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:gestionferme/App/Models/approProduitModel.dart';
 import 'package:gestionferme/App/Models/approProvendeModel.dart';
 import 'package:gestionferme/App/Models/collecteModel.dart';
@@ -24,8 +22,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/utils/utils.dart';
 
-import 'dataFile.dart';
-
 class DataBaseProvider {
   static final _dataBaseName = "ferme.db";
   static final _dbVersion = 2;
@@ -43,8 +39,6 @@ class DataBaseProvider {
   }
 
   _initDataBase() async {
-    dbFile = File(join(await getDatabasesPath(), _dataBaseName));
-    print(dbFile.path);
     return await openDatabase(join(await getDatabasesPath(), _dataBaseName),
         version: _dbVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
@@ -738,5 +732,10 @@ class DataBaseProvider {
   Future<void> myDbClose() async {
     Database db = await instance.database;
     db.close();
+  }
+
+  Future<String> myDbPath() async {
+    Database db = await instance.database;
+    return db.path;
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gestionferme/App/Controllers/addLotController.dart';
 import 'package:gestionferme/App/Controllers/screenSizeController.dart';
 import 'package:gestionferme/Screens/Backup/backup.dart';
 import 'package:gestionferme/Screens/DashBoard/dashBoard.dart';
@@ -26,6 +28,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   GlobalKey<ScaffoldState> _key = GlobalKey();
   MenuController menuController = Get.find();
+  late AddLotController lotController;
 
   Future<bool> _onWillPop() async {
     if (_key.currentState!.isDrawerOpen) {
@@ -82,8 +85,6 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _myWidgets = [
     DashBoard(),
-    /*Lots(),
-    Approvisionnements(),*/
     Alimantations(),
     ListCollecteOeuf(),
     Pertes(),
@@ -105,6 +106,21 @@ class _MainScreenState extends State<MainScreen> {
               title: Obx(() => Text(menuController.tolBarTitle.value)),
               centerTitle: true,
               elevation: 0,
+              actions: [
+                Obx(() => menuController.initialPage.value == 0
+                    ? IconButton(
+                        onPressed: () async {
+                          lotController = Get.find();
+                          Get.to(() => BackupDb())!.then(
+                              (value) async => await lotController.getData());
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/icons/data_backup.svg",
+                          height: 20,
+                          color: Colors.white,
+                        ))
+                    : Container())
+              ],
             ),
             drawer: SideDrawerMenu(menuController),
             /*body: Column(
