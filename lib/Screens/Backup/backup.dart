@@ -104,29 +104,61 @@ class _BackupDbState extends State<BackupDb> {
                                                 controller.isLoading2.value
                                             ? null
                                             : () {
-                                                controller.isLoading1.value =
-                                                    true;
-                                                controller
-                                                    .saveDb()
-                                                    .then((value) {
-                                                  controller.isLoading1.value =
-                                                      false;
-                                                  Get.defaultDialog(
-                                                    title: "Félicitation",
-                                                    radius: 6,
-                                                    middleText:
-                                                        "Votre base de données a été sauvegardée avec succès!",
-                                                    cancel: Container(
-                                                      width: 100,
-                                                      height: 40,
-                                                      child: ElevatedButton(
-                                                        onPressed: () {
-                                                          Get.back();
-                                                        },
-                                                        child: Text("Ok"),
-                                                      ),
+                                                Get.defaultDialog(
+                                                  title: "Attention !",
+                                                  radius: 6,
+                                                  middleText:
+                                                      "S'il existe une sauvegarde, elle sera remplacée ! Voulez-vous continuer ?",
+                                                  cancel: Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 16),
+                                                    width: 100,
+                                                    height: 40,
+                                                    child: OutlinedButton(
+                                                      onPressed: () {
+                                                        Get.back(result: false);
+                                                      },
+                                                      child: Text("Non"),
                                                     ),
-                                                  );
+                                                  ),
+                                                  confirm: Container(
+                                                    width: 100,
+                                                    height: 40,
+                                                    child: ElevatedButton(
+                                                      onPressed: () {
+                                                        Get.back(result: true);
+                                                      },
+                                                      child: Text("Oui"),
+                                                    ),
+                                                  ),
+                                                ).then((value) {
+                                                  if (value == true) {
+                                                    controller.isLoading1
+                                                        .value = true;
+                                                    controller
+                                                        .saveDb()
+                                                        .then((value) {
+                                                      controller.isLoading1
+                                                          .value = false;
+
+                                                      Get.defaultDialog(
+                                                        title: "Félicitation",
+                                                        radius: 6,
+                                                        middleText:
+                                                            "Votre base de données a été sauvegardée avec succès!",
+                                                        cancel: Container(
+                                                          width: 100,
+                                                          height: 40,
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                            child: Text("Ok"),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    });
+                                                  }
                                                 });
                                               },
                                         child: controller.isLoading1.value
@@ -158,30 +190,66 @@ class _BackupDbState extends State<BackupDb> {
                                                     controller.isLoading2.value
                                                 ? null
                                                 : () async {
-                                                    controller.isLoading2
-                                                        .value = true;
-                                                    await controller
-                                                        .restorDb()
-                                                        .then((value) {
-                                                      controller.isLoading2
-                                                          .value = false;
-                                                      Get.defaultDialog(
-                                                        title: "Félicitation",
-                                                        radius: 6,
-                                                        middleText:
-                                                            "Votre base de données a été restorée avec succès!",
-                                                        cancel: Container(
-                                                          width: 100,
-                                                          height: 40,
-                                                          child: ElevatedButton(
-                                                            onPressed: () {
-                                                              Get.back();
-                                                            },
-                                                            child: Text("Ok"),
-                                                          ),
+                                                    Get.defaultDialog(
+                                                      title: "Attention !",
+                                                      radius: 6,
+                                                      middleText:
+                                                          "Vos données actuelles seront remplaccées par la sauvegarde ! Voulez-vous continuer ?",
+                                                      cancel: Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 16),
+                                                        width: 100,
+                                                        height: 40,
+                                                        child: OutlinedButton(
+                                                          onPressed: () {
+                                                            Get.back(
+                                                                result: false);
+                                                          },
+                                                          child: Text("Non"),
                                                         ),
-                                                      ).then((value) =>
-                                                          Get.back());
+                                                      ),
+                                                      confirm: Container(
+                                                        width: 100,
+                                                        height: 40,
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                            Get.back(
+                                                                result: true);
+                                                          },
+                                                          child: Text("Oui"),
+                                                        ),
+                                                      ),
+                                                    ).then((value) async {
+                                                      if (value == true) {
+                                                        controller.isLoading2
+                                                            .value = true;
+                                                        await controller
+                                                            .restorDb()
+                                                            .then((value) {
+                                                          controller.isLoading2
+                                                              .value = false;
+                                                          Get.defaultDialog(
+                                                            title:
+                                                                "Félicitation",
+                                                            radius: 6,
+                                                            middleText:
+                                                                "Votre base de données a été restorée avec succès!",
+                                                            cancel: Container(
+                                                              width: 100,
+                                                              height: 40,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                onPressed: () {
+                                                                  Get.back();
+                                                                },
+                                                                child:
+                                                                    Text("Ok"),
+                                                              ),
+                                                            ),
+                                                          ).then((value) =>
+                                                              Get.back());
+                                                        });
+                                                      }
                                                     });
                                                   },
                                             child: controller.isLoading2.value
