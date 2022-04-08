@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.waouhmonde" "\0"
-            VALUE "FileDescription", "A new Flutter project." "\0"
+            VALUE "FileDescription", "gestion_ferme" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "gestionferme" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2021 com.waouhmonde. All rights reserved." "\0"
-            VALUE "OriginalFilename", "gestionferme.exe" "\0"
-            VALUE "ProductName", "gestionferme" "\0"
+            VALUE "InternalName", "gestion_ferme" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.waouhmonde. All rights reserved." "\0"
+            VALUE "OriginalFilename", "gestion_ferme.exe" "\0"
+            VALUE "ProductName", "gestion_ferme" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -27,13 +27,6 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
           children: [
             DrawerHeader(
               child: Center(
-                /*child: Text(
-                  "Gestion de Poules pondeuses",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white),
-                ),*/
                 child: Image.asset("assets/icons/Logo GF (3).png"),
               ),
               decoration: BoxDecoration(
@@ -67,78 +60,6 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                 Navigator.pop(context);
               },
             ),
-            /*ExpansionTile(
-              title: Text(
-                "Matières Premières",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-              initiallyExpanded: titres[1].selected,
-              onExpansionChanged: (value) {
-                titres[1].selected = value;
-              },
-              children: [
-                ListTile(
-                  title: Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 28,
-                          width: 28,
-                          margin: EdgeInsets.only(right: 10),
-                          child: SvgPicture.asset(
-                            "assets/icons/lots.svg",
-                            color: titres[1].subtitle[0].selected
-                                ? Theme.of(context).primaryColor
-                                : null,
-                          ),
-                        ),
-                        Text(
-                          "Lots de Volailles",
-                        ),
-                      ],
-                    ),
-                  ),
-                  selected: titres[1].subtitle[0].selected,
-                  selectedTileColor: _color,
-                  onTap: () {
-                    titres[0].selected = false;
-                    menuController.selectedItem(1, 0, 1, "Lots de Volailles");
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 28,
-                          width: 28,
-                          margin: EdgeInsets.only(right: 10),
-                          child: SvgPicture.asset(
-                            "assets/icons/appro.svg",
-                            color: titres[1].subtitle[1].selected
-                                ? Theme.of(context).primaryColor
-                                : null,
-                          ),
-                        ),
-                        Text(
-                          "Approvisionnements",
-                        ),
-                      ],
-                    ),
-                  ),
-                  selected: titres[1].subtitle[1].selected,
-                  selectedTileColor: _color,
-                  onTap: () {
-                    titres[0].selected = false;
-                    menuController.selectedItem(1, 1, 2, "Approvisionnements");
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),*/
             ExpansionTile(
               title: Row(
                 children: [
@@ -439,37 +360,6 @@ class _SideDrawerMenuState extends State<SideDrawerMenu> {
                 Navigator.pop(context);
               },
             ),
-            /*ListTile(
-              title: Container(
-                child: Row(
-                  children: [
-                    Container(
-                      height: 28,
-                      width: 28,
-                      margin: EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset(
-                        "assets/icons/data_backup.svg",
-                        color: titres[5].subtitle[0].selected
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                    ),
-                    Text(
-                      "Sauvegarde",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              selected: titres[5].subtitle[0].selected,
-              selectedTileColor: _color,
-              onTap: () {
-                titres[0].selected = false;
-                menuController.selectedItem(5, 0, 9, "Sauvegarde");
-                Navigator.pop(context);
-              },
-            ),*/
           ],
         ),
       ),

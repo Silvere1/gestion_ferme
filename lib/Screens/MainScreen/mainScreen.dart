@@ -123,12 +123,6 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
             drawer: SideDrawerMenu(menuController),
-            /*body: Column(
-          children: [
-            if (Responsive.isDesktop(context))
-              Expanded(child: SideDrawerMenu(menuController)),
-          ],
-        ),*/
             body: Obx(() => _myWidgets[menuController.initialPage.value]),
           ),
         ),

@@ -33,8 +33,10 @@ class DataBaseProvider {
   Database? _database;
 
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDataBase();
+    if (_database != null)
+      return _database!;
+    else
+      _database = await _initDataBase();
     return _database!;
   }
 
