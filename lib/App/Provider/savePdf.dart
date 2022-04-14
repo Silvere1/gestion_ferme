@@ -53,8 +53,8 @@ class SavePdf {
     }
   }
 
-  static _nackbar() {
-    return Get.snackbar("Succès", "Le fiche est enregistrée avec succès.",
+  static _nackbar() async {
+    return await Get.snackbar("Succès", "Le fiche est enregistrée avec succès.",
         duration: Duration(seconds: 5),
         colorText: Color(0xffffffff),
         backgroundColor: Color(0xff006A34).withOpacity(0.65));

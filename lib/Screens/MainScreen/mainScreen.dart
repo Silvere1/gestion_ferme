@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gestionferme/App/Controllers/addLotController.dart';
@@ -34,53 +32,55 @@ class _MainScreenState extends State<MainScreen> {
     if (_key.currentState!.isDrawerOpen) {
       Get.back();
       return false;
-    }
-    if (menuController.initialPage.value != 0) {
-      menuController.selectedItem(0, 0, 0, "Tableau de bord");
-      Get.back();
-      return false;
-    }
-    return await showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (_) => Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Container(
-              height: 140,
-              padding: EdgeInsets.all(18),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Attention",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
-                    ),
-                    Text("Fermer l'application ?"),
-                    Row(
+    } else {
+      if (menuController.initialPage.value != 0) {
+        menuController.selectedItem(0, 0, 0, "Tableau de bord");
+        return false;
+      } else {
+        return await showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (_) => Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Container(
+                  height: 140,
+                  padding: EdgeInsets.all(18),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                            child: OutlinedButton(
-                                onPressed: () => Get.back(),
-                                child: Text("Non"))),
-                        SizedBox(
-                          width: 20,
+                        Text(
+                          "Attention",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w800, fontSize: 16),
                         ),
-                        Expanded(
-                            child: ElevatedButton(
-                                onPressed: () => exit(0), child: Text("Oui"))),
+                        Text("Fermer l'application ?"),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: OutlinedButton(
+                                    onPressed: () => Get.back(),
+                                    child: Text("Non"))),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () => Get.back(result: true),
+                                    child: Text("Oui"))),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ) ??
-        false;
+            ) ??
+            false;
+      }
+    }
   }
 
   List<Widget> _myWidgets = [

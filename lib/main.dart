@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,7 +26,7 @@ Future main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
-  if (Platform.isWindows || Platform.isLinux) {
+  if (GetPlatform.isWindows || GetPlatform.isLinux) {
     // Initialize FFI
     sqfliteFfiInit();
     // Change the default factory
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "GestionFerme",
-      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: [Locale("fr")],
       theme: ThemeData(
         primarySwatch: generatorMaterialColor(Color(0xff006A34)),
